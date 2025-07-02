@@ -17,8 +17,8 @@ public class WebTests
         await app.StartAsync();
 
         // Act
-        var httpClient = app.CreateHttpClient("tempwebclient");
-        await resourceNotificationService.WaitForResourceAsync("tempwebclient", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
+        var httpClient = app.CreateHttpClient("temp-web-client");
+        await resourceNotificationService.WaitForResourceAsync("temp-web-client", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
         var response = await httpClient.GetAsync("/");
 
         // Assert

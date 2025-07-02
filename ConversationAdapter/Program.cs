@@ -14,25 +14,25 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 
-// TODO: do even need this? or maybe we need it in other services too?
-app.UseHttpsRedirection();
-
 // Configure default endpoints.
 app.MapDefaultEndpoints();
 
 // Configure a route builder with versioning support.
 // It will also configure prefix for api endpoints in next format:
 // "api/v{ApiVersion}".
-// NOTE: Pass the list of api versions if you have supported version except the default one.
+// NOTE: Pass the list of api versions if you have any version other than the default one.
 var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Temp endpoint.
 // TODO: remove
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
+var summaries = new[]
+{
+    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+};
 
 versionedRouteBuilder.MapGet("weatherforecast", () =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
+    var forecast =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

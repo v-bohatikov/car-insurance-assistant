@@ -1,5 +1,8 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
@@ -7,21 +10,29 @@ using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using System.Diagnostics;
+using Infrastructure.Middlewares;
 
-namespace ServiceDefaults;
+namespace Infrastructure.Extensions;
 
 // Adds common .NET Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
 // This project should be referenced by each service project in your solution.
 // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
-public static class Extensions
+public static class ServiceExtensions
 {
-    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
     {
         builder.ConfigureOpenTelemetry();
 
         builder.AddDefaultHealthChecks();
 
+        builder.ConfigureApiVersioning();
+
+        // Add services to the container.
         builder.Services.AddServiceDiscovery();
+        
+        builder.Services.AddOpenApi();
 
         builder.Services.ConfigureHttpClientDefaults(http =>
         {
@@ -30,6 +41,23 @@ public static class Extensions
 
             // Turn on service discovery by default
             http.AddServiceDiscovery();
+        });
+
+        builder.Services.AddExceptionHandler<DefaultExceptionHandlingMiddleware>();
+
+        builder.Services.AddProblemDetails(options =>
+        {
+            // Configure additional information for problem details reporting.
+            options.CustomizeProblemDetails = context =>
+            {
+                var httpContext = context.HttpContext;
+                context.ProblemDetails.Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}";
+
+                context.ProblemDetails.Extensions.TryAdd("requestId", httpContext.TraceIdentifier);
+
+                var activity = httpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+                context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+            };
         });
 
         // Uncomment the following to restrict the allowed schemes for service discovery.
@@ -41,7 +69,8 @@ public static class Extensions
         return builder;
     }
 
-    public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
     {
         builder.Logging.AddOpenTelemetry(logging =>
         {
@@ -70,7 +99,8 @@ public static class Extensions
         return builder;
     }
 
-    private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
     {
         var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
 
@@ -89,13 +119,61 @@ public static class Extensions
         return builder;
     }
 
-    public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddHealthChecks()
             // Add a default liveness check to ensure app is responsive
             .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
 
         return builder;
+    }
+
+    public static TBuilder ConfigureApiVersioning<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        // Add versioning services.
+        builder.Services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1);
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = false;
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        })
+        .AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'V";
+            options.SubstituteApiVersionInUrl = true;
+        });
+
+        return builder;
+    }
+
+    public static RouteGroupBuilder ConfigureApiVersionGroup(
+        this WebApplication app,
+        params ApiVersion[] supportedApiVersions)
+    {
+        // Add at least one available version of the api.
+        if (supportedApiVersions.IsNullOrEmpty())
+        {
+            supportedApiVersions = [ ApiVersion.Default ];
+        }
+
+        // Configure supported api versions set.
+        var apiVersionSetBuilder = app.NewApiVersionSet();
+        foreach (var apiVersion in supportedApiVersions)
+        {
+            apiVersionSetBuilder.HasApiVersion(apiVersion);
+        }
+
+        var apiVersionSet = apiVersionSetBuilder
+            .ReportApiVersions()
+            .Build();
+
+        // Return route builder for configured group.
+        return app
+            .MapGroup("api/v{version:apiVersion}")
+            .WithApiVersionSet(apiVersionSet);
     }
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
@@ -112,6 +190,8 @@ public static class Extensions
             {
                 Predicate = r => r.Tags.Contains("live")
             });
+
+            app.MapOpenApi();
         }
 
         return app;
