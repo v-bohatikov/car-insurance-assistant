@@ -20,7 +20,7 @@ public class DefaultExceptionHandlingMiddleware : IExceptionHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
-        // Log the exception details.
+        // Log the unhandled exception details.
         _logger.LogError(
             exception, "Exception occurred: {Message}", exception.Message);
 

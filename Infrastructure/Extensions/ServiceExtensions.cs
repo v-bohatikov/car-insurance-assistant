@@ -10,8 +10,8 @@ using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
-using System.Diagnostics;
 using Infrastructure.Middlewares;
+using SharedKernel.Extensions;
 
 namespace Infrastructure.Extensions;
 
