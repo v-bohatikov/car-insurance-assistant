@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.3.1" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>1fa77325-f2c4-4719-9401-250d8beae0f2</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="9.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApiGateway\ApiGateway.csproj" />
+    <ProjectReference Include="..\Auditor\Auditor.csproj" />
+    <ProjectReference Include="..\BillingProcessor\BillingProcessor.csproj" />
+    <ProjectReference Include="..\ConversationAdapter\ConversationAdapter.csproj" />
+    <ProjectReference Include="..\DocumentProcessor\DocumentProcessor.csproj" />
+    <ProjectReference Include="..\OrderProcessor\OrderProcessor.csproj" />
+    <ProjectReference Include="..\PolicyProcessor\PolicyProcessor.csproj" />
+    <ProjectReference Include="..\TempWebClient\TempWebClient.csproj" />
+    <ProjectReference Include="..\UserProcessor\UserProcessor.csproj" />
+  </ItemGroup>
+</Project>
