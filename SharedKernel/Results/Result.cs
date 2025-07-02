@@ -23,9 +23,27 @@ public class Result
 
     public Error? Error { get; init; }
 
-    public static Result Success => new Result(true, Error.None);
+    public static Result Success() => new(true, Error.None);
 
-    public static Result Failure(Error error) => new Result(false, error);
+    public static Result<TValue> Success<TValue>(TValue value) => Result<TValue>.Success(value);
+
+    public static Result Failure(Error error) => new(false, error);
+
+    public static Result<TValue> Failure<TValue>(Error error) => Result<TValue>.Failure(error);
+
+    public Result<TValue> ToGenericResult<TValue>()
+    {
+        // This type of conversion is something that we need exclusively for cases when
+        // need to propagate the failure result further, where generic result type
+        // is being required.
+        if (IsSuccessful)
+        {
+            throw new ArgumentException(
+                "Unable to convert the successful result to the generic format");
+        }
+
+        return Failure<TValue>(Error!);
+    }
 }
 
 public sealed class Result<TValue> : Result
@@ -59,7 +77,7 @@ public sealed class Result<TValue> : Result
         }
     }
 
-    public new static Result<TValue> Success(TValue value) => new(value, true, Error.None);
+    public static Result<TValue> Success(TValue value) => new(value, true, Error.None);
 
-    public new static Result<TValue> Failure(Error error) => new Result<TValue>(default, false, error);
+    public new static Result<TValue> Failure(Error error) => new(default, false, error);
 }

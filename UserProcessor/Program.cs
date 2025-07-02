@@ -1,4 +1,5 @@
 using Infrastructure.Extensions;
+using UserProcessor.Domain.Entities.Users.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 
