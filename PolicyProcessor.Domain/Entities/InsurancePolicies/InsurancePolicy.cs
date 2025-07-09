@@ -42,5 +42,4 @@ public sealed class InsurancePolicy : Entity
     public DateOnly ExpiredAt { get; set; }
 
     public string FailureReasoning { get; set; }
-
 }

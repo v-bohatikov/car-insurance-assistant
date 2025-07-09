@@ -28,5 +28,4 @@ public sealed class InsurancePlan : Entity
     public int LifetimeInDays { get; set; }
 
     public Guid PolicyTemplate { get; set; }
-
 }

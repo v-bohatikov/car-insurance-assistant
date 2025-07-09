@@ -5,23 +5,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Middlewares;
 
-public class DefaultExceptionHandlingMiddleware : IExceptionHandler
+public class DefaultExceptionHandlingMiddleware(
+    ILogger<DefaultExceptionHandlingMiddleware> logger,
+    IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
-    private readonly ILogger<DefaultExceptionHandlingMiddleware> _logger;
-
-    public DefaultExceptionHandlingMiddleware(
-        ILogger<DefaultExceptionHandlingMiddleware> logger)
-    {
-        _logger = logger;
-    }
-
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken)
     {
         // Log the unhandled exception details.
-        _logger.LogError(
+        logger.LogError(
             exception, "Exception occurred: {Message}", exception.Message);
 
         // Report about the server exception without inner details.
@@ -33,8 +27,12 @@ public class DefaultExceptionHandlingMiddleware : IExceptionHandler
         };
 
         httpContext.Response.StatusCode = internalServerError;
-        await httpContext.Response
-            .WriteAsJsonAsync(problemDetails, cancellationToken);
+        var problemDetailsContext = new ProblemDetailsContext { HttpContext = httpContext, ProblemDetails = problemDetails };
+        if (!await problemDetailsService.TryWriteAsync(problemDetailsContext))
+        {
+            await httpContext.Response
+                .WriteAsJsonAsync(problemDetails, cancellationToken);
+        }
 
         return true;
     }

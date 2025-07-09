@@ -29,5 +29,4 @@ public sealed class Orders : Entity
     public long InsurancePlanId { get; set; }
     
     public string FailureReasoning { get; set; }
-
 }

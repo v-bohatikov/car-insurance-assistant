@@ -1,6 +1,13 @@
-﻿namespace SharedKernel.Results;
+﻿using System.Text.Json.Serialization;
 
-public record Error(ErrorType ErrorType, string Code, string? Description = null)
+namespace SharedKernel.Results;
+
+public record Error(
+    ErrorType ErrorType,
+    string Code,
+    string? Description = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    Error[]? InnerErrors = null)
 {
     public static Error None =>
         new (ErrorType.None, string.Empty);
@@ -14,4 +21,6 @@ public record Error(ErrorType ErrorType, string Code, string? Description = null
     public static Error Failure(string code, string? description) =>
         new(ErrorType.Failure, code, description);
 
+    public static Error Aggregate(string code, string? description, params Error[] innerErrors) =>
+        new (ErrorType.Aggregate, code, description, innerErrors);
 }

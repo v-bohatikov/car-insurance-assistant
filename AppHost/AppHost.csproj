@@ -13,14 +13,13 @@
     <PackageReference Include="Aspire.Hosting.Redis" Version="9.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApiGateway\ApiGateway.csproj" />
-    <ProjectReference Include="..\Auditor\Auditor.csproj" />
-    <ProjectReference Include="..\BillingProcessor\BillingProcessor.csproj" />
-    <ProjectReference Include="..\ConversationAdapter\ConversationAdapter.csproj" />
-    <ProjectReference Include="..\DocumentProcessor\DocumentProcessor.csproj" />
-    <ProjectReference Include="..\OrderProcessor\OrderProcessor.csproj" />
-    <ProjectReference Include="..\PolicyProcessor\PolicyProcessor.csproj" />
-    <ProjectReference Include="..\TempWebClient\TempWebClient.csproj" />
-    <ProjectReference Include="..\UserProcessor\UserProcessor.csproj" />
+    <ProjectReference Include="..\ApiGateway.Host\ApiGateway.Host.csproj" />
+    <ProjectReference Include="..\Auditor.Host\Auditor.Host.csproj" />
+    <ProjectReference Include="..\BillingProcessor.Host\BillingProcessor.Host.csproj" />
+    <ProjectReference Include="..\ConversationAdapter.Host\ConversationAdapter.Host.csproj" />
+    <ProjectReference Include="..\DocumentProcessor.Host\DocumentProcessor.Host.csproj" />
+    <ProjectReference Include="..\OrderProcessor.Host\OrderProcessor.Host.csproj" />
+    <ProjectReference Include="..\PolicyProcessor.Host\PolicyProcessor.Host.csproj" />
+    <ProjectReference Include="..\UserProcessor.Host\UserProcessor.Host.csproj" />
   </ItemGroup>
 </Project>

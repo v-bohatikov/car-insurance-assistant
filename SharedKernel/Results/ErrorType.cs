@@ -1,18 +1,23 @@
-﻿namespace SharedKernel.Results;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-public sealed class ErrorType : IEquatable<ErrorType>
+namespace SharedKernel.Results;
+
+[JsonConverter(typeof(ErrorTypeJsonConverter))]
+public sealed class ErrorType(string errorType) : IEquatable<ErrorType>
 {
-    private readonly string _errorType;
-
-    private ErrorType(string errorType)
-    {
-        _errorType = errorType;
-    }
+    [JsonPropertyName("errorType")]
+    private readonly string _errorType = errorType;
 
     /// <summary>
     /// Represents the reserved value for indication that error didn't happen.
     /// </summary>
     internal static ErrorType None { get; } = new("None");
+
+    /// <summary>
+    /// Represents an aggregate of errors collection.
+    /// </summary>
+    public static ErrorType Aggregate { get; } = new("Aggregate");
 
     /// <summary>
     /// Represent an unexpected exception that have occured during code execution.
@@ -54,15 +59,14 @@ public sealed class ErrorType : IEquatable<ErrorType>
     /// <summary>
     /// Implicit conversion to string representation.
     /// </summary>
-    /// <param name="errorType">
+    /// <param name="type">
     /// Error type object to be converted.
     /// </param>
-    public static implicit operator string(ErrorType errorType) => errorType._errorType;
+    public static implicit operator string(ErrorType type) => type.ToString();
 
     public override string ToString()
     {
-        // Will use the operator for conversion to string representation.
-        return this;
+        return _errorType;
     }
 
     public bool Equals(ErrorType? other)
@@ -89,5 +93,19 @@ public sealed class ErrorType : IEquatable<ErrorType>
     public override int GetHashCode()
     {
         return _errorType.GetHashCode();
+    }
+
+    public class ErrorTypeJsonConverter : JsonConverter<ErrorType>
+    {
+        public override ErrorType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var value = reader.GetString();
+            return new ErrorType(value!);
+        }
+
+        public override void Write(Utf8JsonWriter writer, ErrorType value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value);
+        }
     }
 }

@@ -1,4 +1,6 @@
+using System.Reflection;
 using Asp.Versioning;
+using Infrastructure.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http.Features;
@@ -11,6 +13,7 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using Infrastructure.Middlewares;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Extensions;
 
 namespace Infrastructure.Extensions;
@@ -31,8 +34,10 @@ public static class ServiceExtensions
 
         // Add services to the container.
         builder.Services.AddServiceDiscovery();
-        
+
         builder.Services.AddOpenApi();
+
+        builder.Services.AddEndpoints(Assembly.GetCallingAssembly());
 
         builder.Services.ConfigureHttpClientDefaults(http =>
         {
@@ -69,7 +74,7 @@ public static class ServiceExtensions
         return builder;
     }
 
-    public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
+    private static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
     {
         builder.Logging.AddOpenTelemetry(logging =>
@@ -124,29 +129,48 @@ public static class ServiceExtensions
     {
         builder.Services.AddHealthChecks()
             // Add a default liveness check to ensure app is responsive
-            .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+            .AddCheck("self", () => HealthCheckResult.Healthy(), [ "live" ]);
 
         return builder;
     }
 
-    public static TBuilder ConfigureApiVersioning<TBuilder>(this TBuilder builder)
+    private static TBuilder ConfigureApiVersioning<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
     {
         // Add versioning services.
         builder.Services.AddApiVersioning(options =>
-        {
-            options.DefaultApiVersion = new ApiVersion(1);
-            options.ReportApiVersions = true;
-            options.AssumeDefaultVersionWhenUnspecified = false;
-            options.ApiVersionReader = new UrlSegmentApiVersionReader();
-        })
-        .AddApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'V";
-            options.SubstituteApiVersionInUrl = true;
-        });
+            {
+                options.DefaultApiVersion = new ApiVersion(1);
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = false;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         return builder;
+    }
+
+    private static IServiceCollection AddEndpoints(
+        this IServiceCollection services,
+        Assembly assembly)
+    {
+        // Register endpoint from specified assembly.
+        var serviceDescriptors = assembly
+            .DefinedTypes
+            .Where(type =>
+                type is { IsAbstract: false, IsInterface: false } &&
+                type.IsAssignableTo(typeof(IEndpoint)))
+            .Select(type =>
+                ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .ToArray();
+
+        services.TryAddEnumerable(serviceDescriptors);
+
+        return services;
     }
 
     public static RouteGroupBuilder ConfigureApiVersionGroup(
@@ -174,6 +198,46 @@ public static class ServiceExtensions
         return app
             .MapGroup("api/v{version:apiVersion}")
             .WithApiVersionSet(apiVersionSet);
+    }
+
+    public static IApplicationBuilder MapEndpoints(
+        this WebApplication app,
+        RouteGroupBuilder? apiRouteBuilder = null)
+    {
+        // Collect registered endpoints.
+        var endpoints = app.Services
+            .GetRequiredService<IEnumerable<IEndpoint>>()
+            .ToHashSet();
+
+        // Group endpoints.
+        var groupedEndpoints = endpoints
+            .Where(e => e.GetType().IsAssignableTo(typeof(IEndpointGroup)))
+            .ToHashSet();
+
+        endpoints.ExceptWith(groupedEndpoints);
+
+        // Try to utilize RouteGroupBuilder if being passed.
+        IEndpointRouteBuilder routeBuilder =
+            apiRouteBuilder is null ? app : apiRouteBuilder;
+
+        // Map standalone endpoints.
+        foreach (var endpoint in endpoints)
+        {
+            endpoint.MapEndpoint(routeBuilder);
+        }
+
+        // Map grouped endpoints.
+        var endpointGroups = groupedEndpoints
+            .Cast<IEndpointGroup>()
+            .GroupBy(e => e.GroupName, e => e);
+        foreach (var endpointGroup in endpointGroups)
+        {
+            var group = endpointGroup.First();
+            var groupEndpoints = endpointGroup.Cast<IEndpoint>();
+            group.MapGroup(routeBuilder, groupEndpoints);
+        }
+
+        return app;
     }
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
