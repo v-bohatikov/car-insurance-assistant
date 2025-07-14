@@ -1,16 +1,17 @@
 ﻿using SharedKernel;
+using SharedKernel.Enums;
 
 namespace OrderProcessor.Domain.Entities.Orders;
 
-public sealed class Orders : Entity
+public sealed class Order : Entity
 {
-    private Orders(
+    private Order(
         long id,
         OrderStatus status,
         long userId,
         long vehicleId,
         long insurancePlanId,
-        string failureReasoning)
+        string? failureReasoning)
         : base(id)
     {
         Status = status;
@@ -28,5 +29,5 @@ public sealed class Orders : Entity
     
     public long InsurancePlanId { get; set; }
     
-    public string FailureReasoning { get; set; }
+    public string? FailureReasoning { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace OrderProcessor.Domain.Entities.Orders;
+﻿namespace SharedKernel.Enums;
 
 public enum OrderStatus
 {

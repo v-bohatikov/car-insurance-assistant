@@ -1,4 +1,4 @@
-﻿namespace PolicyProcessor.Domain.Entities.InsurancePolicies;
+﻿namespace SharedKernel.Enums;
 
 public enum InsurancePolicyStatus
 {

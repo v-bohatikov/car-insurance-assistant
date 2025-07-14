@@ -10,13 +10,13 @@ public sealed class InsurancePlan : Entity
         decimal price,
         string priceReasoning,
         int lifetimeInDays,
-        Guid policyTemplate) : base(id)
+        Guid policyTemplateFileId) : base(id)
     {
         Name = name;
         Price = price;
         PriceReasoning = priceReasoning;
         LifetimeInDays = lifetimeInDays;
-        PolicyTemplate = policyTemplate;
+        PolicyTemplateFileId = policyTemplateFileId;
     }
 
     public string Name { get; set; }
@@ -27,5 +27,5 @@ public sealed class InsurancePlan : Entity
 
     public int LifetimeInDays { get; set; }
 
-    public Guid PolicyTemplate { get; set; }
+    public Guid PolicyTemplateFileId { get; set; }
 }

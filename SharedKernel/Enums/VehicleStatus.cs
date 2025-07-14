@@ -1,4 +1,4 @@
-﻿namespace UserProcessor.Domain.Entities.Vehicles;
+﻿namespace SharedKernel.Enums;
 
 public enum VehicleStatus
 {
