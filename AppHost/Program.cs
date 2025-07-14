@@ -1,28 +1,47 @@
+using AppHost.Extensions;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
+// Configure resources.
+// TODO: configure Redis Cloud
 var cache = builder.AddRedis("cache");
 
+var azureInfrastructure = builder.AddAzureInfrastructure();
+
+// Configure application services.
 var apiGateway = builder.AddProject<Projects.ApiGateway_Host>("api-gateway");
 
-//builder.AddProject<Projects.TempWebClient>("temp-web-client")
-//    .WithExternalHttpEndpoints()
-//    .WithReference(cache)
-//    .WaitFor(cache)
-//    .WithReference(apiGateway)
-//    .WaitFor(apiGateway);
+builder.AddProject<Projects.ConversationAdapter_Host>("conversational-adapter")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.ConversationQueue);
 
-builder.AddProject<Projects.ConversationAdapter_Host>("conversational-adapter");
+builder.AddProject<Projects.OrderProcessor_Host>("order-processor")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.OrderDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.OrderQueue);
 
-builder.AddProject<Projects.OrderProcessor_Host>("order-processor");
+builder.AddProject<Projects.UserProcessor_Host>("user-processor")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.UserDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.UserQueue);
 
-builder.AddProject<Projects.UserProcessor_Host>("user-processor");
+builder.AddProject<Projects.DocumentProcessor_Host>("document-processor")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.BlobStorage)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.DocumentQueue);
 
-builder.AddProject<Projects.DocumentProcessor_Host>("document-processor");
+builder.AddProject<Projects.PolicyProcessor_Host>("policy-processor")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.PolicyDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.PolicyQueue);
 
-builder.AddProject<Projects.PolicyProcessor_Host>("policy-processor");
+builder.AddProject<Projects.BillingProcessor_Host>("billing-processor")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.BillingQueue);
 
-builder.AddProject<Projects.BillingProcessor_Host>("billing-processor");
-
-builder.AddProject<Projects.Auditor_Host>("auditor");
+builder.AddProject<Projects.Auditor_Host>("auditor")
+    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.AuditorDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.AuditorQueue);
 
 builder.Build().Run();

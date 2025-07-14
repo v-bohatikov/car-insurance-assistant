@@ -14,7 +14,9 @@ builder.Services.AddMediator(cfg =>
     cfg.AddConsumersFromNamespaceContaining<Consumers>());
 
 // Add services to the container.
-// TODO: Add here
+//builder.AddOrderDbContext<OrderDbContext>();
+builder.AddUserQueue();
+
 builder.Services.AddTransient<IUserQueryService, UserQueryService>();
 builder.Services.AddTransient<IUserQueryRepository, UserQueryRepository>();
 

@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-// TODO: Add here
+//builder.AddOrderDbContext<OrderDbContext>();
+builder.AddOrderQueue();
 
 // Build a web application.
 var app = builder.Build();
