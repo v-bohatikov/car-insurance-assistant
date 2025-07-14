@@ -6,7 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
+builder.AddConversationDb();
+
 builder.AddConversationQueue();
+builder.AddUserQueue();
+builder.AddPolicyQueue();
+builder.AddOrderQueue();
+builder.AddDocumentQueue();
+builder.AddBillingQueue();
+builder.AddAuditorQueue();
 
 // Build a web application.
 var app = builder.Build();

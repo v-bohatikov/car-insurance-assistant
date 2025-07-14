@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SharedKernel.Enums;
 using SharedKernel.Requests;
 using UserProcessor.Domain.Entities.Users;
 

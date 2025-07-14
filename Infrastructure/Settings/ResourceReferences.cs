@@ -2,16 +2,19 @@
 
 public static class ResourceReferences
 {
+    // Blob storage.
     public static readonly string BlobStorageResourceName = "azure-blob";
 
-    public static readonly string ServiceBusResourceName = "azure-service-bus";
-
+    // NoSQL databases.
     public static readonly string NoSqlStorageResourceName = "azure-nosql";
+    
+    public static readonly string LoggingDbResourceName = "logging-db";
 
     public static readonly string AuditorDbResourceName = "auditor-db";
 
-    public static readonly string LoggingDbResourceName = "logging-db";
+    public static readonly string ConversationDbResourceName = "conversation-db";
 
+    // SQL databases.
     public static readonly string SqlStorageResourceName = "azure-sql";
 
     public static readonly string UserDbResourceName = "user-db";
@@ -19,6 +22,9 @@ public static class ResourceReferences
     public static readonly string PolicyDbResourceName = "policy-db";
 
     public static readonly string OrderDbResourceName = "order-db";
+
+    // Messaging queues.
+    public static readonly string ServiceBusResourceName = "azure-service-bus";
 
     public static readonly string AuditorQueueResourceName = "auditor-queue";
 

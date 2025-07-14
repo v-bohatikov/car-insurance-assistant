@@ -1,4 +1,4 @@
-﻿namespace UserProcessor.Api.Contracts.Models;
+﻿namespace UserProcessor.Contracts.Models;
 
 public record UserPassport(
     string Surname,

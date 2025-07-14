@@ -15,8 +15,9 @@ public static class AzureInfraExtensions
         AzureServiceBusQueues AzureServiceBusQueues);
 
     public record AzureNoSqlDatabases(
+        IResourceBuilder<AzureCosmosDBDatabaseResource> LoggingDb,
         IResourceBuilder<AzureCosmosDBDatabaseResource> AuditorDb,
-        IResourceBuilder<AzureCosmosDBDatabaseResource> LoggingDb);
+        IResourceBuilder<AzureCosmosDBDatabaseResource> ConversationDb);
 
     public record AzureSqlDatabases(
         IResourceBuilder<AzureSqlDatabaseResource> UserDb,
@@ -128,8 +129,10 @@ public static class AzureInfraExtensions
             .AddCosmosDatabase(ResourceReferences.LoggingDbResourceName);
         var auditorDb = noSqlStorage
             .AddCosmosDatabase(ResourceReferences.AuditorDbResourceName);
+        var conversationDb = noSqlStorage
+            .AddCosmosDatabase(ResourceReferences.ConversationDbResourceName);
 
-        return new AzureNoSqlDatabases(auditorDb, loggingDb);
+        return new AzureNoSqlDatabases(loggingDb, auditorDb, conversationDb);
     }
 
     public static AzureSqlDatabases AddAzureSqlDatabases(

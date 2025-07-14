@@ -9,11 +9,19 @@ var cache = builder.AddRedis("cache");
 var azureInfrastructure = builder.AddAzureInfrastructure();
 
 // Configure application services.
-var apiGateway = builder.AddProject<Projects.ApiGateway_Host>("api-gateway");
+builder.AddProject<Projects.ApiGateway_Host>("api-gateway")
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.ConversationQueue);
 
 builder.AddProject<Projects.ConversationAdapter_Host>("conversational-adapter")
     //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    .WithReference(azureInfrastructure.AzureServiceBusQueues.ConversationQueue);
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.ConversationDb)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.ConversationQueue)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.UserQueue)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.PolicyQueue)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.OrderQueue)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.DocumentQueue)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.BillingQueue)
+    .WithReference(azureInfrastructure.AzureServiceBusQueues.AuditorQueue);
 
 builder.AddProject<Projects.OrderProcessor_Host>("order-processor")
     //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)

@@ -37,21 +37,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicyProcessor.Domain", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessor.Domain", "OrderProcessor.Domain\OrderProcessor.Domain.csproj", "{8CB21285-1B85-4081-B93B-056B448142FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingProcessor.Api", "BillingProcessor.Api\BillingProcessor.Api.csproj", "{92267717-967D-45D8-8A4A-E51616AD2ED9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingProcessor.Contracts", "BillingProcessor.Contracts\BillingProcessor.Contracts.csproj", "{92267717-967D-45D8-8A4A-E51616AD2ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentProcessor.Api", "DocumentProcessor.Api\DocumentProcessor.Api.csproj", "{92B099B0-7AD1-4CCE-981E-83305CCA8702}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentProcessor.Contracts", "DocumentProcessor.Contracts\DocumentProcessor.Contracts.csproj", "{92B099B0-7AD1-4CCE-981E-83305CCA8702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessor.Api", "OrderProcessor.Api\OrderProcessor.Api.csproj", "{158B7C6C-CD40-4EB4-BBA9-42B8A6933DC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessor.Contracts", "OrderProcessor.Contracts\OrderProcessor.Contracts.csproj", "{158B7C6C-CD40-4EB4-BBA9-42B8A6933DC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicyProcessor.Api", "PolicyProcessor.Api\PolicyProcessor.Api.csproj", "{D21E3330-47EF-4497-B3A7-630F02C0022F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicyProcessor.Contracts", "PolicyProcessor.Contracts\PolicyProcessor.Contracts.csproj", "{D21E3330-47EF-4497-B3A7-630F02C0022F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProcessor.Api", "UserProcessor.Api\UserProcessor.Api.csproj", "{5981AEE6-9245-47A2-B126-02DC479DB08F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProcessor.Contracts", "UserProcessor.Contracts\UserProcessor.Contracts.csproj", "{5981AEE6-9245-47A2-B126-02DC479DB08F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auditor.Api", "Auditor.Api\Auditor.Api.csproj", "{22A9186D-9766-4354-9F17-6490106128A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auditor.Contracts", "Auditor.Contracts\Auditor.Contracts.csproj", "{22A9186D-9766-4354-9F17-6490106128A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.Api", "ApiGateway.Api\ApiGateway.Api.csproj", "{C5BD4D51-230A-4487-8AD2-50C28FC5D7BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.Contracts", "ApiGateway.Contracts\ApiGateway.Contracts.csproj", "{C5BD4D51-230A-4487-8AD2-50C28FC5D7BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversationAdapter.Api", "ConversationAdapter.Api\ConversationAdapter.Api.csproj", "{D62B8AA1-1DA1-4FBC-AF45-3A4241FAFB55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversationAdapter.Contracts", "ConversationAdapter.Contracts\ConversationAdapter.Contracts.csproj", "{D62B8AA1-1DA1-4FBC-AF45-3A4241FAFB55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProcessor.Application", "UserProcessor.Application\UserProcessor.Application.csproj", "{A29B2BD3-0FAC-4CEB-9469-55C4981CD2FE}"
 EndProject

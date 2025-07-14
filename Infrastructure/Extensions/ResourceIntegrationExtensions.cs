@@ -14,6 +14,7 @@ public static class ResourceIntegrationExtensions
         return builder;
     }
 
+
     public static TBuilder AddUserDbContext<TBuilder, TDbContext>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
         where TDbContext : DbContext
@@ -49,6 +50,7 @@ public static class ResourceIntegrationExtensions
         return builder;
     }
 
+
     public static TBuilder AddLoggingDb<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
     {
@@ -64,6 +66,15 @@ public static class ResourceIntegrationExtensions
             ResourceReferences.AuditorDbResourceName);
         return builder;
     }
+
+    public static TBuilder AddConversationDb<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        builder.AddMongoDBClient(
+            ResourceReferences.ConversationDbResourceName);
+        return builder;
+    }
+
 
     public static TBuilder AddAuditorQueue<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder

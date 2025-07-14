@@ -6,4 +6,4 @@ public record GetUserResponseDto(
     long Id,
     UserStatusDto Status,
     string PhoneNumber,
-    UserPassportDto Passport);
+    UserPassportDto? Passport);

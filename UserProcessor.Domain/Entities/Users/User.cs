@@ -1,4 +1,5 @@
 ﻿using SharedKernel;
+using SharedKernel.Enums;
 using SharedKernel.Results;
 using UserProcessor.Domain.Entities.Users.Requests;
 using UserProcessor.Domain.Entities.Users.Responses;

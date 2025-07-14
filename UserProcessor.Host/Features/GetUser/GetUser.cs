@@ -1,9 +1,10 @@
 ﻿using Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.Enums;
 using SharedKernel.Extensions;
-using UserProcessor.Api.Contracts.GetUser;
-using UserProcessor.Api.Contracts.Models;
+using UserProcessor.Contracts.Api.GetUser;
+using UserProcessor.Contracts.Models;
 using UserProcessor.Infrastructure.Contracts.GetUser;
 using UserProcessor.Infrastructure.Contracts.Models;
 
@@ -49,18 +50,23 @@ public class GetUser
                     .MapSemantically<UserStatusDto, UserStatus>().Value;
 
                 var responseDtoPassport = responseDto.Passport;
-                var userPassport = new UserPassport(
-                    responseDtoPassport.Surname,
-                    responseDtoPassport.GivenNames,
-                    responseDtoPassport.PassportNumber,
-                    responseDtoPassport.Sex,
-                    responseDtoPassport.DateOfBirth);
+                UserPassport? userPassport = null;
+                if (responseDtoPassport is not null)
+                {
+                    userPassport = new UserPassport(
+                        responseDtoPassport.Surname,
+                        responseDtoPassport.GivenNames,
+                        responseDtoPassport.PassportNumber,
+                        responseDtoPassport.Sex,
+                        responseDtoPassport.DateOfBirth);
+                }
 
-                return new GetUserResponse(
+                var user = new User(
                     responseDto.Id,
                     userStatus,
                     responseDto.PhoneNumber,
                     userPassport);
+                return new GetUserResponse(user);
             }
         }
     }

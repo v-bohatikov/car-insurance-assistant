@@ -1,4 +1,4 @@
-﻿namespace UserProcessor.Api.Contracts.Models;
+﻿namespace SharedKernel.Enums;
 
 public enum UserStatus
 {
