@@ -26,7 +26,7 @@ public class GetDocument
             HandleEndpointRequestDelegate<GetDocumentRequest> requestHandler)
         {
             return builder.MapGet(
-                "getDocument",
+                "get",
                 ([FromBody] GetDocumentRequest request, CancellationToken cancellationToken) => requestHandler(request, cancellationToken));
         }
 
