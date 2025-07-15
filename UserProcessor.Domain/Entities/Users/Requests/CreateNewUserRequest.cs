@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using SharedKernel.Extensions;
 using SharedKernel.Requests;
-using SharedKernel.Results;
 
 namespace UserProcessor.Domain.Entities.Users.Requests;
 

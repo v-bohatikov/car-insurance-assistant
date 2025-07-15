@@ -1,3 +1,7 @@
+using ConversationAdapter.Application.Consumers;
+using ConversationAdapter.Application.Services;
+using ConversationAdapter.Infrastructure.Abstractions;
+using ConversationAdapter.Repository.Repositories;
 using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +19,11 @@ builder.AddOrderQueue();
 builder.AddDocumentQueue();
 builder.AddBillingQueue();
 builder.AddAuditorQueue();
+
+builder.Services.AddScoped<ICustomerActonProcessorService, CustomerActonProcessorService>();
+builder.Services.AddScoped<ICustomerActonProcessorRepository, CustomerActonProcessorRepository>();
+
+builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
 
 // Build a web application.
 var app = builder.Build();

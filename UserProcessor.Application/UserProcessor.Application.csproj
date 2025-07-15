@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\UserProcessor.Domain\UserProcessor.Domain.csproj" />
     <ProjectReference Include="..\UserProcessor.Infrastructure\UserProcessor.Infrastructure.csproj" />
   </ItemGroup>

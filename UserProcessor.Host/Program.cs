@@ -1,5 +1,4 @@
 using Infrastructure.Extensions;
-using MassTransit;
 using UserProcessor.Application.Consumers;
 using UserProcessor.Application.Services;
 using UserProcessor.Infrastructure.Abstractions;
@@ -10,15 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Register default services.
 builder.AddServiceDefaults();
 
-builder.Services.AddMediator(cfg =>
-    cfg.AddConsumersFromNamespaceContaining<Consumers>());
-
 // Add services to the container.
 //builder.AddOrderDbContext<OrderDbContext>();
 builder.AddUserQueue();
 
-builder.Services.AddTransient<IUserQueryService, UserQueryService>();
-builder.Services.AddTransient<IUserQueryRepository, UserQueryRepository>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+
+builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
 
 // Build a web application.
 var app = builder.Build();

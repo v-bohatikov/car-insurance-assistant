@@ -1,4 +1,4 @@
 ﻿namespace UserProcessor.Application.Consumers;
 
-public readonly struct Consumers
+public readonly struct ConsumersIndicator
 { }

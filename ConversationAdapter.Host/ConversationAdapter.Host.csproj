@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConversationAdapter.Application\ConversationAdapter.Application.csproj" />
+    <ProjectReference Include="..\ConversationAdapter.Contracts\ConversationAdapter.Contracts.csproj" />
+    <ProjectReference Include="..\ConversationAdapter.Repository\ConversationAdapter.Repository.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 

@@ -1,20 +1,21 @@
-using System.Reflection;
 using Asp.Versioning;
 using Infrastructure.Abstractions;
+using Infrastructure.Middlewares;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
-using Infrastructure.Middlewares;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Extensions;
+using System.Reflection;
 
 namespace Infrastructure.Extensions;
 
@@ -23,8 +24,7 @@ namespace Infrastructure.Extensions;
 // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
 public static class ServiceExtensions
 {
-    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
     {
         builder.ConfigureOpenTelemetry();
 
@@ -74,8 +74,7 @@ public static class ServiceExtensions
         return builder;
     }
 
-    private static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    private static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
     {
         builder.Logging
             .AddOpenTelemetry(logging =>
@@ -107,8 +106,7 @@ public static class ServiceExtensions
         return builder;
     }
 
-    private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    private static IHostApplicationBuilder AddOpenTelemetryExporters(this IHostApplicationBuilder builder)
     {
         var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
 
@@ -127,8 +125,7 @@ public static class ServiceExtensions
         return builder;
     }
 
-    public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddDefaultHealthChecks(this IHostApplicationBuilder builder)
     {
         builder.Services.AddHealthChecks()
             // Add a default liveness check to ensure app is responsive
@@ -137,8 +134,14 @@ public static class ServiceExtensions
         return builder;
     }
 
-    private static TBuilder ConfigureApiVersioning<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddConsumersFromNamespaceContaining<TConsumersIndicator>(this IHostApplicationBuilder builder)
+    {
+        builder.Services.AddMediator(cfg =>
+            cfg.AddConsumersFromNamespaceContaining<TConsumersIndicator>());
+        return builder;
+    }
+
+    private static IHostApplicationBuilder ConfigureApiVersioning(this IHostApplicationBuilder builder)
     {
         // Add versioning services.
         builder.Services.AddApiVersioning(options =>

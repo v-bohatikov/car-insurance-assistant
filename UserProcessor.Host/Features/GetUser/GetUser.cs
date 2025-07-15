@@ -1,12 +1,9 @@
 ﻿using Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Enums;
-using SharedKernel.Extensions;
 using UserProcessor.Contracts.Api.GetUser;
 using UserProcessor.Contracts.Models;
 using UserProcessor.Infrastructure.Contracts.GetUser;
-using UserProcessor.Infrastructure.Contracts.Models;
 
 namespace UserProcessor.Host.Features.GetUser;
 
@@ -15,11 +12,11 @@ public class GetUser
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : UserEndpointGroup<long, GetUserResponse>(logger)
+        : UsersEndpointGroup<long, GetUserResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
-        public override string? Name => "GetUser";
+        public override string? Name => "Get user info";
 
         public override int ApiVersion => 1;
 
@@ -30,8 +27,9 @@ public class GetUser
             HandleEndpointRequestDelegate<long> requestHandler)
         {
             return builder.MapGet(
-                "getUser/{id:long}",
-                ([FromRoute] long id, CancellationToken cancellationToken) => requestHandler(id, cancellationToken));
+                "{id:long}",
+                ([FromRoute] long id, CancellationToken cancellationToken) =>
+                    requestHandler(id, cancellationToken));
         }
 
         private sealed class EndpointHandler(
@@ -46,11 +44,8 @@ public class GetUser
 
             public override GetUserResponse MapResponse(GetUserResponseDto responseDto)
             {
-                var userStatus = responseDto.Status
-                    .MapSemantically<UserStatusDto, UserStatus>().Value;
-
-                var responseDtoPassport = responseDto.Passport;
                 UserPassport? userPassport = null;
+                var responseDtoPassport = responseDto.Passport;
                 if (responseDtoPassport is not null)
                 {
                     userPassport = new UserPassport(
@@ -63,7 +58,7 @@ public class GetUser
 
                 var user = new User(
                     responseDto.Id,
-                    userStatus,
+                    responseDto.Status,
                     responseDto.PhoneNumber,
                     userPassport);
                 return new GetUserResponse(user);

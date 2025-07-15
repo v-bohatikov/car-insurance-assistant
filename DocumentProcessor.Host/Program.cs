@@ -1,3 +1,7 @@
+using DocumentProcessor.Application.Consumers;
+using DocumentProcessor.Application.Services;
+using DocumentProcessor.Infrastructure.Abstractions;
+using DocumentProcessor.Repository.Repositories;
 using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,11 @@ builder.AddServiceDefaults();
 // Add services to the container.
 builder.AddBlobClient();
 builder.AddDocumentQueue();
+
+builder.Services.AddScoped<IDocumentQueryService, DocumentQueryService>();
+builder.Services.AddScoped<IDocumentQueryRepository, DocumentQueryRepository>();
+
+builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
 
 // Build a web application.
 var app = builder.Build();

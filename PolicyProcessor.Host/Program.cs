@@ -1,4 +1,8 @@
 using Infrastructure.Extensions;
+using PolicyProcessor.Application.Consumers;
+using PolicyProcessor.Application.Services;
+using PolicyProcessor.Infrastructure.Abstractions;
+using PolicyProcessor.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,11 @@ builder.AddServiceDefaults();
 // Add services to the container.
 //builder.AddPolicyDbContext<PolicyDbContext>();
 builder.AddPolicyQueue();
+
+builder.Services.AddScoped<IPolicyQueryService, PolicyQueryService>();
+builder.Services.AddScoped<IPolicyQueryRepository, PolicyQueryRepository>();
+
+builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
 
 // Build a web application.
 var app = builder.Build();
