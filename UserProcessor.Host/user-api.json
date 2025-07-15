@@ -32,6 +32,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVehicleResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -83,6 +93,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -119,6 +139,28 @@
   },
   "components": {
     "schemas": {
+      "GetUserResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "GetVehicleResponse": {
+        "required": [
+          "vehicle"
+        ],
+        "type": "object",
+        "properties": {
+          "vehicle": {
+            "$ref": "#/components/schemas/Vehicle"
+          }
+        }
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -144,6 +186,101 @@
             "nullable": true
           }
         }
+      },
+      "User": {
+        "required": [
+          "id",
+          "status",
+          "phoneNumber",
+          "passport"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/UserStatus"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "passport": {
+            "$ref": "#/components/schemas/UserPassport"
+          }
+        }
+      },
+      "UserPassport": {
+        "required": [
+          "surname",
+          "givenNames",
+          "passportNumber",
+          "sex",
+          "dateOfBirth"
+        ],
+        "type": "object",
+        "properties": {
+          "surname": {
+            "type": "string"
+          },
+          "givenNames": {
+            "type": "string"
+          },
+          "passportNumber": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "nullable": true
+      },
+      "UserStatus": {
+        "type": "integer"
+      },
+      "Vehicle": {
+        "required": [
+          "id",
+          "status",
+          "ownerName",
+          "vehicleName",
+          "vehicleIdentificationNumber",
+          "plateNumber",
+          "registrationNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/VehicleStatus"
+          },
+          "ownerName": {
+            "type": "string"
+          },
+          "vehicleName": {
+            "type": "string"
+          },
+          "vehicleIdentificationNumber": {
+            "type": "string"
+          },
+          "plateNumber": {
+            "type": "string"
+          },
+          "registrationNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "VehicleStatus": {
+        "type": "integer"
       }
     }
   },

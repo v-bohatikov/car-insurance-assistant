@@ -22,6 +22,16 @@
           "required": true
         },
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerActionResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -91,6 +101,17 @@
           "message": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "CustomerActionResponse": {
+        "required": [
+          "immediateResponse"
+        ],
+        "type": "object",
+        "properties": {
+          "immediateResponse": {
+            "type": "string"
           }
         }
       },

@@ -92,7 +92,7 @@ public abstract class EndpointBase<TRequest, TResponse>(
         // NOTE:
         // This configuration should match the return results produced in ToHttpResult methods.
         endpointBuilder
-            .Produces<Ok<TResponse>>()
+            .Produces<TResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

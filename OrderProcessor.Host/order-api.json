@@ -23,6 +23,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -59,6 +69,51 @@
   },
   "components": {
     "schemas": {
+      "GetOrderResponse": {
+        "required": [
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Order"
+          }
+        }
+      },
+      "Order": {
+        "required": [
+          "id",
+          "status",
+          "userId",
+          "vehicleId",
+          "insurancePlanId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "insurancePlanId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "OrderStatus": {
+        "type": "integer"
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {

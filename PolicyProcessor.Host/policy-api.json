@@ -23,6 +23,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetInsurancePolicyResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -74,6 +84,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetInsurancePlanResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -110,6 +130,96 @@
   },
   "components": {
     "schemas": {
+      "GetInsurancePlanResponse": {
+        "required": [
+          "insurancePlan"
+        ],
+        "type": "object",
+        "properties": {
+          "insurancePlan": {
+            "$ref": "#/components/schemas/InsurancePlan"
+          }
+        }
+      },
+      "GetInsurancePolicyResponse": {
+        "required": [
+          "insurancePolicy"
+        ],
+        "type": "object",
+        "properties": {
+          "insurancePolicy": {
+            "$ref": "#/components/schemas/InsurancePolicy"
+          }
+        }
+      },
+      "InsurancePlan": {
+        "required": [
+          "id",
+          "name",
+          "price",
+          "priceReasoning",
+          "lifetimeInDays",
+          "policyTemplateFileId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "priceReasoning": {
+            "type": "string"
+          },
+          "lifetimeInDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "policyTemplateFileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "InsurancePolicy": {
+        "required": [
+          "id",
+          "status",
+          "userId",
+          "vehicleId",
+          "insurancePlan"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InsurancePolicyStatus"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "insurancePlan": {
+            "$ref": "#/components/schemas/InsurancePlan"
+          }
+        }
+      },
+      "InsurancePolicyStatus": {
+        "type": "integer"
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
