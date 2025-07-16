@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using UserProcessor.Contracts.Api.GetUser;
+using UserProcessor.Contracts.Api;
 using UserProcessor.Contracts.Models;
 using UserProcessor.Infrastructure.Contracts.GetUser;
 

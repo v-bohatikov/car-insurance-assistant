@@ -1,6 +1,7 @@
 ﻿using PolicyProcessor.Contracts.Models;
 
-namespace PolicyProcessor.Contracts.Api.GetInsurancePolicy;
+// ReSharper disable once CheckNamespace
+namespace PolicyProcessor.Contracts.Api;
 
 public record GetInsurancePolicyResponse(
     InsurancePolicy InsurancePolicy);

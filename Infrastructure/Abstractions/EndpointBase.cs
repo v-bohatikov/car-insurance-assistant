@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
@@ -13,10 +12,6 @@ public record ProblemDetailsTemplate(string Title, int HttpStatusCode);
 public delegate ValueTask<IResult> HandleEndpointRequestDelegate<in TRequest>(
     TRequest request,
     CancellationToken cancellationToken);
-
-public delegate RouteHandlerBuilder EndpointMappingDelegate<out TRequest>(
-    IEndpointRouteBuilder builder,
-    HandleEndpointRequestDelegate<TRequest> requestHandler);
 
 /// <summary>
 /// Represents an API endpoint abstraction.
@@ -100,11 +95,9 @@ public abstract class EndpointBase<TRequest, TResponse>(
 
     private static ProblemDetails ConvertErrorToProblemDetails(Error error)
     {
-        if (!ErrorTypeToProblemDetailsTemplateMap.TryGetValue(error.ErrorType, out var problemDetailsTemplate))
-        {
-            throw new ArgumentException(
-                "Unable to map error type to appropriate http status code");
-        }
+        var problemDetailsTemplate = error.ErrorType == ErrorType.Aggregate
+            ? GetProblemDetailsTemplateForAggregateError(error)
+            : GetProblemDetailsTemplate(error.ErrorType);
 
         return new ProblemDetails
         {
@@ -115,5 +108,36 @@ public abstract class EndpointBase<TRequest, TResponse>(
                 { "errors", new[] { error } }
             }
         };
+    }
+
+    private static ProblemDetailsTemplate GetProblemDetailsTemplate(ErrorType errorType)
+    {
+        if (!ErrorTypeToProblemDetailsTemplateMap.TryGetValue(errorType, out var problemDetailsTemplate))
+        {
+            throw new ArgumentException(
+                "Unable to map error type to appropriate http status code");
+        }
+
+        return problemDetailsTemplate;
+    }
+
+    private static ProblemDetailsTemplate GetProblemDetailsTemplateForAggregateError(Error aggregateError)
+    {
+        if (aggregateError.ErrorType != ErrorType.Aggregate)
+        {
+            throw new ArgumentException(
+                "Unexpected error type");
+        }
+
+        // Check whether all inner errors have the same error type.
+        var errorType = aggregateError.InnerErrors!.First().ErrorType;
+        if (aggregateError.InnerErrors!.Any(e => e.ErrorType != errorType))
+        {
+            // In case there any error with different error type we're going to generate
+            // general Failure error.
+            errorType = ErrorType.Failure;
+        }
+
+        return GetProblemDetailsTemplate(errorType);
     }
 }

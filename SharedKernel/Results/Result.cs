@@ -31,7 +31,7 @@ public class Result
 
     public static Result<TValue> Failure<TValue>(Error error) => Result<TValue>.Failure(error);
 
-    public Result<TValue> ToGenericResult<TValue>()
+    public Result<TValue> ToGenericFailureResult<TValue>()
     {
         // This type of conversion is something that we need exclusively for cases when
         // need to propagate the failure result further, where generic result type

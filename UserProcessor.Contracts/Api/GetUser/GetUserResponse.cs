@@ -1,5 +1,6 @@
 ﻿using UserProcessor.Contracts.Models;
 
-namespace UserProcessor.Contracts.Api.GetUser;
+// ReSharper disable once CheckNamespace
+namespace UserProcessor.Contracts.Api;
 
 public record GetUserResponse(User User);

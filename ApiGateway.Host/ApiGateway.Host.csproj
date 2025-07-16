@@ -22,6 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\ApiGateway.Application\ApiGateway.Application.csproj" />
+		<ProjectReference Include="..\ApiGateway.Contracts\ApiGateway.Contracts.csproj" />
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 

@@ -1,0 +1,14 @@
+{
+  "openApiPath": "policy-api.json",
+  "namespace": "PolicyProcessor.Contracts.ApiClient",
+  "outputFolder": "../PolicyProcessor.Contracts/ApiClient",
+  "outputFileName": "PolicyApiClient.cs",
+  "naming": {
+    "useOpenApiTitle": false,
+    "interfaceName": "PolicyApiClient"
+  },
+  "generateContracts": false,
+  "useCancellationTokens": true,
+  "returnIApiResponse": true,
+  "additionalNamespaces": [ "PolicyProcessor.Contracts.Api" ]
+}

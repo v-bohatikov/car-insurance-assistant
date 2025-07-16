@@ -52,7 +52,7 @@ public sealed class Vehicle : Entity
         var validationResult = registerNewVehicleRequest.ValidateRequest();
         if (validationResult.IsFailure)
         {
-            return validationResult.ToGenericResult<RegisterNewVehicleResponse>();
+            return validationResult.ToGenericFailureResult<RegisterNewVehicleResponse>();
         }
 
         // TODO:

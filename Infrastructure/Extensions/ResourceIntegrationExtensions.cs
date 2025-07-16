@@ -10,7 +10,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddAzureBlobClient(
-            ResourceReferences.BlobStorageResourceName);
+            ApplicationReferences.BlobStorageResourceName);
         return builder;
     }
 
@@ -20,7 +20,7 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
         return builder.AddDbContext<TBuilder, TDbContext>(
-            ResourceReferences.UserDbResourceName);
+            ApplicationReferences.UserDbResourceName);
         return builder;
     }
 
@@ -29,7 +29,7 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
         return builder.AddDbContext<TBuilder, TDbContext>(
-            ResourceReferences.PolicyDbResourceName);
+            ApplicationReferences.PolicyDbResourceName);
     }
 
     public static TBuilder AddOrderDbContext<TBuilder, TDbContext>(this TBuilder builder)
@@ -37,7 +37,7 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
         return builder.AddDbContext<TBuilder, TDbContext>(
-            ResourceReferences.OrderDbResourceName);
+            ApplicationReferences.OrderDbResourceName);
     }
 
     private static TBuilder AddDbContext<TBuilder, TDbContext>(
@@ -55,7 +55,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddMongoDBClient(
-            ResourceReferences.LoggingDbResourceName);
+            ApplicationReferences.LoggingDbResourceName);
         return builder;
     }
 
@@ -63,7 +63,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddMongoDBClient(
-            ResourceReferences.AuditorDbResourceName);
+            ApplicationReferences.AuditorDbResourceName);
         return builder;
     }
 
@@ -71,7 +71,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddMongoDBClient(
-            ResourceReferences.ConversationDbResourceName);
+            ApplicationReferences.ConversationDbResourceName);
         return builder;
     }
 
@@ -80,7 +80,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.AuditorQueueResourceName);
+            ApplicationReferences.AuditorQueueResourceName);
         return builder;
     }
 
@@ -88,7 +88,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.UserQueueResourceName);
+            ApplicationReferences.UserQueueResourceName);
         return builder;
     }
 
@@ -96,7 +96,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.DocumentQueueResourceName);
+            ApplicationReferences.DocumentQueueResourceName);
         return builder;
     }
 
@@ -104,7 +104,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.PolicyQueueResourceName);
+            ApplicationReferences.PolicyQueueResourceName);
         return builder;
     }
 
@@ -112,7 +112,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.OrderQueueResourceName);
+            ApplicationReferences.OrderQueueResourceName);
         return builder;
     }
 
@@ -120,7 +120,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.BillingQueueResourceName);
+            ApplicationReferences.BillingQueueResourceName);
         return builder;
     }
 
@@ -128,7 +128,7 @@ public static class ResourceIntegrationExtensions
         where TBuilder : IHostApplicationBuilder
     {
         builder.AddServiceBusQueue(
-            ResourceReferences.ConversationQueueResourceName);
+            ApplicationReferences.ConversationQueueResourceName);
         return builder;
     }
 

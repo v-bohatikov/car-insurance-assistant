@@ -32,7 +32,7 @@ public sealed class User : Entity
         var validationResult = request.ValidateRequest();
         if (validationResult.IsFailure)
         {
-            return validationResult.ToGenericResult<CreateNewUserResponse>();
+            return validationResult.ToGenericFailureResult<CreateNewUserResponse>();
         }
 
         // TODO: temporary logic

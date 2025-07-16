@@ -26,7 +26,7 @@ public abstract class EndpointHandlerBase<TRequest, TRequestDto, TResponse, TRes
         var result = await mediator.SendRequest(mappedRequest, cancellationToken);
         if (result.IsFailure)
         {
-            return result.ToGenericResult<TResponse>();
+            return result.ToGenericFailureResult<TResponse>();
         }
 
         var mappedResult = MapResponse(result.Value);

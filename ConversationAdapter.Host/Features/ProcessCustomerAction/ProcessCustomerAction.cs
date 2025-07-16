@@ -1,4 +1,4 @@
-﻿using ConversationAdapter.Contracts.Api.ProcessCustomerAction;
+﻿using ConversationAdapter.Contracts.Api;
 using ConversationAdapter.Infrastructure.Contracts.ProcessCustomerAction;
 using Infrastructure.Abstractions;
 using MassTransit.Mediator;

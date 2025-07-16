@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using OrderProcessor.Contracts.Api.GetOrder;
+using OrderProcessor.Contracts.Api;
 using OrderProcessor.Contracts.Models;
 using OrderProcessor.Infrastructure.Contracts.GetOrder;
 

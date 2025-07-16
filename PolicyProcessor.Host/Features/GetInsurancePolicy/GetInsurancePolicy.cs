@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using PolicyProcessor.Contracts.Api.GetInsurancePolicy;
+using PolicyProcessor.Contracts.Api;
 using PolicyProcessor.Contracts.Models;
 using PolicyProcessor.Infrastructure.Contracts.GetInsurancePolicy;
 
@@ -12,7 +12,8 @@ public class GetInsurancePolicy
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : InsurancePoliciesEndpointGroup<long, GetInsurancePolicyResponse>(logger)
+        : InsurancePoliciesEndpointGroup<long, 
+            GetInsurancePolicyResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 

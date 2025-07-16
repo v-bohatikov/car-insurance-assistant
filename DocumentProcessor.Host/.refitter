@@ -1,0 +1,14 @@
+{
+  "openApiPath": "document-api.json",
+  "namespace": "DocumentProcessor.Contracts.ApiClient",
+  "outputFolder": "../DocumentProcessor.Contracts/ApiClient",
+  "outputFileName": "DocumentApiClient.cs",
+  "naming": {
+    "useOpenApiTitle": false,
+    "interfaceName": "DocumentApiClient"
+  },
+  "generateContracts": false,
+  "useCancellationTokens": true,
+  "returnIApiResponse": true,
+  "additionalNamespaces": [ "DocumentProcessor.Contracts.Api" ]
+}

@@ -1,4 +1,4 @@
-﻿using DocumentProcessor.Contracts.Api.GetDocument;
+﻿using DocumentProcessor.Contracts.Api;
 using DocumentProcessor.Infrastructure.Contracts.GetDocument;
 using Infrastructure.Abstractions;
 using MassTransit.Mediator;

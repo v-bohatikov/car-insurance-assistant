@@ -90,7 +90,7 @@ public static class AzureInfraExtensions
         }
 
         var blobsStorage = storage
-            .AddBlobs(ResourceReferences.BlobStorageResourceName);
+            .AddBlobs(ApplicationReferences.BlobStorageResourceName);
         return blobsStorage;
     }
 
@@ -99,7 +99,7 @@ public static class AzureInfraExtensions
     {
         // Configuration for production environment which will be hosted on Azure.
         var noSqlStorage = builder
-            .AddAzureCosmosDB(ResourceReferences.NoSqlStorageResourceName)
+            .AddAzureCosmosDB(ApplicationReferences.NoSqlStorageResourceName)
             .ConfigureInfrastructure(infra =>
             {
                 var cosmosDbAccount = infra.GetProvisionableResources()
@@ -126,11 +126,11 @@ public static class AzureInfraExtensions
         }
 
         var loggingDb = noSqlStorage
-            .AddCosmosDatabase(ResourceReferences.LoggingDbResourceName);
+            .AddCosmosDatabase(ApplicationReferences.LoggingDbResourceName);
         var auditorDb = noSqlStorage
-            .AddCosmosDatabase(ResourceReferences.AuditorDbResourceName);
+            .AddCosmosDatabase(ApplicationReferences.AuditorDbResourceName);
         var conversationDb = noSqlStorage
-            .AddCosmosDatabase(ResourceReferences.ConversationDbResourceName);
+            .AddCosmosDatabase(ApplicationReferences.ConversationDbResourceName);
 
         return new AzureNoSqlDatabases(loggingDb, auditorDb, conversationDb);
     }
@@ -140,7 +140,7 @@ public static class AzureInfraExtensions
     {
         // Configuration for production environment which will be hosted on Azure.
         var sqlStorage = builder
-            .AddAzureSqlServer(ResourceReferences.SqlStorageResourceName);
+            .AddAzureSqlServer(ApplicationReferences.SqlStorageResourceName);
 
         // Configuration for other environments should support local execution via emulators of
         // Azure resources.
@@ -152,11 +152,11 @@ public static class AzureInfraExtensions
         }
 
         var userDb = sqlStorage
-            .AddDatabase(ResourceReferences.UserDbResourceName);
+            .AddDatabase(ApplicationReferences.UserDbResourceName);
         var policyDb = sqlStorage
-            .AddDatabase(ResourceReferences.PolicyDbResourceName);
+            .AddDatabase(ApplicationReferences.PolicyDbResourceName);
         var orderDb = sqlStorage
-            .AddDatabase(ResourceReferences.OrderDbResourceName);
+            .AddDatabase(ApplicationReferences.OrderDbResourceName);
 
         return new AzureSqlDatabases(userDb, policyDb, orderDb);
     }
@@ -166,7 +166,7 @@ public static class AzureInfraExtensions
     {
         // Configuration for production environment which will be hosted on Azure.
         var serviceBus = builder
-            .AddAzureServiceBus(ResourceReferences.ServiceBusResourceName)
+            .AddAzureServiceBus(ApplicationReferences.ServiceBusResourceName)
             .ConfigureInfrastructure(infra =>
             {
                 var serviceBusNamespace = infra.GetProvisionableResources()
@@ -195,19 +195,19 @@ public static class AzureInfraExtensions
 
 
         var auditorQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.AuditorQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.AuditorQueueResourceName);
         var userQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.UserQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.UserQueueResourceName);
         var documentQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.DocumentQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.DocumentQueueResourceName);
         var policyQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.PolicyQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.PolicyQueueResourceName);
         var orderQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.OrderQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.OrderQueueResourceName);
         var billingQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.BillingQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.BillingQueueResourceName);
         var conversationQueue = serviceBus
-            .AddServiceBusQueue(ResourceReferences.ConversationQueueResourceName);
+            .AddServiceBusQueue(ApplicationReferences.ConversationQueueResourceName);
 
         return new AzureServiceBusQueues(
             auditorQueue,

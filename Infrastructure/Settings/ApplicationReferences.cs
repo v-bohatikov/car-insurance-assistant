@@ -1,7 +1,24 @@
 ﻿namespace Infrastructure.Settings;
 
-public static class ResourceReferences
+public static class ApplicationReferences
 {
+    // Services.
+    public static readonly string ConversationalAdapterServiceName = "conversational-adapter";
+
+    public static readonly string OrderProcessorServiceName = "order-processor";
+
+    public static readonly string UserProcessorServiceName = "user-processor";
+
+    public static readonly string DocumentProcessorServiceName = "document-processor";
+
+    public static readonly string PolicyProcessorServiceName = "policy-processor";
+
+    public static readonly string BillingProcessorServiceName = "billing-processor";
+
+    public static readonly string AuditorServiceName = "auditor";
+
+    public static readonly string ApiGatewayServiceName = "api-gateway";
+
     // Blob storage.
     public static readonly string BlobStorageResourceName = "azure-blob";
 

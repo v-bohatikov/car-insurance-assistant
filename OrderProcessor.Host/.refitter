@@ -1,0 +1,14 @@
+{
+  "openApiPath": "order-api.json",
+  "namespace": "OrderProcessor.Contracts.ApiClient",
+  "outputFolder": "../OrderProcessor.Contracts/ApiClient",
+  "outputFileName": "OrderApiClient.cs",
+  "naming": {
+    "useOpenApiTitle": false,
+    "interfaceName": "OrderApiClient"
+  },
+  "generateContracts": false,
+  "useCancellationTokens": true,
+  "returnIApiResponse": true,
+  "additionalNamespaces": [ "OrderProcessor.Contracts.Api" ]
+}

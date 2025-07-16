@@ -34,4 +34,13 @@
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<AdditionalFiles Include=".refitter" />
+	</ItemGroup>
+
+	<Target Name="Refitter" AfterTargets="PreBuildEvent">
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
+		<Exec WorkingDirectory="$(ProjectDir)" Command="refitter --settings-file .refitter --skip-validation --no-banner" />
+	</Target>
+
 </Project>

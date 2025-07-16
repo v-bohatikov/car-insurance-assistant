@@ -1,4 +1,9 @@
+using ApiGateway.Application.Consumers;
+using ApiGateway.Application.Services;
+using ApiGateway.Infrastructure.Abstractions;
 using Infrastructure.Extensions;
+using Infrastructure.Settings;
+using UserProcessor.Contracts.ApiClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-// TODO: Add here
+builder.Services.AddScoped<IQueryService, QueryService>();
+
+builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
+
+builder.AddRefitApiClient<IUserApiClient>(ApplicationReferences.UserProcessorServiceName);
 
 // Build a web application.
 var app = builder.Build();

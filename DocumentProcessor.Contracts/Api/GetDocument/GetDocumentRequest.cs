@@ -1,6 +1,7 @@
 ﻿using SharedKernel.Enums;
 
-namespace DocumentProcessor.Contracts.Api.GetDocument;
+// ReSharper disable once CheckNamespace
+namespace DocumentProcessor.Contracts.Api;
 
 public record GetDocumentRequest(
     DocumentType DocumentType,

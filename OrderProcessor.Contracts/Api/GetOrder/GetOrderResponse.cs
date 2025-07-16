@@ -1,5 +1,6 @@
 ﻿using OrderProcessor.Contracts.Models;
 
-namespace OrderProcessor.Contracts.Api.GetOrder;
+// ReSharper disable once CheckNamespace
+namespace OrderProcessor.Contracts.Api;
 
 public record GetOrderResponse(Order Order);

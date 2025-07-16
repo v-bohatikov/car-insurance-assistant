@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using PolicyProcessor.Contracts.Api.GetInsurancePlan;
+using PolicyProcessor.Contracts.Api;
 using PolicyProcessor.Contracts.Models;
 using PolicyProcessor.Infrastructure.Contracts.GetInsurancePlan;
 

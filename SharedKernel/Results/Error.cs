@@ -21,6 +21,13 @@ public record Error(
     public static Error Failure(string code, string? description) =>
         new(ErrorType.Failure, code, description);
 
-    public static Error Aggregate(string code, string? description, params Error[] innerErrors) =>
-        new (ErrorType.Aggregate, code, description, innerErrors);
+    public static Error Aggregate(string code, string? description, params Error[] innerErrors)
+    {
+        if (innerErrors == null)
+        {
+            throw new ArgumentNullException(nameof(innerErrors));
+        }
+
+        return new(ErrorType.Aggregate, code, description, innerErrors);
+    }
 }

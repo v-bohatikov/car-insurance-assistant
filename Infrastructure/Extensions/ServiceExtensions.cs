@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Refit;
 using SharedKernel.Extensions;
 using System.Reflection;
 
@@ -265,5 +266,18 @@ public static class ServiceExtensions
         }
 
         return app;
+    }
+
+    public static IHostApplicationBuilder AddRefitApiClient<TApiClient>(
+        this IHostApplicationBuilder builder,
+        string applicationServiceName)
+        where TApiClient : class
+    {
+        builder.Services
+            .AddRefitClient<TApiClient>()
+            .ConfigureHttpClient(cfg =>
+                cfg.BaseAddress = new Uri($"http://{applicationServiceName}"));
+
+        return builder;
     }
 }
