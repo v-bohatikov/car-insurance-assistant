@@ -1,13 +1,13 @@
 ﻿using ApiGateway.Contracts.Api.GetUser;
 using ApiGateway.Contracts.Models;
 using ApiGateway.Infrastructure.Contracts.GetUser;
-using Infrastructure.Abstractions;
+using Host.Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiGateway.Host.Features.GetUserTemp;
 
-public class GetUserTemp
+public class UserContactProvidedTemp
 {
     public sealed class Endpoint(
         ILogger<Endpoint> logger,

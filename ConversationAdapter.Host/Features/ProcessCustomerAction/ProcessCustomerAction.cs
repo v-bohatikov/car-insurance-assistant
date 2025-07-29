@@ -1,6 +1,6 @@
 ﻿using ConversationAdapter.Contracts.Api;
 using ConversationAdapter.Infrastructure.Contracts.ProcessCustomerAction;
-using Infrastructure.Abstractions;
+using Host.Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 

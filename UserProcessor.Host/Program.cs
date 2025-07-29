@@ -1,4 +1,5 @@
-using Infrastructure.Extensions;
+using Host.Infrastructure.Extensions;
+using Host.Infrastructure.Settings;
 using UserProcessor.Application.Consumers;
 using UserProcessor.Application.Services;
 using UserProcessor.Infrastructure.Abstractions;
@@ -11,12 +12,15 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 //builder.AddOrderDbContext<OrderDbContext>();
-builder.AddUserQueue();
+
+builder.AddServiceBusClient();
+builder.ConfigureServiceBusProducer();
+builder.ConfigureServiceBusReceiver(ApplicationReferences.UserQueueResourceName);
+
+builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
-
-builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
 
 // Build a web application.
 var app = builder.Build();
@@ -35,6 +39,8 @@ var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Configure service endpoints.
 app.MapEndpoints(versionedRouteBuilder);
+
+app.MapQueueEndpoints();
 
 // Start application.
 app.Run();

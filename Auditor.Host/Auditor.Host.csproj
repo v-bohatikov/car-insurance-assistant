@@ -5,7 +5,13 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<Configurations>Debug;Release;Infra</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<OpenApiDocumentsDirectory>.</OpenApiDocumentsDirectory>
+		<OpenApiGenerateDocumentsOnBuild Condition="'$(Configuration)' == 'Infra'">true</OpenApiGenerateDocumentsOnBuild>
+		<OpenApiGenerateDocumentsOnBuild Condition="'$(Configuration)' != 'Infra'">false</OpenApiGenerateDocumentsOnBuild>
 		<OpenApiGenerateDocumentsOptions>--file-name auditor-api</OpenApiGenerateDocumentsOptions>
 	</PropertyGroup>
 
@@ -23,7 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+	  <ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

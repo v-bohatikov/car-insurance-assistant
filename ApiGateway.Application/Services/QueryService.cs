@@ -1,18 +1,18 @@
 ﻿using ApiGateway.Infrastructure.Abstractions;
 using ApiGateway.Infrastructure.Contracts.GetUser;
 using ApiGateway.Infrastructure.Contracts.Models;
-using Infrastructure.Extensions;
+using Application.Infrastructure.Abstractions;
 using SharedKernel.Results;
 using UserProcessor.Contracts.ApiClient;
 
 namespace ApiGateway.Application.Services;
 
-public class QueryService(IUserApiClient userApiClient) : IQueryService
+public class QueryService(IRefitClientDecorator<IUserApiClient> userApiClient) : IQueryService
 {
     public async ValueTask<Result<GetUserResponseDto>> GetUser(GetUserRequestDto request)
     {
-        var apiResponse = await userApiClient.GetUserInfo(request.UserId);
-        var handleResult = await apiResponse.HandleApiResponse();
+        var handleResult = await userApiClient.ExecuteAsync(ct =>
+            userApiClient.Client.GetUserInfo(request.UserId, ct));
         if (!handleResult.IsSuccessful)
         {
             return handleResult.ToGenericFailureResult<GetUserResponseDto>();

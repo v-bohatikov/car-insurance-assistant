@@ -5,6 +5,66 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/v1/users/sendUserContact": {
+      "post": {
+        "tags": [
+          "ApiGateway.Host"
+        ],
+        "operationId": "Produce user contact information",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserContactProvidedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserContractProvidedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/{id}": {
       "get": {
         "tags": [
@@ -129,6 +189,24 @@
             "$ref": "#/components/schemas/UserPassport"
           }
         }
+      },
+      "UserContactProvidedRequest": {
+        "required": [
+          "userTelegramId",
+          "phoneNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "userTelegramId": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "UserContractProvidedResponse": {
+        "type": "object"
       },
       "UserPassport": {
         "required": [

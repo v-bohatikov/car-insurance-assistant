@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>1fa77325-f2c4-4719-9401-250d8beae0f2</UserSecretsId>
+    <Configurations>Debug;Release;Infra</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
@@ -22,7 +23,7 @@
     <ProjectReference Include="..\BillingProcessor.Host\BillingProcessor.Host.csproj" />
     <ProjectReference Include="..\ConversationAdapter.Host\ConversationAdapter.Host.csproj" />
     <ProjectReference Include="..\DocumentProcessor.Host\DocumentProcessor.Host.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\OrderProcessor.Host\OrderProcessor.Host.csproj" />
     <ProjectReference Include="..\PolicyProcessor.Host\PolicyProcessor.Host.csproj" />
     <ProjectReference Include="..\UserProcessor.Host\UserProcessor.Host.csproj" />

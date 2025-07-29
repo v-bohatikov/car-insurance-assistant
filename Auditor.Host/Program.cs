@@ -1,4 +1,4 @@
-using Infrastructure.Extensions;
+using Host.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.AddAuditorQueue();
+builder.AddServiceBusClient();
+// TODO: add consumers
+
 builder.AddAuditorDb();
 
 // Build a web application.

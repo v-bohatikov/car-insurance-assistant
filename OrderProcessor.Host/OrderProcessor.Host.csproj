@@ -1,11 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<Configurations>Debug;Release;Infra</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<OpenApiDocumentsDirectory>.</OpenApiDocumentsDirectory>
+		<OpenApiGenerateDocumentsOnBuild Condition="'$(Configuration)' == 'Infra'">true</OpenApiGenerateDocumentsOnBuild>
+		<OpenApiGenerateDocumentsOnBuild Condition="'$(Configuration)' != 'Infra'">false</OpenApiGenerateDocumentsOnBuild>
 		<OpenApiGenerateDocumentsOptions>--file-name order-api</OpenApiGenerateDocumentsOptions>
 	</PropertyGroup>
 
@@ -23,7 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" />
 		<ProjectReference Include="..\OrderProcessor.Application\OrderProcessor.Application.csproj" />
 		<ProjectReference Include="..\OrderProcessor.Contracts\OrderProcessor.Contracts.csproj" />
 		<ProjectReference Include="..\OrderProcessor.Repository\OrderProcessor.Repository.csproj" />
@@ -33,7 +39,7 @@
 		<AdditionalFiles Include=".refitter" />
 	</ItemGroup>
 
-	<Target Name="Refitter" AfterTargets="PreBuildEvent">
+	<Target Name="Refitter" AfterTargets="Build" Condition="'$(Configuration)' == 'Infra'">
 		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
 		<Exec WorkingDirectory="$(ProjectDir)" Command="refitter --settings-file .refitter --skip-validation --no-banner" />
 	</Target>

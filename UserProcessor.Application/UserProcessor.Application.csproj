@@ -4,9 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Infra</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConversationAdapter.Contracts\ConversationAdapter.Contracts.csproj" />
     <ProjectReference Include="..\UserProcessor.Domain\UserProcessor.Domain.csproj" />
     <ProjectReference Include="..\UserProcessor.Infrastructure\UserProcessor.Infrastructure.csproj" />
   </ItemGroup>

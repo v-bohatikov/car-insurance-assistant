@@ -2,7 +2,7 @@ using ConversationAdapter.Application.Consumers;
 using ConversationAdapter.Application.Services;
 using ConversationAdapter.Infrastructure.Abstractions;
 using ConversationAdapter.Repository.Repositories;
-using Infrastructure.Extensions;
+using Host.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,19 +11,13 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.AddConversationDb();
+builder.AddServiceBusClient();
+builder.ConfigureServiceBusProducer();
 
-builder.AddConversationQueue();
-builder.AddUserQueue();
-builder.AddPolicyQueue();
-builder.AddOrderQueue();
-builder.AddDocumentQueue();
-builder.AddBillingQueue();
-builder.AddAuditorQueue();
+builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
 builder.Services.AddScoped<ICustomerActonProcessorService, CustomerActonProcessorService>();
 builder.Services.AddScoped<ICustomerActonProcessorRepository, CustomerActonProcessorRepository>();
-
-builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
 
 // Build a web application.
 var app = builder.Build();

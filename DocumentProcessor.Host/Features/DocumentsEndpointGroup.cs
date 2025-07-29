@@ -1,4 +1,4 @@
-﻿using Infrastructure.Abstractions;
+﻿using Host.Infrastructure.Abstractions;
 
 namespace DocumentProcessor.Host.Features;
 

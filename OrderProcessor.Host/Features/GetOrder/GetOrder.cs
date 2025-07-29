@@ -1,4 +1,4 @@
-﻿using Infrastructure.Abstractions;
+﻿using Host.Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using OrderProcessor.Contracts.Api;

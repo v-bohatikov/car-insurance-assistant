@@ -2,17 +2,17 @@
 using Azure.Provisioning.CosmosDB;
 using Azure.Provisioning.ServiceBus;
 using Azure.Provisioning.Storage;
-using Infrastructure.Settings;
+using Host.Infrastructure.Settings;
 
 namespace AppHost.Extensions;
 
 public static class AzureInfraExtensions
 {
     public record AzureResources(
-        IResourceBuilder<AzureBlobStorageResource> BlobStorage,
+        IResourceBuilder<AzureBlobStorageResource> AzureBlobStorage,
+        IResourceBuilder<AzureServiceBusResource> AzureServiceBus,
         AzureNoSqlDatabases AzureNoSqlDatabases,
-        AzureSqlDatabases AzureSqlDatabases,
-        AzureServiceBusQueues AzureServiceBusQueues);
+        AzureSqlDatabases AzureSqlDatabases);
 
     public record AzureNoSqlDatabases(
         IResourceBuilder<AzureCosmosDBDatabaseResource> LoggingDb,
@@ -24,35 +24,26 @@ public static class AzureInfraExtensions
         IResourceBuilder<AzureSqlDatabaseResource> PolicyDb,
         IResourceBuilder<AzureSqlDatabaseResource> OrderDb);
 
-    public record AzureServiceBusQueues(
-        IResourceBuilder<AzureServiceBusQueueResource> AuditorQueue,
-        IResourceBuilder<AzureServiceBusQueueResource> UserQueue,
-        IResourceBuilder<AzureServiceBusQueueResource> DocumentQueue,
-        IResourceBuilder<AzureServiceBusQueueResource> PolicyQueue,
-        IResourceBuilder<AzureServiceBusQueueResource> OrderQueue,
-        IResourceBuilder<AzureServiceBusQueueResource> BillingQueue,
-        IResourceBuilder<AzureServiceBusQueueResource> ConversationQueue);
-
     public static AzureResources AddAzureInfrastructure(
         this IDistributedApplicationBuilder builder)
     {
         // TODO: can we utilize configuration of infrastructure?
-        builder.AddAzureInfrastructure("infra", cfg =>
-        {
-        });
+        //builder.AddAzureInfrastructure("infra", cfg =>
+        //{
+        //});
 
         // TODO: add secrets
 
         var blobStorage = AddAzureBlobStorage(builder);
+        var serviceBus = AddAzureServiceBusQueues(builder);
         var noSqlDatabases = AddAzureNoSqlDatabases(builder);
         var sqlDatabases = AddAzureSqlDatabases(builder);
-        var serviceBusQueues = AddAzureServiceBusQueues(builder);
 
         return new AzureResources(
             blobStorage,
+            serviceBus,
             noSqlDatabases,
-            sqlDatabases,
-            serviceBusQueues);
+            sqlDatabases);
     }
 
     public static IResourceBuilder<AzureBlobStorageResource> AddAzureBlobStorage(
@@ -86,11 +77,13 @@ public static class AzureInfraExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             storage.RunAsEmulator(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Session));
+                cfg.WithLifetime(ContainerLifetime.Persistent));
         }
+        // TODO: PublishAsExisted???
 
         var blobsStorage = storage
             .AddBlobs(ApplicationReferences.BlobStorageResourceName);
+
         return blobsStorage;
     }
 
@@ -122,8 +115,9 @@ public static class AzureInfraExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             noSqlStorage = noSqlStorage.RunAsEmulator(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Session));
+                cfg.WithLifetime(ContainerLifetime.Persistent));
         }
+        // TODO: PublishAsExisted???
 
         var loggingDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.LoggingDbResourceName);
@@ -146,10 +140,10 @@ public static class AzureInfraExtensions
         // Azure resources.
         if (!builder.ExecutionContext.IsPublishMode)
         {
-            sqlStorage = sqlStorage
-                .RunAsContainer(cfg =>
-                    cfg.WithLifetime(ContainerLifetime.Session));
+            sqlStorage = sqlStorage.RunAsContainer(cfg =>
+                cfg.WithLifetime(ContainerLifetime.Persistent));
         }
+        // TODO: PublishAsExisted???
 
         var userDb = sqlStorage
             .AddDatabase(ApplicationReferences.UserDbResourceName);
@@ -161,7 +155,7 @@ public static class AzureInfraExtensions
         return new AzureSqlDatabases(userDb, policyDb, orderDb);
     }
 
-    public static AzureServiceBusQueues AddAzureServiceBusQueues(
+    public static IResourceBuilder<AzureServiceBusResource> AddAzureServiceBusQueues(
         IDistributedApplicationBuilder builder)
     {
         // Configuration for production environment which will be hosted on Azure.
@@ -184,38 +178,28 @@ public static class AzureInfraExtensions
                 serviceBusNamespace.Tags.Add("ExampleKey", "Example value");
             });
 
-
         // Configuration for other environments should support local execution via emulators of
         // Azure resources.
         if (!builder.ExecutionContext.IsPublishMode)
         {
             serviceBus = serviceBus.RunAsEmulator(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Session));
+                cfg.WithLifetime(ContainerLifetime.Persistent));
+        }
+        else
+        {
+            // TODO: PublishAsExisted???
+            serviceBus = serviceBus
+                .RunAsExisting(ApplicationReferences.ServiceBusResourceName, null);
         }
 
+        serviceBus.AddServiceBusQueue(ApplicationReferences.AuditorQueueResourceName);
+        serviceBus.AddServiceBusQueue(ApplicationReferences.UserQueueResourceName);
+        serviceBus.AddServiceBusQueue(ApplicationReferences.DocumentQueueResourceName);
+        serviceBus.AddServiceBusQueue(ApplicationReferences.PolicyQueueResourceName);
+        serviceBus.AddServiceBusQueue(ApplicationReferences.OrderQueueResourceName);
+        serviceBus.AddServiceBusQueue(ApplicationReferences.BillingQueueResourceName);
+        serviceBus.AddServiceBusQueue(ApplicationReferences.ConversationQueueResourceName);
 
-        var auditorQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.AuditorQueueResourceName);
-        var userQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.UserQueueResourceName);
-        var documentQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.DocumentQueueResourceName);
-        var policyQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.PolicyQueueResourceName);
-        var orderQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.OrderQueueResourceName);
-        var billingQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.BillingQueueResourceName);
-        var conversationQueue = serviceBus
-            .AddServiceBusQueue(ApplicationReferences.ConversationQueueResourceName);
-
-        return new AzureServiceBusQueues(
-            auditorQueue,
-            userQueue,
-            documentQueue,
-            policyQueue,
-            orderQueue,
-            billingQueue,
-            conversationQueue);
+        return serviceBus;
     }
 }

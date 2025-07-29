@@ -4,7 +4,13 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;Infra</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<OpenApiDocumentsDirectory>.</OpenApiDocumentsDirectory>
+		<OpenApiGenerateDocumentsOnBuild Condition="'$(Configuration)' == 'Infra'">true</OpenApiGenerateDocumentsOnBuild>
+		<OpenApiGenerateDocumentsOnBuild Condition="'$(Configuration)' != 'Infra'">false</OpenApiGenerateDocumentsOnBuild>
 		<OpenApiGenerateDocumentsOptions>--file-name api-gateway-api</OpenApiGenerateDocumentsOptions>
 	</PropertyGroup>
 
@@ -24,7 +30,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ApiGateway.Application\ApiGateway.Application.csproj" />
 		<ProjectReference Include="..\ApiGateway.Contracts\ApiGateway.Contracts.csproj" />
-		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

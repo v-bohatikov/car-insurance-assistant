@@ -1,6 +1,6 @@
 ﻿using DocumentProcessor.Contracts.Api;
 using DocumentProcessor.Infrastructure.Contracts.GetDocument;
-using Infrastructure.Abstractions;
+using Host.Infrastructure.Abstractions;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 

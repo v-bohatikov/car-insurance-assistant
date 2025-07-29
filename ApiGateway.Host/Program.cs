@@ -1,8 +1,8 @@
 using ApiGateway.Application.Consumers;
 using ApiGateway.Application.Services;
 using ApiGateway.Infrastructure.Abstractions;
-using Infrastructure.Extensions;
-using Infrastructure.Settings;
+using Host.Infrastructure.Extensions;
+using Host.Infrastructure.Settings;
 using UserProcessor.Contracts.ApiClient;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.Services.AddScoped<IQueryService, QueryService>();
+builder.AddServiceBusClient();
+builder.ConfigureServiceBusProducer();
+builder.AddUserQueueMessageSender();
 
-builder.AddConsumersFromNamespaceContaining<ConsumersIndicator>();
+builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
+
+builder.Services.AddScoped<IQueryService, QueryService>();
 
 builder.AddRefitApiClient<IUserApiClient>(ApplicationReferences.UserProcessorServiceName);
 
