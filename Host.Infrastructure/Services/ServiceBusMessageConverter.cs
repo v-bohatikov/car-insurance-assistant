@@ -17,20 +17,20 @@ public class ServiceBusMessageConverter : IServiceBusMessageConverter
         {
             ContentType = ContentType
         };
-        serviceBusMessage.ApplicationProperties.Add(MessageTypeKey, typeof(TMessage));
+        serviceBusMessage.ApplicationProperties.Add(MessageTypeKey, typeof(TMessage).FullName!);
 
         return serviceBusMessage;
     }
 
-    public Type GetReceivedMessageType(ServiceBusReceivedMessage message)
+    public string GetReceivedMessageTypeName(ServiceBusReceivedMessage message)
     {
-        if (!message.ApplicationProperties.TryGetValue(MessageTypeKey, out var messageType))
+        if (!message.ApplicationProperties.TryGetValue(MessageTypeKey, out var messageTypeName))
         {
             throw new ArgumentException(
                 "Unable to convert received message because of unexpected message format");
         }
 
-        return (messageType as Type)!;
+        return (messageTypeName as string)!;
     }
 
     public TMessage ToApplicationMessage<TMessage>(ServiceBusReceivedMessage message)

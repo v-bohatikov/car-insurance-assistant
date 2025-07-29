@@ -7,28 +7,28 @@ public class ServiceBusEndpointProvider(
     IServiceBusMessageConverter serviceBusMessageConverter)
     : IServiceBusEndpointProvider
 {
-    private readonly Dictionary<Type, IServiceBusEndpoint> _endpointsMap = new();
+    private readonly Dictionary<string, IServiceBusEndpoint> _endpointsMap = new();
 
     public void RegisterServiceBusEndpoint(IServiceBusEndpoint endpoint)
     {
-        var queueMessageType = endpoint.ExpectedMessageType;
+        var queueMessageTypeName = endpoint.ExpectedMessageTypeName;
         // ReSharper disable once CanSimplifyDictionaryLookupWithTryAdd
-        if (_endpointsMap.ContainsKey(queueMessageType))
+        if (_endpointsMap.ContainsKey(queueMessageTypeName))
         {
             return;
         }
 
-        _endpointsMap.Add(queueMessageType, endpoint);
+        _endpointsMap.Add(queueMessageTypeName, endpoint);
     }
 
     public IServiceBusEndpoint GetEndpointForReceivedMessage(ServiceBusReceivedMessage receivedMessage)
     {
-        var receivedMessageType = serviceBusMessageConverter.GetReceivedMessageType(receivedMessage);
+        var receivedMessageTypeName = serviceBusMessageConverter.GetReceivedMessageTypeName(receivedMessage);
 
-        if (!_endpointsMap.TryGetValue(receivedMessageType, out var serviceBusEndpoint))
+        if (!_endpointsMap.TryGetValue(receivedMessageTypeName, out var serviceBusEndpoint))
         {
             throw new InvalidOperationException(
-                $"Unable to get service bus endpoint for the {receivedMessageType} type");
+                $"Unable to get service bus endpoint for the {receivedMessageTypeName} type");
         }
 
         return serviceBusEndpoint;

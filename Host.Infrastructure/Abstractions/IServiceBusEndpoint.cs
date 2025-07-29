@@ -4,7 +4,7 @@ namespace Host.Infrastructure.Abstractions;
 
 public interface IServiceBusEndpoint
 {
-    Type ExpectedMessageType { get; }
+    string ExpectedMessageTypeName { get; }
 
     ValueTask Handle(
         ServiceBusReceivedMessage receivedMessage,

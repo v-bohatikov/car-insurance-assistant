@@ -12,7 +12,7 @@ public abstract class ServiceBusEndpointBase<TQueueMessage, TInnerRequest>(
     where TQueueMessage : class
     where TInnerRequest : class
 {
-    public Type ExpectedMessageType => typeof(TInnerRequest);
+    public string ExpectedMessageTypeName => typeof(TQueueMessage).FullName!;
 
     public async ValueTask Handle(
         ServiceBusReceivedMessage receivedMessage,

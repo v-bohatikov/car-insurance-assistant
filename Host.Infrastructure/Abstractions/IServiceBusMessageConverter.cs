@@ -7,7 +7,7 @@ public interface IServiceBusMessageConverter
     ServiceBusMessage ToServiceBusMessage<TMessage>(TMessage message)
         where TMessage : class;
 
-    Type GetReceivedMessageType(ServiceBusReceivedMessage message);
+    string GetReceivedMessageTypeName(ServiceBusReceivedMessage message);
 
     TMessage ToApplicationMessage<TMessage>(ServiceBusReceivedMessage message);
 }
