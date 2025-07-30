@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using SharedKernel.Results;
-using System.Text;
 
 namespace SharedKernel.Extensions;
 
@@ -21,27 +20,24 @@ public static class ValidationExtensions
         {
             var validationFailure = validationFailures.First();
             return Error.Validation(
-                "Validation.Failure",
+                validationFailure.ErrorCode,
                 validationFailure.ErrorMessage);
         }
 
         // Handle the case with multiple validation failures.
-        var validationDescription = new StringBuilder();
+        var validationErrors = new Error[validationFailures.Count];
         for (var i = 0; i < validationFailures.Count; i++)
         {
             var validationFailure = validationFailures[i];
-
-            if (i != 0)
-            {
-                validationDescription.AppendLine();
-            }
-
-            validationDescription.Append($"{validationFailure.ErrorCode} : {validationFailure.ErrorMessage}");
+            validationErrors[i] = Error.Validation(
+                validationFailure.ErrorCode,
+                validationFailure.ErrorMessage);
         }
 
-        return Error.Validation(
-            "Validation.Failures",
-            validationDescription.ToString());
+        return Error.Aggregate(
+            "Error.Validation",
+            "Validation failures",
+            validationErrors);
     }
 
     /// <summary>

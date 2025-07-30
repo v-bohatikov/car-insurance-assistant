@@ -1,4 +1,5 @@
 ﻿using SharedKernel;
+using SharedKernel.Enums;
 using SharedKernel.Results;
 using UserProcessor.Domain.Entities.Users.Requests;
 using UserProcessor.Domain.Entities.Users.Responses;
@@ -31,7 +32,7 @@ public sealed class User : Entity
         var validationResult = request.ValidateRequest();
         if (validationResult.IsFailure)
         {
-            return validationResult.ToGenericResult<CreateNewUserResponse>();
+            return validationResult.ToGenericFailureResult<CreateNewUserResponse>();
         }
 
         // TODO: temporary logic

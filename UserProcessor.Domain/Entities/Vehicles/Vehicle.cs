@@ -1,4 +1,5 @@
 ﻿using SharedKernel;
+using SharedKernel.Enums;
 using SharedKernel.Results;
 using UserProcessor.Domain.Entities.Vehicles.Requests;
 using UserProcessor.Domain.Entities.Vehicles.Responses;
@@ -51,7 +52,7 @@ public sealed class Vehicle : Entity
         var validationResult = registerNewVehicleRequest.ValidateRequest();
         if (validationResult.IsFailure)
         {
-            return validationResult.ToGenericResult<RegisterNewVehicleResponse>();
+            return validationResult.ToGenericFailureResult<RegisterNewVehicleResponse>();
         }
 
         // TODO:

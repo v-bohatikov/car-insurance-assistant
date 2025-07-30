@@ -1,0 +1,14 @@
+{
+  "openApiPath": "user-api.json",
+  "namespace": "UserProcessor.Contracts.ApiClient",
+  "outputFolder": "../UserProcessor.Contracts/ApiClient",
+  "outputFileName": "UserApiClient.cs",
+  "naming": {
+    "useOpenApiTitle": false,
+    "interfaceName": "UserApiClient"
+  },
+  "generateContracts": false,
+  "useCancellationTokens": true,
+  "returnIApiResponse": true,
+  "additionalNamespaces": [ "UserProcessor.Contracts.Api" ]
+}

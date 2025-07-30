@@ -1,0 +1,6 @@
+@UserProcessor_HostAddress = http://localhost:5075
+
+GET {{UserProcessor_HostAddress}}/api/v1/getUser?userId=1
+Accept: application/json
+
+###

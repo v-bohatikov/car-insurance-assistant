@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ConversationAdapter.Host | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/customer-actions/process": {
+      "get": {
+        "tags": [
+          "customer-actions"
+        ],
+        "operationId": "Process customer action",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerActionRequest": {
+        "required": [
+          "actionType",
+          "userId",
+          "commandType",
+          "phoneNumber",
+          "uploadedFilePath",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "actionType": {
+            "$ref": "#/components/schemas/CustomerActionType"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "commandType": {
+            "$ref": "#/components/schemas/NullableOfSystemCommandType"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedFilePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CustomerActionResponse": {
+        "required": [
+          "immediateResponse"
+        ],
+        "type": "object",
+        "properties": {
+          "immediateResponse": {
+            "type": "string"
+          }
+        }
+      },
+      "CustomerActionType": {
+        "type": "integer"
+      },
+      "NullableOfSystemCommandType": {
+        "type": "integer",
+        "nullable": true
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "customer-actions"
+    }
+  ]
+}

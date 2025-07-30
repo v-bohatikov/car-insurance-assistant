@@ -1,0 +1,14 @@
+{
+  "openApiPath": "conversation-adapter-api.json",
+  "namespace": "ConversationAdapter.Contracts.ApiClient",
+  "outputFolder": "../ConversationAdapter.Contracts/ApiClient",
+  "outputFileName": "ConversationAdapterApiClient.cs",
+  "naming": {
+    "useOpenApiTitle": false,
+    "interfaceName": "ConversationAdapterApiClient"
+  },
+  "generateContracts": false,
+  "useCancellationTokens": true,
+  "returnIApiResponse": true,
+  "additionalNamespaces": [ "ConversationAdapter.Contracts.Api" ]
+}

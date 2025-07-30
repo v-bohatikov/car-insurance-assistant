@@ -1,6 +1,0 @@
-@UserProcessor_HostAddress = http://localhost:5075
-
-GET {{UserProcessor_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
