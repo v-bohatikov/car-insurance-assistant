@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting.Testing" Version="9.4.0" />
+		<PackageReference Include="Aspire.Microsoft.Azure.Cosmos" Version="9.4.0" />
+		<PackageReference Include="Dapper" Version="2.1.66" />
+		<PackageReference Include="Extensions.Logging.NUnit" Version="1.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.7.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+		<PackageReference Include="Reqnroll.NUnit" Version="2.4.1" />
+		<PackageReference Include="NUnit" Version="4.3.2" />
+		<PackageReference Include="NUnit.Analyzers" Version="4.9.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ApiGateway.Contracts\ApiGateway.Contracts.csproj" />
+		<ProjectReference Include="..\AppHost\AppHost.csproj" />
+		<ProjectReference Include="..\Auditor.Contracts\Auditor.Contracts.csproj" />
+		<ProjectReference Include="..\BillingProcessor.Contracts\BillingProcessor.Contracts.csproj" />
+		<ProjectReference Include="..\ConversationAdapter.Contracts\ConversationAdapter.Contracts.csproj" />
+		<ProjectReference Include="..\DocumentProcessor.Contracts\DocumentProcessor.Contracts.csproj" />
+		<ProjectReference Include="..\OrderProcessor.Contracts\OrderProcessor.Contracts.csproj" />
+		<ProjectReference Include="..\PolicyProcessor.Contracts\PolicyProcessor.Contracts.csproj" />
+		<ProjectReference Include="..\UserProcessor.Contracts\UserProcessor.Contracts.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Net" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Aspire.Hosting.ApplicationModel" />
+		<Using Include="Aspire.Hosting.Testing" />
+		<Using Include="NUnit.Framework" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Drivers\" />
+	</ItemGroup>
+
+</Project>

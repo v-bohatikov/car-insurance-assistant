@@ -3,6 +3,7 @@ using Host.Infrastructure.Settings;
 using UserProcessor.Application.Consumers;
 using UserProcessor.Application.Services;
 using UserProcessor.Infrastructure.Abstractions;
+using UserProcessor.Repository;
 using UserProcessor.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-//builder.AddOrderDbContext<OrderDbContext>();
+//builder.AddUserDbContext<UserDbContext>();
 
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
@@ -20,7 +21,7 @@ builder.ConfigureServiceBusReceiver(ApplicationReferences.UserQueueResourceName)
 builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
-builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+//builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
 // Build a web application.
 var app = builder.Build();

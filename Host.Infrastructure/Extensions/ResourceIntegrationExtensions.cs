@@ -6,11 +6,22 @@ namespace Host.Infrastructure.Extensions;
 
 public static class ResourceIntegrationExtensions
 {
-    public static TBuilder AddBlobClient<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddServiceBusClient(
+        this IHostApplicationBuilder builder)
     {
 #if !INFRA
-        builder.AddAzureBlobClient(
+        builder.AddAzureServiceBusClient(ApplicationReferences.ServiceBusResourceName);
+#endif
+
+        return builder;
+    }
+
+
+    public static IHostApplicationBuilder AddBlobClient(
+        this IHostApplicationBuilder builder)
+    {
+#if !INFRA
+        builder.AddAzureBlobServiceClient(
             ApplicationReferences.BlobStorageResourceName);
 #endif
 
@@ -18,95 +29,76 @@ public static class ResourceIntegrationExtensions
     }
 
 
-    public static TBuilder AddUserDbContext<TBuilder, TDbContext>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddUserDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
         where TDbContext : DbContext
     {
-#if !INFRA
-        return builder.AddDbContext<TBuilder, TDbContext>(
+        return builder.AddDbContext<TDbContext>(
             ApplicationReferences.UserDbResourceName);
-#endif
-
-        return builder;
     }
 
-    public static TBuilder AddPolicyDbContext<TBuilder, TDbContext>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddPolicyDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
         where TDbContext : DbContext
     {
-#if !INFRA
-        builder.AddDbContext<TBuilder, TDbContext>(
+        return builder.AddDbContext<TDbContext>(
             ApplicationReferences.PolicyDbResourceName);
-#endif
-
-        return builder;
     }
 
-    public static TBuilder AddOrderDbContext<TBuilder, TDbContext>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddOrderDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
         where TDbContext : DbContext
     {
-#if !INFRA
-        builder.AddDbContext<TBuilder, TDbContext>(
+        return builder.AddDbContext<TDbContext>(
             ApplicationReferences.OrderDbResourceName);
-#endif
-
-        return builder;
     }
 
-    private static TBuilder AddDbContext<TBuilder, TDbContext>(
-        this TBuilder builder,
-        string dbResourceName)
-        where TBuilder : IHostApplicationBuilder
+    private static IHostApplicationBuilder AddDbContext<TDbContext>(
+        this IHostApplicationBuilder builder,
+        string dbResourceReference)
         where TDbContext : DbContext
     {
 #if !INFRA
-        builder.AddSqlServerDbContext<TDbContext>(dbResourceName);
+        builder.AddSqlServerDbContext<TDbContext>(dbResourceReference);
 #endif
 
         return builder;
     }
 
 
-    public static TBuilder AddLoggingDb<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddLoggingDb<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
     {
-#if !INFRA
-        builder.AddMongoDBClient(
+        return builder.AddNoSqlDbContext<TDbContext>(
             ApplicationReferences.LoggingDbResourceName);
-#endif
-
-        return builder;
     }
 
-    public static TBuilder AddAuditorDb<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddAuditorDb<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
     {
-#if !INFRA
-        builder.AddMongoDBClient(
+        return builder.AddNoSqlDbContext<TDbContext>(
             ApplicationReferences.AuditorDbResourceName);
-#endif
-
-        return builder;
     }
 
-    public static TBuilder AddConversationDb<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    public static IHostApplicationBuilder AddConversationDb<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
     {
-#if !INFRA
-        builder.AddMongoDBClient(
+        return builder.AddNoSqlDbContext<TDbContext>(
             ApplicationReferences.ConversationDbResourceName);
-#endif
-
-        return builder;
     }
 
-
-    public static TBuilder AddServiceBusClient<TBuilder>(this TBuilder builder)
-        where TBuilder : IHostApplicationBuilder
+    private static IHostApplicationBuilder AddNoSqlDbContext<TDbContext>(
+        this IHostApplicationBuilder builder,
+        string dbResourceReference)
+        where TDbContext : DbContext
     {
 #if !INFRA
-        builder.AddAzureServiceBusClient(ApplicationReferences.ServiceBusResourceName);
+        builder.AddCosmosDbContext<TDbContext>(
+            ApplicationReferences.NoSqlStorageResourceName,
+            dbResourceReference);
 #endif
 
         return builder;

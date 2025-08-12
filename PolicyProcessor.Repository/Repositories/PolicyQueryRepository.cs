@@ -2,7 +2,8 @@
 
 namespace PolicyProcessor.Repository.Repositories;
 
-public class PolicyQueryRepository : IPolicyQueryRepository
+public class PolicyQueryRepository(PolicyDbContext dbContext)
+    : IPolicyQueryRepository
 {
     
 }

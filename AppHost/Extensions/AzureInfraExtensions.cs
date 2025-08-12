@@ -2,6 +2,7 @@
 using Azure.Provisioning.CosmosDB;
 using Azure.Provisioning.ServiceBus;
 using Azure.Provisioning.Storage;
+using Host.Infrastructure.Extensions;
 using Host.Infrastructure.Settings;
 
 namespace AppHost.Extensions;
@@ -15,14 +16,20 @@ public static class AzureInfraExtensions
         AzureSqlDatabases AzureSqlDatabases);
 
     public record AzureNoSqlDatabases(
-        IResourceBuilder<AzureCosmosDBDatabaseResource> LoggingDb,
-        IResourceBuilder<AzureCosmosDBDatabaseResource> AuditorDb,
-        IResourceBuilder<AzureCosmosDBDatabaseResource> ConversationDb);
+        AzureNoSqlResource LoggingDb,
+        AzureNoSqlResource AuditorDb,
+        AzureNoSqlResource ConversationDb);
+
+    public record AzureNoSqlResource(
+        IResourceBuilder<AzureCosmosDBResource> CosmosDd,
+        IResourceBuilder<AzureCosmosDBDatabaseResource> Database,
+        IResourceBuilder<AzureCosmosDBContainerResource> Container);
 
     public record AzureSqlDatabases(
         IResourceBuilder<AzureSqlDatabaseResource> UserDb,
         IResourceBuilder<AzureSqlDatabaseResource> PolicyDb,
-        IResourceBuilder<AzureSqlDatabaseResource> OrderDb);
+        IResourceBuilder<AzureSqlDatabaseResource> OrderDb,
+        IResourceBuilder<AzureSqlDatabaseResource> DocumentDb);
 
     public static AzureResources AddAzureInfrastructure(
         this IDistributedApplicationBuilder builder)
@@ -77,7 +84,7 @@ public static class AzureInfraExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             storage.RunAsEmulator(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Persistent));
+                cfg.ConfigureLifetime(builder));
         }
         // TODO: PublishAsExisted???
 
@@ -99,8 +106,6 @@ public static class AzureInfraExtensions
                     .OfType<CosmosDBAccount>()
                     .Single();
 
-                // We are specifying MongoDb account to use Azure CosmosDB for MongoDB capabilities.
-                cosmosDbAccount.Kind = CosmosDBAccountKind.MongoDB;
                 cosmosDbAccount.ConsistencyPolicy = new()
                 {
                     DefaultConsistencyLevel = DefaultConsistencyLevel.Strong,
@@ -114,19 +119,43 @@ public static class AzureInfraExtensions
         // Azure resources.
         if (!builder.ExecutionContext.IsPublishMode)
         {
-            noSqlStorage = noSqlStorage.RunAsEmulator(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Persistent));
+            // TODO: we can try to use a preview with CosmosDb clients and throw out MongoDb api.
+            noSqlStorage = noSqlStorage.RunAsEmulator(cfg => cfg
+                .ConfigureLifetime(builder));
         }
         // TODO: PublishAsExisted???
 
         var loggingDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.LoggingDbResourceName);
+        var errorContainer = loggingDb
+            .AddContainer(ApplicationReferences.ErrorContainerResourceName, "/id");
+        var loggingResources = new AzureNoSqlResource(
+            noSqlStorage,
+            loggingDb,
+            errorContainer);
+
         var auditorDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.AuditorDbResourceName);
+        var eventContainer = auditorDb
+            .AddContainer(ApplicationReferences.EventsContainerResourceName, "/id");
+        var auditorResources = new AzureNoSqlResource(
+            noSqlStorage,
+            auditorDb,
+            eventContainer);
+
         var conversationDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.ConversationDbResourceName);
+        var conversationContainer = conversationDb
+            .AddContainer(ApplicationReferences.ConversationContainerResourceName, "/id");
+        var conversationResources = new AzureNoSqlResource(
+            noSqlStorage,
+            conversationDb,
+            conversationContainer);
 
-        return new AzureNoSqlDatabases(loggingDb, auditorDb, conversationDb);
+        return new AzureNoSqlDatabases(
+            loggingResources,
+            auditorResources,
+            conversationResources);
     }
 
     public static AzureSqlDatabases AddAzureSqlDatabases(
@@ -141,7 +170,7 @@ public static class AzureInfraExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             sqlStorage = sqlStorage.RunAsContainer(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Persistent));
+                cfg.ConfigureLifetime(builder));
         }
         // TODO: PublishAsExisted???
 
@@ -151,8 +180,14 @@ public static class AzureInfraExtensions
             .AddDatabase(ApplicationReferences.PolicyDbResourceName);
         var orderDb = sqlStorage
             .AddDatabase(ApplicationReferences.OrderDbResourceName);
+        var documentDb = sqlStorage
+            .AddDatabase(ApplicationReferences.DocumentDbResourceName);
 
-        return new AzureSqlDatabases(userDb, policyDb, orderDb);
+        return new AzureSqlDatabases(
+            userDb,
+            policyDb,
+            orderDb,
+            documentDb);
     }
 
     public static IResourceBuilder<AzureServiceBusResource> AddAzureServiceBusQueues(
@@ -183,7 +218,7 @@ public static class AzureInfraExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             serviceBus = serviceBus.RunAsEmulator(cfg =>
-                cfg.WithLifetime(ContainerLifetime.Persistent));
+                cfg.ConfigureLifetime(builder));
         }
         else
         {
@@ -201,5 +236,18 @@ public static class AzureInfraExtensions
         serviceBus.AddServiceBusQueue(ApplicationReferences.ConversationQueueResourceName);
 
         return serviceBus;
+    }
+
+    private static IResourceBuilder<TResource> ConfigureLifetime<TResource>(
+        this IResourceBuilder<TResource> resourceBuilder,
+        IDistributedApplicationBuilder applicationBuilder)
+        where TResource : ContainerResource
+    {
+        var lifetime = applicationBuilder.Environment.IsTesting()
+            ? ContainerLifetime.Session
+            : ContainerLifetime.Persistent;
+        resourceBuilder.WithLifetime(lifetime);
+
+        return resourceBuilder;
     }
 }

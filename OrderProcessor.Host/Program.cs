@@ -2,6 +2,7 @@ using Host.Infrastructure.Extensions;
 using OrderProcessor.Application.Consumers;
 using OrderProcessor.Application.Services;
 using OrderProcessor.Infrastructure.Abstractions;
+using OrderProcessor.Repository;
 using OrderProcessor.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,13 +12,14 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 //builder.AddOrderDbContext<OrderDbContext>();
+
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
 
 builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
 builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
-builder.Services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
+//builder.Services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
 
 // Build a web application.
 var app = builder.Build();

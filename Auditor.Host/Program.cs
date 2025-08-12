@@ -9,7 +9,7 @@ builder.AddServiceDefaults();
 builder.AddServiceBusClient();
 // TODO: add consumers
 
-builder.AddAuditorDb();
+//builder.AddAuditorDb();
 
 // Build a web application.
 var app = builder.Build();

@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.Application", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Infrastructure", "Application.Infrastructure\Application.Infrastructure.csproj", "{794FEB07-EF3E-4B55-8F48-A14E2E6EF81B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceptanceTests", "AcceptanceTests\AcceptanceTests.csproj", "{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -374,6 +376,12 @@ Global
 		{794FEB07-EF3E-4B55-8F48-A14E2E6EF81B}.Infra|Any CPU.Build.0 = Infra|Any CPU
 		{794FEB07-EF3E-4B55-8F48-A14E2E6EF81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{794FEB07-EF3E-4B55-8F48-A14E2E6EF81B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}.Infra|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}.Infra|Any CPU.Build.0 = Debug|Any CPU
+		{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DC25B0-EE84-48FA-AEC3-9E2B3179DE7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
