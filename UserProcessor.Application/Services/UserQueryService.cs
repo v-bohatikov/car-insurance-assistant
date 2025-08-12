@@ -7,8 +7,7 @@ using UserProcessor.Infrastructure.Contracts.GetVehicle;
 namespace UserProcessor.Application.Services;
 
 public class UserQueryService(
-    ILogger<UserQueryService> logger,
-    IUserQueryRepository repository)
+    ILogger<UserQueryService> logger)
     : IUserQueryService
 {
     public async ValueTask<Result<GetUserResponseDto>> GetUser(GetUserRequestDto request)

@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.AddConversationDb();
+//builder.AddConversationDb<>();
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
 

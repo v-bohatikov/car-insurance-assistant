@@ -11,49 +11,58 @@ var azureInfrastructure = builder.AddAzureInfrastructure();
 
 // Configure application services.
 builder.AddProject<Projects.ConversationAdapter_Host>(ApplicationReferences.ConversationalAdapterServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.ConversationDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.ConversationDb.Container)
     //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.ConversationDb)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 builder.AddProject<Projects.OrderProcessor_Host>(ApplicationReferences.OrderProcessorServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    //.WithReference(azureInfrastructure.AzureSqlDatabases.OrderDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.OrderDb)
     //.WaitFor(azureInfrastructure.AzureSqlDatabases.OrderDb)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 var userProcessor = builder.AddProject<Projects.UserProcessor_Host>(ApplicationReferences.UserProcessorServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    //.WithReference(azureInfrastructure.AzureSqlDatabases.UserDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.UserDb)
     //.WaitFor(azureInfrastructure.AzureSqlDatabases.UserDb)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 builder.AddProject<Projects.DocumentProcessor_Host>(ApplicationReferences.DocumentProcessorServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    //.WithReference(azureInfrastructure.AzureBlobStorage)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.DocumentDb)
+    //.WaitFor(azureInfrastructure.AzureSqlDatabases.DocumentDb)
+    .WithReference(azureInfrastructure.AzureBlobStorage)
     //.WaitFor(azureInfrastructure.AzureBlobStorage)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 builder.AddProject<Projects.PolicyProcessor_Host>(ApplicationReferences.PolicyProcessorServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    //.WithReference(azureInfrastructure.AzureSqlDatabases.PolicyDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.PolicyDb)
     //.WaitFor(azureInfrastructure.AzureSqlDatabases.PolicyDb)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 builder.AddProject<Projects.BillingProcessor_Host>(ApplicationReferences.BillingProcessorServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 builder.AddProject<Projects.Auditor_Host>(ApplicationReferences.AuditorServiceName)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb)
-    //.WithReference(azureInfrastructure.AzureNoSqlDatabases.AuditorDb)
-    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.AuditorDb)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureNoSqlDatabases.AuditorDb.Container)
+    //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.AuditorDb.Container)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 

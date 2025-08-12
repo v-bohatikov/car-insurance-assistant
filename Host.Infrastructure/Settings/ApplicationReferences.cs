@@ -27,9 +27,15 @@ public static class ApplicationReferences
     
     public static readonly string LoggingDbResourceName = "logging-db";
 
+    public static readonly string ErrorContainerResourceName = "errors";
+
     public static readonly string AuditorDbResourceName = "auditor-db";
 
+    public static readonly string EventsContainerResourceName = "events";
+
     public static readonly string ConversationDbResourceName = "conversation-db";
+
+    public static readonly string ConversationContainerResourceName = "conversations";
 
     // SQL databases.
     public static readonly string SqlStorageResourceName = "azure-sql";
@@ -39,6 +45,8 @@ public static class ApplicationReferences
     public static readonly string PolicyDbResourceName = "policy-db";
 
     public static readonly string OrderDbResourceName = "order-db";
+
+    public static readonly string DocumentDbResourceName = "document-db";
 
     // Messaging queues.
     public static readonly string ServiceBusResourceName = "azure-service-bus";

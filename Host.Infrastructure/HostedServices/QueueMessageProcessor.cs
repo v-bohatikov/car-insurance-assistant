@@ -5,13 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Host.Infrastructure.HostedServices;
 
-// TODO:
-// * implement basic functionality
-// * ensure tracing is working
-// * find a way to determine which consumer to send messages to
-// * maybe we need to add a custom attribute for sessions?
-//   * we can use plugins to enrich messages that we send(
-//     https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/samples/Sample09_Extensibility.md)
+// TODO: ensure tracing is working
 public class QueueMessageProcessor(
     ILogger<QueueMessageProcessor> logger,
     ServiceBusClient serviceBusClient,

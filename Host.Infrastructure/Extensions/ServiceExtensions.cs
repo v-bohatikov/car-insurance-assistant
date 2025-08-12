@@ -30,6 +30,8 @@ namespace Host.Infrastructure.Extensions;
 // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
 public static class ServiceExtensions
 {
+    private const string Testing = "Testing";
+
     public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
     {
         builder.ConfigureOpenTelemetry();
@@ -369,5 +371,10 @@ public static class ServiceExtensions
 #endif
 
         return app;
+    }
+
+    public static bool IsTesting(this IHostEnvironment environment)
+    {
+        return environment.IsEnvironment(Testing);
     }
 }
