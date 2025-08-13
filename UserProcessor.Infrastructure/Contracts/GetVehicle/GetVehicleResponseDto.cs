@@ -3,7 +3,7 @@
 namespace UserProcessor.Infrastructure.Contracts.GetVehicle;
 
 public record GetVehicleResponseDto(
-    long Id,
+    Ulid Id,
     VehicleStatus Status,
     string OwnerName,
     string VehicleName,

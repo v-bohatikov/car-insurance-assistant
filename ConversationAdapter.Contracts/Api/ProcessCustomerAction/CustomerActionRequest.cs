@@ -5,7 +5,7 @@ namespace ConversationAdapter.Contracts.Api;
 
 public record CustomerActionRequest(
     CustomerActionType ActionType,
-    long? UserId,
+    Ulid? UserId,
     SystemCommandType? CommandType,
     string? PhoneNumber,
     string? UploadedFilePath,

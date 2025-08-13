@@ -3,6 +3,6 @@
 namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record PassportDataApproved(
-    long UserId,
-    Guid FileId,
+    Ulid UserId,
+    Ulid FileId,
     PassportData PassportData);

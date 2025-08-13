@@ -3,6 +3,6 @@
 namespace DocumentProcessor.Contracts.Queue.Events;
 
 public record PassportFileProcessed(
-    long UserId,
-    Guid FileId,
+    Ulid UserId,
+    Ulid FileId,
     PassportData PassportData);

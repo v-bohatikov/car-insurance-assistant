@@ -3,5 +3,5 @@
 namespace OrderProcessor.Contracts.Queue.Events;
 
 public record OrderCreated(
-    long UserId,
+    Ulid UserId,
     Order Order);

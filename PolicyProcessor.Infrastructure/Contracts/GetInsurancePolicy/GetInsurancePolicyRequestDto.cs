@@ -3,5 +3,5 @@ using SharedKernel.Results;
 
 namespace PolicyProcessor.Infrastructure.Contracts.GetInsurancePolicy;
 
-public record GetInsurancePolicyRequestDto(long InsurancePolicyId)
+public record GetInsurancePolicyRequestDto(Ulid InsurancePolicyId)
     : Request<Result<GetInsurancePolicyResponseDto>>;

@@ -9,10 +9,10 @@ namespace UserProcessor.Domain.Entities.Vehicles;
 public sealed class Vehicle : Entity
 {
     public Vehicle(
-        long id,
-        long userId,
+        Ulid id,
+        Ulid userId,
         VehicleStatus status,
-        Guid fileId,
+        Ulid fileId,
         string ownerName,
         string vehicleName,
         string vehicleIdentificationNumber,
@@ -30,11 +30,11 @@ public sealed class Vehicle : Entity
         RegistrationNumber = registrationNumber;
     }
 
-    public long UserId { get; set; }
+    public Ulid UserId { get; set; }
 
     public VehicleStatus Status { get; set; }
 
-    public Guid FileId { get; set; }
+    public Ulid FileId { get; set; }
 
     public string OwnerName { get; set; }
 

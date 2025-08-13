@@ -5,9 +5,9 @@ namespace UserProcessor.Domain.Entities.Users;
 public sealed class UserPassport : Entity
 {
     private UserPassport(
-        long id,
-        long userId,
-        Guid fileId,
+        Ulid id,
+        Ulid userId,
+        Ulid fileId,
         string surname,
         string givenNames,
         string passportNumber,
@@ -24,9 +24,9 @@ public sealed class UserPassport : Entity
         DateOfBirth = dateOfBirth;
     }
 
-    public long UserId { get; set; }
+    public Ulid UserId { get; set; }
 
-    public Guid FileId { get; set; }
+    public Ulid FileId { get; set; }
 
     public string Surname { get; set; }
 

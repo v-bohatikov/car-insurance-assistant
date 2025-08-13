@@ -12,7 +12,7 @@ public class GetInsurancePlan
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : InsurancePlansEndpointGroup<long, GetInsurancePlanResponse>(logger)
+        : InsurancePlansEndpointGroup<Ulid, GetInsurancePlanResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -20,24 +20,24 @@ public class GetInsurancePlan
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<long, GetInsurancePlanResponse> Handler => _endpointHandler;
+        public override IEndpointHandler<Ulid, GetInsurancePlanResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
-            HandleEndpointRequestDelegate<long> requestHandler)
+            HandleEndpointRequestDelegate<Ulid> requestHandler)
         {
             return builder.MapGet(
-                "{id:long}",
-                ([FromRoute] long id, CancellationToken cancellationToken) =>
+                "{id}",
+                ([FromRoute] Ulid id, CancellationToken cancellationToken) =>
                     requestHandler(id, cancellationToken));
         }
 
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<long, GetInsurancePlanRequestDto, GetInsurancePlanResponse, GetInsurancePlanResponseDto>(logger, mediator)
+            : EndpointHandlerBase<Ulid, GetInsurancePlanRequestDto, GetInsurancePlanResponse, GetInsurancePlanResponseDto>(logger, mediator)
         {
-            public override GetInsurancePlanRequestDto MapRequest(long userId)
+            public override GetInsurancePlanRequestDto MapRequest(Ulid userId)
             {
                 return new GetInsurancePlanRequestDto(userId);
             }

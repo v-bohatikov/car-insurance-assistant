@@ -46,7 +46,7 @@ namespace OrderProcessor.Contracts.ApiClient
         /// </returns>
         [Headers("Accept: application/json, application/problem+json")]
         [Get("/api/v1/orders/{id}")]
-        Task<IApiResponse<GetOrderResponse>> GetOrderInfo(long id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<GetOrderResponse>> GetOrderInfo(Ulid id, CancellationToken cancellationToken = default);
 
 
     }

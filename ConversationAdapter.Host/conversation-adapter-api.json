@@ -83,9 +83,7 @@
             "$ref": "#/components/schemas/CustomerActionType"
           },
           "userId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "$ref": "#/components/schemas/NullableOfUlid"
           },
           "commandType": {
             "$ref": "#/components/schemas/NullableOfSystemCommandType"
@@ -120,6 +118,9 @@
       },
       "NullableOfSystemCommandType": {
         "type": "integer",
+        "nullable": true
+      },
+      "NullableOfUlid": {
         "nullable": true
       },
       "ProblemDetails": {

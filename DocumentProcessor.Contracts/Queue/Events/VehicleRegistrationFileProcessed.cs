@@ -3,6 +3,6 @@
 namespace DocumentProcessor.Contracts.Queue.Events;
 
 public record VehicleRegistrationFileProcessed(
-    long UserId,
-    Guid FileId,
+    Ulid UserId,
+    Ulid FileId,
     VehicleRegistrationData VehicleRegistrationData);

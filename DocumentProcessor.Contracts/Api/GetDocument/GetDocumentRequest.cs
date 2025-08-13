@@ -5,4 +5,4 @@ namespace DocumentProcessor.Contracts.Api;
 
 public record GetDocumentRequest(
     DocumentType DocumentType,
-    Guid FileId);
+    Ulid FileId);

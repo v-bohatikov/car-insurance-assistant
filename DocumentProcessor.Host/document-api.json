@@ -82,8 +82,7 @@
             "$ref": "#/components/schemas/DocumentType"
           },
           "fileId": {
-            "type": "string",
-            "format": "uuid"
+            "$ref": "#/components/schemas/Ulid"
           }
         }
       },
@@ -123,7 +122,8 @@
             "nullable": true
           }
         }
-      }
+      },
+      "Ulid": { }
     }
   },
   "tags": [

@@ -12,7 +12,7 @@ public class GetUser
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : UsersEndpointGroup<long, GetUserResponse>(logger)
+        : UsersEndpointGroup<Ulid, GetUserResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -20,24 +20,24 @@ public class GetUser
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<long, GetUserResponse> Handler => _endpointHandler;
+        public override IEndpointHandler<Ulid, GetUserResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
-            HandleEndpointRequestDelegate<long> requestHandler)
+            HandleEndpointRequestDelegate<Ulid> requestHandler)
         {
             return builder.MapGet(
-                "{id:long}",
-                ([FromRoute] long id, CancellationToken cancellationToken) =>
+                "{id}",
+                ([FromRoute] Ulid id, CancellationToken cancellationToken) =>
                     requestHandler(id, cancellationToken));
         }
 
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<long, GetUserRequestDto, GetUserResponse, GetUserResponseDto>(logger, mediator)
+            : EndpointHandlerBase<Ulid, GetUserRequestDto, GetUserResponse, GetUserResponseDto>(logger, mediator)
         {
-            public override GetUserRequestDto MapRequest(long userId)
+            public override GetUserRequestDto MapRequest(Ulid userId)
             {
                 return new GetUserRequestDto(userId);
             }

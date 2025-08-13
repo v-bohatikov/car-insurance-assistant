@@ -3,8 +3,8 @@
 namespace PolicyProcessor.Contracts.Models;
 
 public record InsurancePolicy(
-    long Id,
+    Ulid Id,
     InsurancePolicyStatus Status,
-    long UserId,
-    long VehicleId,
+    Ulid UserId,
+    Ulid VehicleId,
     InsurancePlan InsurancePlan);

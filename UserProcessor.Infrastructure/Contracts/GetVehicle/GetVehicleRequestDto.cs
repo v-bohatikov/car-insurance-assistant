@@ -4,6 +4,6 @@ using SharedKernel.Results;
 namespace UserProcessor.Infrastructure.Contracts.GetVehicle;
 
 public record GetVehicleRequestDto(
-    long UserId,
-    long VehicleId)
+    Ulid UserId,
+    Ulid VehicleId)
     : Request<Result<GetVehicleResponseDto>>;

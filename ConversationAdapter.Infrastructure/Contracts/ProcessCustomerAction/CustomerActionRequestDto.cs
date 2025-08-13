@@ -6,7 +6,7 @@ namespace ConversationAdapter.Infrastructure.Contracts.ProcessCustomerAction;
 
 public record CustomerActionRequestDto(
     CustomerActionType ActionType,
-    long? UserId,
+    Ulid? UserId,
     SystemCommandType? CommandType,
     string? PhoneNumber,
     string? UploadedFilePath,

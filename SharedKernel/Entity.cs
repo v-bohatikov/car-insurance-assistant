@@ -2,10 +2,10 @@
 
 public class Entity
 {
-    protected Entity(long id)
+    protected Entity(Ulid id)
     {
         Id = id;
     }
 
-    public long Id { get; set; }
+    public Ulid Id { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OrderProcessor.Contracts.Queue.Events;
 
 public record OrderFailed(
-    long UserId,
-    long OrderId,
+    Ulid UserId,
+    Ulid OrderId,
     string Reasoning);

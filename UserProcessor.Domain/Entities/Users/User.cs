@@ -9,7 +9,7 @@ namespace UserProcessor.Domain.Entities.Users;
 public sealed class User : Entity
 {
     private User(
-        long id,
+        Ulid id,
         UserStatus status,
         string phoneNumber,
         UserPassport? passport)
@@ -37,7 +37,7 @@ public sealed class User : Entity
 
         // TODO: temporary logic
         var newUser = new User(
-            -1,
+            Ulid.NewUlid(), 
             UserStatus.Created,
             request.PhoneNumber,
             null);

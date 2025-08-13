@@ -3,5 +3,5 @@
 namespace PolicyProcessor.Contracts.Queue.Events;
 
 public record InsurancePolicyCreated(
-    long UserId,
+    Ulid UserId,
     InsurancePolicy InsurancePolicy);

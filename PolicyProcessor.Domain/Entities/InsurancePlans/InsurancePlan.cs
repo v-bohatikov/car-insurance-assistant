@@ -5,12 +5,12 @@ namespace PolicyProcessor.Domain.Entities.InsurancePlans;
 public sealed class InsurancePlan : Entity
 {
     private InsurancePlan(
-        long id,
+        Ulid id,
         string name,
         decimal price,
         string priceReasoning,
         int lifetimeInDays,
-        Guid policyTemplateFileId) : base(id)
+        Ulid policyTemplateFileId) : base(id)
     {
         Name = name;
         Price = price;
@@ -27,5 +27,5 @@ public sealed class InsurancePlan : Entity
 
     public int LifetimeInDays { get; set; }
 
-    public Guid PolicyTemplateFileId { get; set; }
+    public Ulid PolicyTemplateFileId { get; set; }
 }

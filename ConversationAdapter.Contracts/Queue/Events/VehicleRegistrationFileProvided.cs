@@ -1,5 +1,5 @@
 ﻿namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record VehicleRegistrationFileProvided(
-    long UserId,
+    Ulid UserId,
     string UploadedFilePath);

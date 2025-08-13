@@ -1,3 +1,3 @@
 ﻿namespace DocumentProcessor.Contracts.Queue.Events;
 
-public record PassportFileProcessingFailed(long UserId);
+public record PassportFileProcessingFailed(Ulid UserId);

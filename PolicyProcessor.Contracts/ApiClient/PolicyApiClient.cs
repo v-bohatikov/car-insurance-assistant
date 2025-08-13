@@ -46,7 +46,7 @@ namespace PolicyProcessor.Contracts.ApiClient
         /// </returns>
         [Headers("Accept: application/json, application/problem+json")]
         [Get("/api/v1/insurance/policies/{id}")]
-        Task<IApiResponse<GetInsurancePolicyResponse>> GetInsurancePolicyInfo(long id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<GetInsurancePolicyResponse>> GetInsurancePolicyInfo(Ulid id, CancellationToken cancellationToken = default);
 
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
@@ -75,7 +75,7 @@ namespace PolicyProcessor.Contracts.ApiClient
         /// </returns>
         [Headers("Accept: application/json, application/problem+json")]
         [Get("/api/v1/insurance/plans/{id}")]
-        Task<IApiResponse<GetInsurancePlanResponse>> GetInsurancePlanInfo(long id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<GetInsurancePlanResponse>> GetInsurancePlanInfo(Ulid id, CancellationToken cancellationToken = default);
 
 
     }

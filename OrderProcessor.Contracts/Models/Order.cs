@@ -3,8 +3,8 @@
 namespace OrderProcessor.Contracts.Models;
 
 public record Order(
-    long Id,
+    Ulid Id,
     OrderStatus Status,
-    long UserId,
-    long VehicleId,
-    long InsurancePlanId);
+    Ulid UserId,
+    Ulid VehicleId,
+    Ulid InsurancePlanId);

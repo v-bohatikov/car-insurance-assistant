@@ -27,8 +27,8 @@ namespace UserProcessor.Host.Features.GetVehicle
                 HandleEndpointRequestDelegate<GetVehicleRequest> requestHandler)
             {
                 return builder.MapGet(
-                    "{userId:long}/vehicles/{vehicleId:long}",
-                    ([FromRoute] long userId, [FromRoute] long vehicleId, CancellationToken cancellationToken) =>
+                    "{userId}/vehicles/{vehicleId}",
+                    ([FromRoute] Ulid userId, [FromRoute] Ulid vehicleId, CancellationToken cancellationToken) =>
                         requestHandler(new GetVehicleRequest(userId, vehicleId), cancellationToken));
             }
 

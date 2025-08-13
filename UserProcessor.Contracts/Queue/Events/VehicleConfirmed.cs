@@ -3,5 +3,5 @@
 namespace UserProcessor.Contracts.Queue.Events;
 
 public record VehicleConfirmed(
-    long UserId,
+    Ulid UserId,
     Vehicle Vehicle);

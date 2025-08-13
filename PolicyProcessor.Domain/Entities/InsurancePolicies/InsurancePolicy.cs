@@ -7,12 +7,12 @@ namespace PolicyProcessor.Domain.Entities.InsurancePolicies;
 public sealed class InsurancePolicy : Entity
 {
     private InsurancePolicy(
-        long id,
+        Ulid id,
         InsurancePolicyStatus status,
-        long userId,
-        long vehicleId,
+        Ulid userId,
+        Ulid vehicleId,
         InsurancePlan insurancePlan,
-        Guid? policyFileId,
+        Ulid? policyFileId,
         DateOnly? issuedOn,
         DateOnly? expiredAt,
         string? failureReasoning)
@@ -30,13 +30,13 @@ public sealed class InsurancePolicy : Entity
 
     public InsurancePolicyStatus Status { get; set; }
 
-    public long UserId { get; set; }
+    public Ulid UserId { get; set; }
 
-    public long VehicleId { get; set; }
+    public Ulid VehicleId { get; set; }
 
     public InsurancePlan InsurancePlan { get; set; }
 
-    public Guid? PolicyFileId { get; set; }
+    public Ulid? PolicyFileId { get; set; }
 
     public DateOnly? IssuedOn { get; set; }
 

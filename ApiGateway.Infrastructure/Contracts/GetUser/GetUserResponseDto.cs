@@ -4,7 +4,7 @@ using SharedKernel.Enums;
 namespace ApiGateway.Infrastructure.Contracts.GetUser;
 
 public record GetUserResponseDto(
-    long Id,
+    Ulid Id,
     UserStatus Status,
     string PhoneNumber,
     UserPassportDto? Passport);

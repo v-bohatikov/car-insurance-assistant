@@ -6,5 +6,5 @@ namespace DocumentProcessor.Infrastructure.Contracts.GetDocument;
 
 public record GetDocumentRequestDto(
     DocumentType DocumentType,
-    Guid FileId)
+    Ulid FileId)
     : Request<Result<GetDocumentResponseDto>>;

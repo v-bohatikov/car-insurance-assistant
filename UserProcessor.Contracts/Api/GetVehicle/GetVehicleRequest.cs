@@ -2,5 +2,5 @@
 namespace UserProcessor.Contracts.Api;
 
 public record GetVehicleRequest(
-    long UserId,
-    long VehicleId);
+    Ulid UserId,
+    Ulid VehicleId);
