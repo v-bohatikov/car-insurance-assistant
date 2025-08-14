@@ -5,22 +5,20 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/v1/documents/get": {
+    "/api/v1/documents/{id}": {
       "get": {
         "tags": [
           "documents"
         ],
         "operationId": "Get document",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetDocumentRequest"
-              }
-            }
-          },
-          "required": true
-        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -68,24 +66,6 @@
   },
   "components": {
     "schemas": {
-      "DocumentType": {
-        "type": "integer"
-      },
-      "GetDocumentRequest": {
-        "required": [
-          "documentType",
-          "fileId"
-        ],
-        "type": "object",
-        "properties": {
-          "documentType": {
-            "$ref": "#/components/schemas/DocumentType"
-          },
-          "fileId": {
-            "$ref": "#/components/schemas/Ulid"
-          }
-        }
-      },
       "GetDocumentResponse": {
         "required": [
           "documentUrl"
@@ -122,8 +102,7 @@
             "nullable": true
           }
         }
-      },
-      "Ulid": { }
+      }
     }
   },
   "tags": [

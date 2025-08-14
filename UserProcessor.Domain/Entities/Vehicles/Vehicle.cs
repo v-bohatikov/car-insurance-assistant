@@ -8,11 +8,11 @@ namespace UserProcessor.Domain.Entities.Vehicles;
 
 public sealed class Vehicle : Entity
 {
-    public Vehicle(
+    private Vehicle(
         Ulid id,
         Ulid userId,
         VehicleStatus status,
-        Ulid fileId,
+        Ulid documentId,
         string ownerName,
         string vehicleName,
         string vehicleIdentificationNumber,
@@ -22,7 +22,7 @@ public sealed class Vehicle : Entity
     {
         UserId = userId;
         Status = status;
-        FileId = fileId;
+        DocumentId = documentId;
         OwnerName = ownerName;
         VehicleName = vehicleName;
         VehicleIdentificationNumber = vehicleIdentificationNumber;
@@ -30,21 +30,21 @@ public sealed class Vehicle : Entity
         RegistrationNumber = registrationNumber;
     }
 
-    public Ulid UserId { get; set; }
+    public Ulid UserId { get; }
 
-    public VehicleStatus Status { get; set; }
+    public VehicleStatus Status { get; private set; }
 
-    public Ulid FileId { get; set; }
+    public Ulid DocumentId { get; }
 
-    public string OwnerName { get; set; }
+    public string OwnerName { get; }
 
-    public string VehicleName { get; set; }
+    public string VehicleName { get; }
 
-    public string VehicleIdentificationNumber { get; set; }
+    public string VehicleIdentificationNumber { get; }
 
-    public string PlateNumber { get; set; }
+    public string PlateNumber { get; }
 
-    public string RegistrationNumber { get; set; }
+    public string RegistrationNumber { get; }
 
     public static Result<RegisterNewVehicleResponse> RegisterNewVehicle(RegisterNewVehicleRequest registerNewVehicleRequest)
     {

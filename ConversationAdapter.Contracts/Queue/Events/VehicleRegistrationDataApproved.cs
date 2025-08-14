@@ -4,5 +4,5 @@ namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record VehicleRegistrationDataApproved(
     Ulid UserId,
-    Ulid FileId,
+    Ulid DocumentId,
     VehicleRegistrationData VehicleRegistrationData);

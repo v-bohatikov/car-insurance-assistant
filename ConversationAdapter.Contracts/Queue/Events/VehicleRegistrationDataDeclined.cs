@@ -2,4 +2,4 @@
 
 public record VehicleRegistrationDataDeclined(
     Ulid UserId,
-    Ulid FileId);
+    Ulid DocumentId);

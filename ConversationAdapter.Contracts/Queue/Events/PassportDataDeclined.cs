@@ -2,4 +2,4 @@
 
 public record PassportDataDeclined(
     Ulid UserId,
-    Ulid FileId);
+    Ulid DocumentId);

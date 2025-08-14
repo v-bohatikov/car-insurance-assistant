@@ -29,7 +29,8 @@ public static class AzureInfraExtensions
         IResourceBuilder<AzureSqlDatabaseResource> UserDb,
         IResourceBuilder<AzureSqlDatabaseResource> PolicyDb,
         IResourceBuilder<AzureSqlDatabaseResource> OrderDb,
-        IResourceBuilder<AzureSqlDatabaseResource> DocumentDb);
+        IResourceBuilder<AzureSqlDatabaseResource> DocumentDb,
+        IResourceBuilder<AzureSqlDatabaseResource> BillingDb);
 
     public static AzureResources AddAzureInfrastructure(
         this IDistributedApplicationBuilder builder)
@@ -182,12 +183,15 @@ public static class AzureInfraExtensions
             .AddDatabase(ApplicationReferences.OrderDbResourceName);
         var documentDb = sqlStorage
             .AddDatabase(ApplicationReferences.DocumentDbResourceName);
+        var billingDb = sqlStorage
+            .AddDatabase(ApplicationReferences.BillingDbResourceName);
 
         return new AzureSqlDatabases(
             userDb,
             policyDb,
             orderDb,
-            documentDb);
+            documentDb,
+            billingDb);
     }
 
     public static IResourceBuilder<AzureServiceBusResource> AddAzureServiceBusQueues(

@@ -3,4 +3,4 @@
 public record InsurancePolicyFileGenerated(
     Ulid UserId,
     Ulid InsurancePolicyId,
-    Ulid InsurancePolicyFileId);
+    Ulid InsurancePolicyDocumentId);

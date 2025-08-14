@@ -11,32 +11,26 @@ public sealed class InsurancePolicy : Entity
         InsurancePolicyStatus status,
         Ulid userId,
         Ulid vehicleId,
-        InsurancePlan insurancePlan,
-        Ulid? policyFileId,
-        DateOnly? issuedOn,
-        DateOnly? expiredAt,
-        string? failureReasoning)
+        Ulid insurancePlanId)
         : base(id)
     {
         Status = status;
         UserId = userId;
         VehicleId = vehicleId;
-        InsurancePlan = insurancePlan;
-        PolicyFileId = policyFileId;
-        IssuedOn = issuedOn;
-        ExpiredAt = expiredAt;
-        FailureReasoning = failureReasoning;
+        InsurancePlanId = insurancePlanId;
     }
 
-    public InsurancePolicyStatus Status { get; set; }
+    public InsurancePolicyStatus Status { get; private set; }
 
-    public Ulid UserId { get; set; }
+    public Ulid UserId { get; }
 
-    public Ulid VehicleId { get; set; }
+    public Ulid VehicleId { get; }
 
-    public InsurancePlan InsurancePlan { get; set; }
+    public Ulid InsurancePlanId { get; }
 
-    public Ulid? PolicyFileId { get; set; }
+    public InsurancePlan InsurancePlan { get; set; } = null!;
+
+    public Ulid? PolicyDocumentId { get; set; }
 
     public DateOnly? IssuedOn { get; set; }
 

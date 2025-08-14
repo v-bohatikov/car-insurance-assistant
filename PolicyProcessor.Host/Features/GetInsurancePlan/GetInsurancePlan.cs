@@ -50,7 +50,7 @@ public class GetInsurancePlan
                     responseDto.Price,
                     responseDto.PriceReasoning,
                     responseDto.LifetimeInDays,
-                    responseDto.PolicyTemplateFileId);
+                    responseDto.PolicyTemplateDocumentId);
                 return new GetInsurancePlanResponse(insurancePlan);
             }
         }

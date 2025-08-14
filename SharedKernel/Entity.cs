@@ -7,5 +7,5 @@ public class Entity
         Id = id;
     }
 
-    public Ulid Id { get; set; }
+    public Ulid Id { get; private set; }
 }

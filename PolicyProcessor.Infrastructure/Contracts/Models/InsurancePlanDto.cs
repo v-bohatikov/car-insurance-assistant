@@ -6,4 +6,4 @@ public record InsurancePlanDto(
     decimal Price,
     string PriceReasoning,
     int LifetimeInDays,
-    Ulid PolicyTemplateFileId);
+    Ulid PolicyTemplateDocumentId);

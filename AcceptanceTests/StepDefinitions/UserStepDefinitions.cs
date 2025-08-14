@@ -1,4 +1,6 @@
-﻿namespace AcceptanceTests.StepDefinitions;
+﻿using Humanizer;
+
+namespace AcceptanceTests.StepDefinitions;
 
 [Binding]
 public class UserStepDefinitions(
@@ -97,8 +99,8 @@ public class UserStepDefinitions(
         throw new PendingStepException();
     }
 
-    [Given("vehicle is registered on this user")]
-    public void GivenVehicleIsRegisteredOnThisUser()
+    [Given("vehicle registration is being issued to the user")]
+    public void GivenVehicleRegistrationIsBeingIssuedToTheUser()
     {
         throw new PendingStepException();
     }

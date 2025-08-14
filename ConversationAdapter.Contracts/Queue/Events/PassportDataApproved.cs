@@ -4,5 +4,5 @@ namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record PassportDataApproved(
     Ulid UserId,
-    Ulid FileId,
+    Ulid DocumentId,
     PassportData PassportData);

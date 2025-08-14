@@ -3,7 +3,7 @@
 public record UserPassportDto(
     Ulid Id,
     Ulid UserId,
-    Ulid FileId,
+    Ulid DocumentId,
     string Surname,
     string GivenNames,
     string PassportNumber,

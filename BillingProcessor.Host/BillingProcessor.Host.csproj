@@ -25,6 +25,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BillingProcessor.Application\BillingProcessor.Application.csproj" />
+	  <ProjectReference Include="..\BillingProcessor.Contracts\BillingProcessor.Contracts.csproj" />
+	  <ProjectReference Include="..\BillingProcessor.Repository\BillingProcessor.Repository.csproj" />
 	  <ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" />
 	</ItemGroup>
 

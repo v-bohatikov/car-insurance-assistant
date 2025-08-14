@@ -157,7 +157,7 @@
           "price",
           "priceReasoning",
           "lifetimeInDays",
-          "policyTemplateFileId"
+          "policyTemplateDocumentId"
         ],
         "type": "object",
         "properties": {
@@ -178,7 +178,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "policyTemplateFileId": {
+          "policyTemplateDocumentId": {
             "$ref": "#/components/schemas/Ulid"
           }
         }

@@ -63,7 +63,9 @@ public static class TestServiceProviderFactory
             ApplicationReferences.PolicyProcessorServiceName);
         // TODO: do we need to add an api client for ApiGateway?
 
-        // Add db contexts for accessing Azure SQL databases.
+        // Add Dapper db clients for accessing Azure SQL databases.
+        Dapper.SqlMapper.AddTypeHandler(new UlidToStringTypeHandler());
+
         await AddSqlDbClient<UserDbClient>(
             serviceCollection,
             application,
@@ -84,6 +86,11 @@ public static class TestServiceProviderFactory
             application,
             ApplicationReferences.DocumentDbResourceName,
             connectionString => new DocumentDbClient(connectionString));
+        await AddSqlDbClient<BillingDbClient>(
+            serviceCollection,
+            application,
+            ApplicationReferences.BillingDbResourceName,
+            connectionString => new BillingDbClient(connectionString));
 
         return serviceCollection.BuildServiceProvider();
     }

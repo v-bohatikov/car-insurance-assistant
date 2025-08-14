@@ -4,5 +4,5 @@ namespace DocumentProcessor.Contracts.Queue.Events;
 
 public record VehicleRegistrationFileProcessed(
     Ulid UserId,
-    Ulid FileId,
+    Ulid DocumentId,
     VehicleRegistrationData VehicleRegistrationData);

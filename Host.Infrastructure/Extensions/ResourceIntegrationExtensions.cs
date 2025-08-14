@@ -53,6 +53,22 @@ public static class ResourceIntegrationExtensions
             ApplicationReferences.OrderDbResourceName);
     }
 
+    public static IHostApplicationBuilder AddDocumentDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
+    {
+        return builder.AddDbContext<TDbContext>(
+            ApplicationReferences.DocumentDbResourceName);
+    }
+
+    public static IHostApplicationBuilder AddBillingDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
+    {
+        return builder.AddDbContext<TDbContext>(
+            ApplicationReferences.BillingDbResourceName);
+    }
+
     private static IHostApplicationBuilder AddDbContext<TDbContext>(
         this IHostApplicationBuilder builder,
         string dbResourceReference)

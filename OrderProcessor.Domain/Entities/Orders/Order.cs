@@ -10,24 +10,22 @@ public sealed class Order : Entity
         OrderStatus status,
         Ulid userId,
         Ulid vehicleId,
-        Ulid insurancePlanId,
-        string? failureReasoning)
+        Ulid insurancePlanId)
         : base(id)
     {
         Status = status;
         UserId = userId;
         VehicleId = vehicleId;
         InsurancePlanId = insurancePlanId;
-        FailureReasoning = failureReasoning;
     }
 
-    public OrderStatus Status { get; set; }
+    public OrderStatus Status { get; private set; }
     
-    public Ulid UserId { get; set; }
+    public Ulid UserId { get; }
     
-    public Ulid VehicleId { get; set; }
+    public Ulid VehicleId { get; }
     
-    public Ulid InsurancePlanId { get; set; }
+    public Ulid InsurancePlanId { get; }
     
-    public string? FailureReasoning { get; set; }
+    public string? FailureReasoning { get; private set; }
 }

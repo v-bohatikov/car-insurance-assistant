@@ -131,7 +131,7 @@ this.ScenarioInitialize(scenarioInfo);
  await testRunner.GivenAsync("user is confirmed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
- await testRunner.AndAsync("vehicle is registered on this user", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("vehicle registration is being issued to the user", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 9
  await testRunner.WhenAsync("vehicle registration is being provided", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

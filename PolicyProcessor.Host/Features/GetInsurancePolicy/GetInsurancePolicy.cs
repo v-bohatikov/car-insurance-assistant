@@ -51,7 +51,7 @@ public class GetInsurancePolicy
                     insurancePlanDto.Price,
                     insurancePlanDto.PriceReasoning,
                     insurancePlanDto.LifetimeInDays,
-                    insurancePlanDto.PolicyTemplateFileId);
+                    insurancePlanDto.PolicyTemplateDocumentId);
 
                 var insurancePolicy = new InsurancePolicy(
                     responseDto.Id,

@@ -11,7 +11,7 @@ public class GetDocument
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : DocumentsEndpointGroup<GetDocumentRequest, GetDocumentResponse>(logger)
+        : DocumentsEndpointGroup<Ulid, GetDocumentResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -19,27 +19,26 @@ public class GetDocument
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<GetDocumentRequest, GetDocumentResponse> Handler => _endpointHandler;
+        public override IEndpointHandler<Ulid, GetDocumentResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
-            HandleEndpointRequestDelegate<GetDocumentRequest> requestHandler)
+            HandleEndpointRequestDelegate<Ulid> requestHandler)
         {
             return builder.MapGet(
-                "get",
-                ([FromBody] GetDocumentRequest request, CancellationToken cancellationToken) => requestHandler(request, cancellationToken));
+                "{id}",
+                ([FromRoute] Ulid id, CancellationToken cancellationToken) =>
+                    requestHandler(id, cancellationToken));
         }
 
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<GetDocumentRequest, GetDocumentRequestDto, GetDocumentResponse, GetDocumentResponseDto>(logger, mediator)
+            : EndpointHandlerBase<Ulid, GetDocumentRequestDto, GetDocumentResponse, GetDocumentResponseDto>(logger, mediator)
         {
-            public override GetDocumentRequestDto MapRequest(GetDocumentRequest request)
+            public override GetDocumentRequestDto MapRequest(Ulid documentId)
             {
-                return new GetDocumentRequestDto(
-                    request.DocumentType,
-                    request.FileId);
+                return new GetDocumentRequestDto(documentId);
             }
 
             public override GetDocumentResponse MapResponse(GetDocumentResponseDto responseDto)

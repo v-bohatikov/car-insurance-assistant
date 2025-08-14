@@ -55,6 +55,8 @@ builder.AddProject<Projects.PolicyProcessor_Host>(ApplicationReferences.PolicyPr
 builder.AddProject<Projects.BillingProcessor_Host>(ApplicationReferences.BillingProcessorServiceName)
     .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
     //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
+    .WithReference(azureInfrastructure.AzureSqlDatabases.BillingDb)
+    //.WaitFor(azureInfrastructure.AzureSqlDatabases.BillingDb)
     .WithReference(azureInfrastructure.AzureServiceBus)
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
