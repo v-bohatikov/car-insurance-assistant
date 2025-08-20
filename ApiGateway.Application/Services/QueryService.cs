@@ -1,18 +1,26 @@
 ﻿using ApiGateway.Infrastructure.Abstractions;
+using ApiGateway.Infrastructure.Contracts.GetInsurancePlan;
 using ApiGateway.Infrastructure.Contracts.GetUser;
 using ApiGateway.Infrastructure.Contracts.Models;
 using Application.Infrastructure.Abstractions;
+using PolicyProcessor.Contracts.ApiClient;
 using SharedKernel.Results;
 using UserProcessor.Contracts.ApiClient;
 
 namespace ApiGateway.Application.Services;
 
-public class QueryService(IRefitClientDecorator<IUserApiClient> userApiClient) : IQueryService
+public class QueryService(
+    IRefitClientDecorator<IUserApiClient> userApiClient,
+    IRefitClientDecorator<IPolicyApiClient> policyApiClient)
+    : IQueryService
 {
-    public async ValueTask<Result<GetUserResponseDto>> GetUser(GetUserRequestDto request)
+    public async ValueTask<Result<GetUserResponseDto>> GetUserAsync(
+        GetUserRequestDto request,
+        CancellationToken cancellationToken)
     {
-        var handleResult = await userApiClient.ExecuteAsync(ct =>
-            userApiClient.Client.GetUserInfo(request.UserId, ct));
+        var handleResult = await userApiClient.ExecuteAsync(
+            ct => userApiClient.Client.GetUserInfo(request.UserId, ct),
+            cancellationToken);
         if (!handleResult.IsSuccessful)
         {
             return handleResult.ToGenericFailureResult<GetUserResponseDto>();
@@ -37,5 +45,29 @@ public class QueryService(IRefitClientDecorator<IUserApiClient> userApiClient) :
             userPassportDto);
 
         return Result.Success(responseDto);
+    }
+
+
+    public async ValueTask<Result<GetInsurancePlanResponseDto>> GetInsurancePlanAsync(
+        GetInsurancePlanRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        var handleResult = await policyApiClient.ExecuteAsync(
+            ct => policyApiClient.Client.GetInsurancePlanInfo(request.InsurancePlanId, ct),
+            cancellationToken);
+        if (!handleResult.IsSuccessful)
+        {
+            return handleResult.ToGenericFailureResult<GetInsurancePlanResponseDto>();
+        }
+
+        var insurancePlan = handleResult.Value.InsurancePlan;
+        var response = new GetInsurancePlanResponseDto(
+            insurancePlan.Id,
+            insurancePlan.Name,
+            insurancePlan.Price,
+            insurancePlan.PriceReasoning,
+            insurancePlan.LifetimeInDays);
+
+        return Result.Success(response);
     }
 }

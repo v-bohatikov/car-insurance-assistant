@@ -1,5 +1,5 @@
 ﻿namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record UserContactProvided(
-    string UserTelegramId,
+    long UserTelegramId,
     string PhoneNumber);

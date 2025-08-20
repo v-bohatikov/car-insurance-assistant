@@ -22,4 +22,9 @@ public class Document : Entity
     public string? DocumentDownloadUrl { get; private set; }
 
     public bool IsAvailableForDownload => DocumentType == DocumentType.InsurancePolicy;
+
+    public static Document CreateInsurancePolicyTemplateDocument(Ulid id, Ulid fileId)
+    {
+        return new Document(id, DocumentType.InsurancePolicyTemplate, fileId);
+    }
 }

@@ -12,14 +12,18 @@ public sealed class User : Entity
     private User(
         Ulid id,
         UserStatus status,
+        long userTelegramId,
         string phoneNumber) 
         : base (id)
     {
         Status = status;
+        UserTelegramId = userTelegramId;
         PhoneNumber = phoneNumber;
     }
 
     public UserStatus Status { get; private set; }
+
+    public long UserTelegramId { get; }
 
     public string PhoneNumber { get; }
 
@@ -39,6 +43,7 @@ public sealed class User : Entity
         var newUser = new User(
             Ulid.NewUlid(), 
             UserStatus.Created,
+            request.UserTelegramId,
             request.PhoneNumber);
 
         var response = new CreateNewUserResponse(newUser);

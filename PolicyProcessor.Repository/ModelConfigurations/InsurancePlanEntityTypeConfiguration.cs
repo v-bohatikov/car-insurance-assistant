@@ -51,5 +51,45 @@ public class InsurancePlanEntityTypeConfiguration : IEntityTypeConfiguration<Ins
             // According to Ulid specification.
             .HasMaxLength(26)
             .IsRequired();
+
+        // Indexes.
+        // No indexes required.
+
+        // Seeding.
+        builder.HasData(GetSeedingData());
+    }
+
+    private static ICollection<InsurancePlan> GetSeedingData()
+    {
+        const string basicPlanId = "01K33RQRZ3MA3CJFR6JMBM8HXF";
+        // This id was gotten from 'DocumentEntityTypeConfiguration'.
+        const string basicPolicyTemplateDocumentId = "01K33RW7YFCVHMWJM3BT9VSHF8";
+
+        const string premiumPlanId = "01K33RT9B4R5H40M0S501EWAYN";
+        // This id was gotten from 'DocumentEntityTypeConfiguration'.
+        const string premiumPolicyTemplateDocumentId = "01K33RWMYKQTSCGBXMWZTQCCKK";
+
+        var insurancePlans = new InsurancePlan[]
+        {
+            new(
+                Ulid.Parse(basicPlanId),
+                "Basic Plan",
+                25,
+                "This plan provides basic level of protection and services. " +
+                "NOTE: Price is fixed for all clients for this insurance plan.",
+                7,
+                Ulid.Parse(basicPolicyTemplateDocumentId)),
+
+            new(
+                Ulid.Parse(premiumPlanId),
+                "Premium Plan",
+                100,
+                "This plan provides premium level of protection and services. " +
+                "NOTE: Price is fixed for all clients for this insurance plan.",
+                7,
+                Ulid.Parse(premiumPolicyTemplateDocumentId)),
+        };
+
+        return insurancePlans;
     }
 }

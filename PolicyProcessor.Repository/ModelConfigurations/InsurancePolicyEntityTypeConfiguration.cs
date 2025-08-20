@@ -83,5 +83,19 @@ public class InsurancePolicyEntityTypeConfiguration : IEntityTypeConfiguration<I
             // Should be more than enough.
             .HasMaxLength(300)
             .IsRequired(false);
+
+        // Indexes.
+        builder
+            .HasIndex(insurancePolicy =>
+                new { insurancePolicy.UserId, insurancePolicy.VehicleId })
+            .IsUnique(false);
+
+        builder
+            .HasIndex(insurancePolicy =>
+                new { insurancePolicy.UserId, insurancePolicy.VehicleId, insurancePolicy.InsurancePlanId })
+            .IsUnique(false);
+
+        // Seeding.
+        // No seeding required.
     }
 }

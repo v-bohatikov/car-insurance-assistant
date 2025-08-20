@@ -6,7 +6,11 @@ namespace PolicyProcessor.Infrastructure.Abstractions;
 
 public interface IPolicyQueryService
 {
-    ValueTask<Result<GetInsurancePlanResponseDto>> GetInsurancePlan(GetInsurancePlanRequestDto request);
+    ValueTask<Result<GetInsurancePlanResponseDto>> GetInsurancePlan(
+        GetInsurancePlanRequestDto request,
+        CancellationToken cancellationToken);
 
-    ValueTask<Result<GetInsurancePolicyResponseDto>> GetInsurancePolicy(GetInsurancePolicyRequestDto request);
+    ValueTask<Result<GetInsurancePolicyResponseDto>> GetInsurancePolicy(
+        GetInsurancePolicyRequestDto request,
+        CancellationToken cancellationToken);
 }

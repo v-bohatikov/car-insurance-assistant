@@ -14,7 +14,7 @@ public class UserContactProvidedRequestConsumer(IUserQueueMessageSender queueMes
         CancellationToken cancellationToken)
     {
         var userContactProvided = new UserContactProvided(
-            request.PhoneNumber,
+            request.UserTelegramId,
             request.PhoneNumber);
 
         await queueMessageSender.SendAsync(userContactProvided, cancellationToken);

@@ -3,12 +3,13 @@ using ApiGateway.Application.Services;
 using ApiGateway.Infrastructure.Abstractions;
 using Host.Infrastructure.Extensions;
 using Host.Infrastructure.Settings;
+using PolicyProcessor.Contracts.ApiClient;
 using UserProcessor.Contracts.ApiClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register default services.
-builder.AddServiceDefaults();
+builder.AddWebServiceDefaults();
 
 // Add services to the container.
 builder.AddServiceBusClient();
@@ -20,6 +21,7 @@ builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>(
 builder.Services.AddScoped<IQueryService, QueryService>();
 
 builder.AddRefitApiClient<IUserApiClient>(ApplicationReferences.UserProcessorServiceName);
+builder.AddRefitApiClient<IPolicyApiClient>(ApplicationReferences.PolicyProcessorServiceName);
 
 // Build a web application.
 var app = builder.Build();

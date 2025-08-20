@@ -27,7 +27,7 @@ public class DocumentEntityTypeConfiguration : IEntityTypeConfiguration<Document
 
         // Properties.
         builder
-            .Property(order => order.FileId)
+            .Property(document => document.FileId)
             // According to Ulid specification.
             .HasMaxLength(26)
             .IsRequired();
@@ -44,5 +44,33 @@ public class DocumentEntityTypeConfiguration : IEntityTypeConfiguration<Document
             // Should be more than enough for url.
             .HasMaxLength(500)
             .IsRequired(false);
+
+        // Indexes.
+        // No indexes required.
+
+        // Seeding.
+        builder.HasData(GetSeedingData());
+    }
+
+    private static ICollection<Document> GetSeedingData()
+    {
+        const string basicPolicyTemplateDocumentId = "01K33RW7YFCVHMWJM3BT9VSHF8";
+        const string basicPolicyTemplateFileId = "01K33SHJFHVVW9AC1YEC8FJ129";
+
+        const string premiumPolicyTemplateDocumentId = "01K33RWMYKQTSCGBXMWZTQCCKK";
+        const string premiumPolicyTemplateFileId = "01K33SKD4PKGDZCG5S73NDD4PP";
+
+        var insurancePolicyTemplateDocuments = new[]
+        {
+            Document.CreateInsurancePolicyTemplateDocument(
+                Ulid.Parse(basicPolicyTemplateDocumentId),
+                Ulid.Parse(basicPolicyTemplateFileId)),
+
+            Document.CreateInsurancePolicyTemplateDocument(
+                Ulid.Parse(premiumPolicyTemplateDocumentId),
+                Ulid.Parse(premiumPolicyTemplateFileId)),
+        };
+
+        return insurancePolicyTemplateDocuments;
     }
 }

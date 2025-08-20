@@ -9,19 +9,20 @@ using UserProcessor.Repository.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register default services.
-builder.AddServiceDefaults();
+builder.AddWebServiceDefaults();
 
 // Add services to the container.
-//builder.AddUserDbContext<UserDbContext>();
-
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
 builder.ConfigureServiceBusReceiver(ApplicationReferences.UserQueueResourceName);
+// TODO: add dedicated Service Bus message senders
 
 builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
+builder.AddUserDbContext<UserDbContext>();
+builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
-//builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
 // Build a web application.
 var app = builder.Build();

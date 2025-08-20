@@ -3,7 +3,7 @@ using Host.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register default services.
-builder.AddServiceDefaults();
+builder.AddWebServiceDefaults();
 
 // Add services to the container.
 builder.AddServiceBusClient();

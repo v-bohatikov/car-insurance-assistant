@@ -44,5 +44,13 @@ public class BillingOperationEntityTypeConfiguration : IEntityTypeConfiguration<
             // Should be more than enough.
             .HasMaxLength(300)
             .IsRequired(false);
+
+        // Indexes.
+        builder
+            .HasIndex(billingOperation => billingOperation.OrderId)
+            .IsUnique();
+
+        // Seeding.
+        // No seeding required.
     }
 }

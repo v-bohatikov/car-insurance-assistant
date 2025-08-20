@@ -47,5 +47,17 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             // Should be more than enough.
             .HasMaxLength(300)
             .IsRequired(false);
+
+        // Indexes.
+        builder
+            .HasIndex(order => new { order.UserId, order.VehicleId })
+            .IsUnique(false);
+
+        builder
+            .HasIndex(order => new { order.UserId, order.VehicleId, order.InsurancePlanId })
+            .IsUnique(false);
+
+        // Seeding.
+        // No seeding required.
     }
 }

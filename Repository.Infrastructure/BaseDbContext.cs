@@ -3,7 +3,8 @@ using Repository.Infrastructure.Converters;
 
 namespace Repository.Infrastructure;
 
-public class BaseDbContext : DbContext
+public class BaseDbContext(DbContextOptions options)
+    : DbContext(options)
 {
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

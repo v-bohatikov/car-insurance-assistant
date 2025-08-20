@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj" />
+    <ProjectReference Include="..\PolicyProcessor.Domain\PolicyProcessor.Domain.csproj" />
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 

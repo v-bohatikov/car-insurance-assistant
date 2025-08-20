@@ -12,6 +12,7 @@ public class GetInsurancePlanRequestConsumer(IPolicyQueryService policyQueryServ
         GetInsurancePlanRequestDto request,
         CancellationToken cancellationToken)
     {
-        return await policyQueryService.GetInsurancePlan(request);
+        return await policyQueryService.GetInsurancePlan(
+            request, cancellationToken);
     }
 }

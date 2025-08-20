@@ -1,5 +1,5 @@
 ﻿namespace ApiGateway.Contracts.Api.UserContactProvided;
 
 public record UserContactProvidedRequest(
-    string UserTelegramId,
+    long UserTelegramId,
     string PhoneNumber);

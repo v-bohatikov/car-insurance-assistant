@@ -50,9 +50,25 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder
+            .Property(user => user.UserTelegramId)
+            .IsRequired();
+
+        builder
             .Property(user => user.PhoneNumber)
             // According to E.164 standard.
             .HasMaxLength(15)
             .IsRequired();
+
+        // Indexes.
+        builder
+            .HasIndex(user => user.UserTelegramId)
+            .IsUnique();
+
+        builder
+            .HasIndex(user => new { user.PhoneNumber, user.UserTelegramId })
+            .IsUnique();
+
+        // Seeding.
+        // No seeding required.
     }
 }

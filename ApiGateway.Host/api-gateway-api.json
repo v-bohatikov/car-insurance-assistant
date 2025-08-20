@@ -124,10 +124,81 @@
           }
         }
       }
+    },
+    "/api/v1/insurancePlans/{id}": {
+      "get": {
+        "tags": [
+          "ApiGateway.Host"
+        ],
+        "operationId": "Get insurance plan info",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Ulid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetInsurancePlanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "GetInsurancePlanResponse": {
+        "required": [
+          "insurancePlan"
+        ],
+        "type": "object",
+        "properties": {
+          "insurancePlan": {
+            "$ref": "#/components/schemas/InsurancePlan"
+          }
+        }
+      },
       "GetUserResponse": {
         "required": [
           "user"
@@ -136,6 +207,35 @@
         "properties": {
           "user": {
             "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "InsurancePlan": {
+        "required": [
+          "id",
+          "name",
+          "price",
+          "priceReasoning",
+          "lifetimeInDays"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "priceReasoning": {
+            "type": "string"
+          },
+          "lifetimeInDays": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -197,7 +297,8 @@
         "type": "object",
         "properties": {
           "userTelegramId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "phoneNumber": {
             "type": "string"

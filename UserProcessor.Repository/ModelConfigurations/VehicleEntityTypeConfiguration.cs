@@ -74,5 +74,21 @@ public class VehicleEntityTypeConfiguration : IEntityTypeConfiguration<Vehicle>
             // There is no specific standard for it.
             .HasMaxLength(10)
             .IsRequired();
+
+        // Indexes.
+        builder
+            .HasIndex(vehicle => vehicle.VehicleIdentificationNumber)
+            .IsUnique();
+
+        builder
+            .HasIndex(vehicle => new { vehicle.RegistrationNumber, vehicle.VehicleIdentificationNumber })
+            .IsUnique();
+
+        builder
+            .HasIndex(vehicle => new { vehicle.PlateNumber, vehicle.RegistrationNumber, vehicle.VehicleIdentificationNumber })
+            .IsUnique();
+
+        // Seeding.
+        // No seeding required.
     }
 }

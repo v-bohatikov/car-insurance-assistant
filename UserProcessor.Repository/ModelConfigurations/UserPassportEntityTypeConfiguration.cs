@@ -73,5 +73,13 @@ public class UserPassportEntityTypeConfiguration : IEntityTypeConfiguration<User
 
         builder
             .Ignore(userPassport => userPassport.FullName);
+
+        // Indexes.
+        builder
+            .HasIndex(userPassport => userPassport.PassportNumber)
+            .IsUnique();
+
+        // Seeding.
+        // No seeding required.
     }
 }

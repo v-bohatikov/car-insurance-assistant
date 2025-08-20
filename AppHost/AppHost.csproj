@@ -21,11 +21,16 @@
     <ProjectReference Include="..\ApiGateway.Host\ApiGateway.Host.csproj" />
     <ProjectReference Include="..\Auditor.Host\Auditor.Host.csproj" />
     <ProjectReference Include="..\BillingProcessor.Host\BillingProcessor.Host.csproj" />
+    <ProjectReference Include="..\BillingProcessor.Migration\BillingProcessor.Migration.csproj" />
     <ProjectReference Include="..\ConversationAdapter.Host\ConversationAdapter.Host.csproj" />
     <ProjectReference Include="..\DocumentProcessor.Host\DocumentProcessor.Host.csproj" />
+    <ProjectReference Include="..\DocumentProcessor.Migration\DocumentProcessor.Migration.csproj" />
     <ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\OrderProcessor.Host\OrderProcessor.Host.csproj" />
+    <ProjectReference Include="..\OrderProcessor.Migration\OrderProcessor.Migration.csproj" />
     <ProjectReference Include="..\PolicyProcessor.Host\PolicyProcessor.Host.csproj" />
+    <ProjectReference Include="..\PolicyProcessor.Migration\PolicyProcessor.Migration.csproj" />
     <ProjectReference Include="..\UserProcessor.Host\UserProcessor.Host.csproj" />
+    <ProjectReference Include="..\UserProcessor.Migration\UserProcessor.Migration.csproj" />
   </ItemGroup>
 </Project>
