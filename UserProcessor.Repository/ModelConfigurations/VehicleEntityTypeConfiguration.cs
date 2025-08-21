@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Repository.Infrastructure.EntityTypeConfigurators;
 using SharedKernel.Enums;
 using UserProcessor.Domain.Entities.Vehicles;
 
 namespace UserProcessor.Repository.ModelConfigurations;
 
-public class VehicleEntityTypeConfiguration : IEntityTypeConfiguration<Vehicle>
+public class VehicleEntityTypeConfiguration
+    : EntityTypeConfigurationBase<Vehicle>
 {
-    public void Configure(EntityTypeBuilder<Vehicle> builder)
+    public override void ConfigureInner(EntityTypeBuilder<Vehicle> builder)
     {
         // Table name.
         builder.ToTable("Vehicles");

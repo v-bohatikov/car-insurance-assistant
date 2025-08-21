@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderProcessor.Domain.Entities.Orders;
+using Repository.Infrastructure.EntityTypeConfigurators;
 
 namespace OrderProcessor.Repository.ModelConfigurations;
 
-public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
+public class OrderEntityTypeConfiguration
+    : EntityTypeConfigurationBase<Order>
 {
-    public void Configure(EntityTypeBuilder<Order> builder)
+    public override void ConfigureInner(EntityTypeBuilder<Order> builder)
     {
         // Table name.
         builder.ToTable("Orders");

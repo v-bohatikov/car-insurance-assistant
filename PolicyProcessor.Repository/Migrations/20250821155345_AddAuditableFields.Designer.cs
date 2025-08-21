@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PolicyProcessor.Repository;
 
@@ -10,9 +11,11 @@ using PolicyProcessor.Repository;
 namespace PolicyProcessor.Repository.Migrations
 {
     [DbContext(typeof(PolicyDbContext))]
-    partial class PolicyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250821155345_AddAuditableFields")]
+    partial class AddAuditableFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +69,7 @@ namespace PolicyProcessor.Repository.Migrations
                         new
                         {
                             Id = "01K33RQRZ3MA3CJFR6JMBM8HXF",
-                            CreatedOn = "2025-08-21 15:53:44",
+                            CreatedOn = "2025-08-21 15:53:44.8502618",
                             LifetimeInDays = 7,
                             Name = "Basic Plan",
                             PolicyTemplateDocumentId = "01K33RW7YFCVHMWJM3BT9VSHF8",
@@ -76,12 +79,12 @@ namespace PolicyProcessor.Repository.Migrations
                         new
                         {
                             Id = "01K33RT9B4R5H40M0S501EWAYN",
-                            CreatedOn = "2025-08-21 15:53:44",
+                            CreatedOn = "2025-08-21 15:53:44.8502892",
                             LifetimeInDays = 7,
                             Name = "Premium Plan",
                             PolicyTemplateDocumentId = "01K33RWMYKQTSCGBXMWZTQCCKK",
                             Price = 100m,
-                            PriceReasoning = "This plan provides premium level of protection and services. NOTE: Price is entity fixed for all clients for this insurance plan."
+                            PriceReasoning = "This plan provides premium level of protection and services. NOTE: Price isentity fixed for all clients for this insurance plan."
                         });
                 });
 

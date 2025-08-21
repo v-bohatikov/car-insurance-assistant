@@ -27,6 +27,15 @@ namespace OrderProcessor.Repository.Migrations
                         .HasMaxLength(26)
                         .HasColumnType("nvarchar(26)");
 
+                    b.Property<string>("ChangedOn")
+                        .HasMaxLength(48)
+                        .HasColumnType("nvarchar(48)");
+
+                    b.Property<string>("CreatedOn")
+                        .IsRequired()
+                        .HasMaxLength(48)
+                        .HasColumnType("nvarchar(48)");
+
                     b.Property<string>("FailureReasoning")
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");

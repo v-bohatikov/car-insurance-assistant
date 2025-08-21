@@ -1,6 +1,7 @@
 ﻿using Host.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Repository.Infrastructure.Interceptors;
 
 namespace Host.Infrastructure.Extensions;
 
@@ -75,7 +76,10 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
 #if !INFRA
-        builder.AddSqlServerDbContext<TDbContext>(dbResourceReference);
+        builder.AddSqlServerDbContext<TDbContext>(
+            dbResourceReference,
+            configureDbContextOptions: options => 
+                options.AddInterceptors(new AuditingSaveChangesInterceptor()));
 #endif
 
         return builder;

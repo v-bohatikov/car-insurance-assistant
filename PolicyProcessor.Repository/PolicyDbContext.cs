@@ -7,16 +7,9 @@ using Repository.Infrastructure;
 namespace PolicyProcessor.Repository;
 
 public class PolicyDbContext(DbContextOptions<PolicyDbContext> options)
-    : BaseDbContext(options)
+    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<InsurancePolicy> InsurancePolicies => Set<InsurancePolicy>();
 
     public DbSet<InsurancePlan> InsurancePlans => Set<InsurancePlan>();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Apply all type configurations.
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ModelConfigurationsIndicator).Assembly);
-    }
 }

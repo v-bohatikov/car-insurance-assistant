@@ -7,19 +7,11 @@ using UserProcessor.Repository.ModelConfigurations;
 namespace UserProcessor.Repository;
 
 public class UserDbContext(DbContextOptions<UserDbContext> options)
-    : BaseDbContext(options)
+    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<User> Users => Set<User>();
     
     public DbSet<UserPassport> UserPassports => Set<UserPassport>();
 
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
-
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Apply all type configurations.
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ModelConfigurationsIndicator).Assembly);
-    }
 }

@@ -2,13 +2,15 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PolicyProcessor.Domain.Entities.InsurancePolicies;
+using Repository.Infrastructure.EntityTypeConfigurators;
 using SharedKernel.Enums;
 
 namespace PolicyProcessor.Repository.ModelConfigurations;
 
-public class InsurancePolicyEntityTypeConfiguration : IEntityTypeConfiguration<InsurancePolicy>
+public class InsurancePolicyEntityTypeConfiguration
+    : EntityTypeConfigurationBase<InsurancePolicy>
 {
-    public void Configure(EntityTypeBuilder<InsurancePolicy> builder)
+    public override void ConfigureInner(EntityTypeBuilder<InsurancePolicy> builder)
     {
         // Table name.
         builder.ToTable("InsurancePolicies");

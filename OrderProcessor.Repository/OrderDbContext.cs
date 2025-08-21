@@ -6,14 +6,7 @@ using Repository.Infrastructure;
 namespace OrderProcessor.Repository;
 
 public class OrderDbContext(DbContextOptions<OrderDbContext> options)
-    : BaseDbContext(options)
+    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<Order> Orders => Set<Order>();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Apply all type configurations.
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ModelConfigurationsIndicator).Assembly);
-    }
 }

@@ -3,6 +3,7 @@ using DocumentProcessor.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DocumentProcessor.Repository.Migrations
 {
     [DbContext(typeof(DocumentDbContext))]
-    partial class DocumentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250821155217_AddAuditableFields")]
+    partial class AddAuditableFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,14 +61,14 @@ namespace DocumentProcessor.Repository.Migrations
                         new
                         {
                             Id = "01K33RW7YFCVHMWJM3BT9VSHF8",
-                            CreatedOn = "2025-08-21 15:53:44",
+                            CreatedOn = "2025-08-21 15:52:16.9885262",
                             DocumentType = "InsurancePolicyTemplate",
                             FileId = "01K33SHJFHVVW9AC1YEC8FJ129"
                         },
                         new
                         {
                             Id = "01K33RWMYKQTSCGBXMWZTQCCKK",
-                            CreatedOn = "2025-08-21 15:53:44",
+                            CreatedOn = "2025-08-21 15:52:16.9885448",
                             DocumentType = "InsurancePolicyTemplate",
                             FileId = "01K33SKD4PKGDZCG5S73NDD4PP"
                         });

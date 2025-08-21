@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Repository.Infrastructure.EntityTypeConfigurators;
 using SharedKernel.Enums;
 using UserProcessor.Domain.Entities.Users;
 
 namespace UserProcessor.Repository.ModelConfigurations;
 
-public class UserPassportEntityTypeConfiguration : IEntityTypeConfiguration<UserPassport>
+public class UserPassportEntityTypeConfiguration
+    : EntityTypeConfigurationBase<UserPassport>
 {
-    public void Configure(EntityTypeBuilder<UserPassport> builder)
+    public override void ConfigureInner(EntityTypeBuilder<UserPassport> builder)
     {
         // Table name.
         builder.ToTable("UserPassports");

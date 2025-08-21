@@ -2,13 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Repository.Infrastructure.EntityTypeConfigurators;
 using SharedKernel.Enums;
 
 namespace DocumentProcessor.Repository.ModelConfigurations;
 
-public class DocumentEntityTypeConfiguration : IEntityTypeConfiguration<Document>
+public class DocumentEntityTypeConfiguration
+    : EntityTypeConfigurationBase<Document>
 {
-    public void Configure(EntityTypeBuilder<Document> builder)
+    public override void ConfigureInner(EntityTypeBuilder<Document> builder)
     {
         // Table name.
         builder.ToTable("Documents");
@@ -56,19 +58,24 @@ public class DocumentEntityTypeConfiguration : IEntityTypeConfiguration<Document
     {
         const string basicPolicyTemplateDocumentId = "01K33RW7YFCVHMWJM3BT9VSHF8";
         const string basicPolicyTemplateFileId = "01K33SHJFHVVW9AC1YEC8FJ129";
+        const string createdOn = "2025-08-21 15:53:44";
+        var basicInsurancePolicyTemplateDocument = Document.CreateInsurancePolicyTemplateDocument(
+            Ulid.Parse(basicPolicyTemplateDocumentId),
+            Ulid.Parse(basicPolicyTemplateFileId));
+        basicInsurancePolicyTemplateDocument.CreatedOn = DateTime.Parse(createdOn);
 
         const string premiumPolicyTemplateDocumentId = "01K33RWMYKQTSCGBXMWZTQCCKK";
         const string premiumPolicyTemplateFileId = "01K33SKD4PKGDZCG5S73NDD4PP";
+        var premiumInsurancePolicyTemplateDocument = Document.CreateInsurancePolicyTemplateDocument(
+            Ulid.Parse(premiumPolicyTemplateDocumentId),
+            Ulid.Parse(premiumPolicyTemplateFileId));
+        premiumInsurancePolicyTemplateDocument.CreatedOn = DateTime.Parse(createdOn);
+
 
         var insurancePolicyTemplateDocuments = new[]
         {
-            Document.CreateInsurancePolicyTemplateDocument(
-                Ulid.Parse(basicPolicyTemplateDocumentId),
-                Ulid.Parse(basicPolicyTemplateFileId)),
-
-            Document.CreateInsurancePolicyTemplateDocument(
-                Ulid.Parse(premiumPolicyTemplateDocumentId),
-                Ulid.Parse(premiumPolicyTemplateFileId)),
+            basicInsurancePolicyTemplateDocument,
+            premiumInsurancePolicyTemplateDocument,
         };
 
         return insurancePolicyTemplateDocuments;

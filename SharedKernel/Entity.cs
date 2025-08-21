@@ -7,5 +7,9 @@ public class Entity
         Id = id;
     }
 
-    public Ulid Id { get; private set; }
+    public Ulid Id { get; }
+
+    public DateTime CreatedOn { get; set; }
+
+    public DateTime? ChangedOn { get; set; }
 }

@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Repository.Infrastructure.EntityTypeConfigurators;
 using SharedKernel.Enums;
 using UserProcessor.Domain.Entities.Users;
 
 namespace UserProcessor.Repository.ModelConfigurations;
 
-public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+public class UserEntityTypeConfiguration
+    : EntityTypeConfigurationBase<User>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public override void ConfigureInner(EntityTypeBuilder<User> builder)
     {
         // Table name.
         builder.ToTable("Users");
