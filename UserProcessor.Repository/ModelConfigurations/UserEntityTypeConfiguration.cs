@@ -10,7 +10,7 @@ namespace UserProcessor.Repository.ModelConfigurations;
 public class UserEntityTypeConfiguration
     : EntityTypeConfigurationBase<User>
 {
-    public override void ConfigureInner(EntityTypeBuilder<User> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<User> builder)
     {
         // Table name.
         builder.ToTable("Users");

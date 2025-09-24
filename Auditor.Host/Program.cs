@@ -1,4 +1,10 @@
+using Auditor.Application.Consumers;
+using Auditor.Application.Services;
+using Auditor.Infrastructure.Abstractions;
+using Auditor.Repository;
+using Auditor.Repository.Repositories;
 using Host.Infrastructure.Extensions;
+using Host.Infrastructure.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +13,16 @@ builder.AddWebServiceDefaults();
 
 // Add services to the container.
 builder.AddServiceBusClient();
-// TODO: add consumers
+builder.ConfigureServiceBusReceiver(ApplicationReferences.AuditorQueueResourceName);
 
-//builder.AddAuditorDb();
+builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
+
+builder.AddAuditorDb<AuditorDbContext>();
+builder.Services.AddScoped<IEventQueryRepository, EventQueryRepository>();
+builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
+
+builder.Services.AddScoped<IEventQueryService, EventQueryService>();
+builder.Services.AddScoped<IEventStorageService, EventStorageService>();
 
 // Build a web application.
 var app = builder.Build();
@@ -27,7 +40,9 @@ app.MapDefaultEndpoints();
 var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Configure service endpoints.
-app.MapEndpoints(versionedRouteBuilder);
+app.MapApiEndpoints(versionedRouteBuilder);
+
+app.MapQueueEndpoints();
 
 // Start application.
 app.Run();

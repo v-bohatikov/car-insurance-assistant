@@ -80,7 +80,7 @@ builder.AddProject<Projects.BillingProcessor_Host>(ApplicationReferences.Billing
     .WithReference(migrations)
     .WaitForCompletion(migrations);
 
-builder.AddProject<Projects.Auditor_Host>(ApplicationReferences.AuditorServiceName)
+var auditor = builder.AddProject<Projects.Auditor_Host>(ApplicationReferences.AuditorServiceName)
     .WithReference(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
     //.WaitFor(azureInfrastructure.AzureNoSqlDatabases.LoggingDb.Container)
     .WithReference(azureInfrastructure.AzureNoSqlDatabases.AuditorDb.Container)
@@ -89,6 +89,8 @@ builder.AddProject<Projects.Auditor_Host>(ApplicationReferences.AuditorServiceNa
     .WaitFor(azureInfrastructure.AzureServiceBus);
 
 builder.AddProject<Projects.ApiGateway_Host>(ApplicationReferences.ApiGatewayServiceName)
+    .WithReference(auditor)
+    .WaitFor(auditor)
     .WithReference(userProcessor)
     .WaitFor(userProcessor)
     .WithReference(policyProcessor)

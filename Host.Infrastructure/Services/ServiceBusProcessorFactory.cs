@@ -11,7 +11,7 @@ public class ServiceBusProcessorDefaultFactory(string queueReference)
         return serviceBusClient.CreateProcessor(queueReference, new ServiceBusProcessorOptions
         {
             AutoCompleteMessages = false,
-            ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete,
+            ReceiveMode = ServiceBusReceiveMode.PeekLock,
         });
     }
 }

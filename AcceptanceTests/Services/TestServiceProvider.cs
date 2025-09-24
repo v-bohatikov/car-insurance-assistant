@@ -107,8 +107,8 @@ public static class TestServiceProviderFactory
                 cfg.BaseAddress = endpoint);
 
         serviceCollection.AddTransient<
-            IRefitClientDecorator<TApiClient>,
-            RefitClientDecorator<TApiClient>>();
+            IRefitClientAdapter<TApiClient>,
+            RefitClientAdapter<TApiClient>>();
     }
 
     private static async ValueTask AddSqlDbClient<TDbClient>(

@@ -1,5 +1,8 @@
-﻿namespace ConversationAdapter.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record PassportDataDeclined(
     Ulid UserId,
-    Ulid DocumentId);
+    Ulid DocumentId)
+    : EventBase(UserId);

@@ -8,7 +8,7 @@ namespace OrderProcessor.Repository.ModelConfigurations;
 public class OrderEntityTypeConfiguration
     : EntityTypeConfigurationBase<Order>
 {
-    public override void ConfigureInner(EntityTypeBuilder<Order> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<Order> builder)
     {
         // Table name.
         builder.ToTable("Orders");

@@ -16,7 +16,7 @@ public abstract class EntityTypeConfigurationBase<TEntity>
         ConfigureAuditableFields(builder);
     }
 
-    public abstract void ConfigureInner(EntityTypeBuilder<TEntity> builder);
+    protected abstract void ConfigureInner(EntityTypeBuilder<TEntity> builder);
 
     private void ConfigureAuditableFields(EntityTypeBuilder<TEntity> builder)
     {

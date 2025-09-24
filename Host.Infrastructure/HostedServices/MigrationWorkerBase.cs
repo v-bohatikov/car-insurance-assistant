@@ -13,7 +13,7 @@ public class MigrationWorkerBase<TDbContext>(
     IHostApplicationLifetime hostApplicationLifetime,
     ISqlMigrationStrategy<TDbContext> migrationStrategy)
     : BackgroundService
-    where TDbContext : BaseDbContext
+    where TDbContext : BaseSqlDbContext
 {
     public const string ActivitySourceName = "Migrations";
 

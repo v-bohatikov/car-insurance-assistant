@@ -6,7 +6,7 @@ using Repository.Infrastructure;
 namespace OrderProcessor.Repository;
 
 public class OrderDbContext(DbContextOptions<OrderDbContext> options)
-    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
+    : BaseSqlDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<Order> Orders => Set<Order>();
 }

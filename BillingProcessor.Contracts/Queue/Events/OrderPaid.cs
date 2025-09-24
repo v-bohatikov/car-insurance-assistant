@@ -1,5 +1,8 @@
-﻿namespace BillingProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace BillingProcessor.Contracts.Queue.Events;
 
 public record OrderPaid(
     Ulid UserId,
-    Ulid OrderId);
+    Ulid OrderId)
+    : EventBase(UserId);

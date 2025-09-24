@@ -28,10 +28,10 @@ public abstract class StepDefinitionsBase
 
     protected CancellationToken CancellationToken => ApplicationInstance.CancellationToken;
 
-    protected IRefitClientDecorator<TApiClient> GetApiClient<TApiClient>()
+    protected IRefitClientAdapter<TApiClient> GetApiClient<TApiClient>()
         where TApiClient : class
     {
-        return GetService<IRefitClientDecorator<TApiClient>>();
+        return GetService<IRefitClientAdapter<TApiClient>>();
     }
 
     protected TDbClient GetSqlDbClient<TDbClient>()

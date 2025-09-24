@@ -12,16 +12,16 @@ public record Error(
     public static Error None =>
         new (ErrorType.None, string.Empty);
 
-    public static Error Validation(string code, string? description) =>
+    public static Error Validation(string code, string description) =>
         new(ErrorType.Validation, code, description);
 
-    public static Error NotFound(string code, string? description) =>
+    public static Error NotFound(string code, string description) =>
         new(ErrorType.NotFound, code, description);
 
-    public static Error Failure(string code, string? description) =>
+    public static Error Failure(string code, string description) =>
         new(ErrorType.Failure, code, description);
 
-    public static Error Aggregate(string code, string? description, params Error[] innerErrors)
+    public static Error Aggregate(string code, string description, params Error[] innerErrors)
     {
         if (innerErrors == null)
         {

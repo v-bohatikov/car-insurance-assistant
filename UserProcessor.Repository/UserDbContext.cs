@@ -7,7 +7,7 @@ using UserProcessor.Repository.ModelConfigurations;
 namespace UserProcessor.Repository;
 
 public class UserDbContext(DbContextOptions<UserDbContext> options)
-    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
+    : BaseSqlDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<User> Users => Set<User>();
     

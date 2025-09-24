@@ -1,13 +1,13 @@
 ﻿namespace SharedKernel;
 
-public class Entity
+public abstract class Entity
 {
     protected Entity(Ulid id)
     {
         Id = id;
     }
 
-    public Ulid Id { get; }
+    public Ulid Id { get; init; }
 
     public DateTime CreatedOn { get; set; }
 

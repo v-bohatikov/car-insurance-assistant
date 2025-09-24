@@ -1,5 +1,4 @@
-﻿using Application.Infrastructure.Abstractions;
-using Azure.Messaging.ServiceBus;
+﻿using Azure.Messaging.ServiceBus;
 using Host.Infrastructure.Abstractions;
 using System.Collections.Concurrent;
 

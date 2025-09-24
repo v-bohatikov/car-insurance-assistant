@@ -10,7 +10,7 @@ namespace UserProcessor.Repository.ModelConfigurations;
 public class UserPassportEntityTypeConfiguration
     : EntityTypeConfigurationBase<UserPassport>
 {
-    public override void ConfigureInner(EntityTypeBuilder<UserPassport> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<UserPassport> builder)
     {
         // Table name.
         builder.ToTable("UserPassports");

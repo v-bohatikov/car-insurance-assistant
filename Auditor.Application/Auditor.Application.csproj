@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Auditor.Domain\Auditor.Domain.csproj" />
+    <ProjectReference Include="..\Auditor.Infrastructure\Auditor.Infrastructure.csproj" />
+    <ProjectReference Include="..\BillingProcessor.Contracts\BillingProcessor.Contracts.csproj" />
+    <ProjectReference Include="..\ConversationAdapter.Contracts\ConversationAdapter.Contracts.csproj" />
+    <ProjectReference Include="..\DocumentProcessor.Contracts\DocumentProcessor.Contracts.csproj" />
+    <ProjectReference Include="..\OrderProcessor.Contracts\OrderProcessor.Contracts.csproj" />
+    <ProjectReference Include="..\PolicyProcessor.Contracts\PolicyProcessor.Contracts.csproj" />
+    <ProjectReference Include="..\UserProcessor.Contracts\UserProcessor.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\9.0.6\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

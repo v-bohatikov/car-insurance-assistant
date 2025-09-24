@@ -4,7 +4,7 @@ namespace Repository.Infrastructure.Migrations;
 
 public abstract class SqlMigrationStrategyBase<TDbContext>()
     : ISqlMigrationStrategy<TDbContext>
-    where TDbContext : BaseDbContext
+    where TDbContext : BaseSqlDbContext
 {
     public async ValueTask RunMigrationAsync(
         TDbContext dbContext,

@@ -2,6 +2,8 @@
 
 public interface IQueueMessageSender
 {
+    string TargetQueueName { get; }
+
     ValueTask SendAsync<TMessage>(
         TMessage message,
         CancellationToken cancellationToken)

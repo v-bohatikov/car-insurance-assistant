@@ -1,8 +1,10 @@
 ﻿using ApiGateway.Infrastructure.Abstractions;
 using ApiGateway.Infrastructure.Contracts.GetInsurancePlan;
 using ApiGateway.Infrastructure.Contracts.GetUser;
+using ApiGateway.Infrastructure.Contracts.GetUserEvents;
 using ApiGateway.Infrastructure.Contracts.Models;
 using Application.Infrastructure.Abstractions;
+using Auditor.Contracts.ApiClient;
 using PolicyProcessor.Contracts.ApiClient;
 using SharedKernel.Results;
 using UserProcessor.Contracts.ApiClient;
@@ -10,8 +12,9 @@ using UserProcessor.Contracts.ApiClient;
 namespace ApiGateway.Application.Services;
 
 public class QueryService(
-    IRefitClientDecorator<IUserApiClient> userApiClient,
-    IRefitClientDecorator<IPolicyApiClient> policyApiClient)
+    IRefitClientAdapter<IUserApiClient> userApiClient,
+    IRefitClientAdapter<IPolicyApiClient> policyApiClient,
+    IRefitClientAdapter<IAuditorApiClient> auditorApiClient)
     : IQueryService
 {
     public async ValueTask<Result<GetUserResponseDto>> GetUserAsync(
@@ -19,7 +22,7 @@ public class QueryService(
         CancellationToken cancellationToken)
     {
         var handleResult = await userApiClient.ExecuteAsync(
-            ct => userApiClient.Client.GetUserInfo(request.UserId, ct),
+            (client, ct) => client.GetUserInfo(request.UserId, ct),
             cancellationToken);
         if (!handleResult.IsSuccessful)
         {
@@ -47,13 +50,12 @@ public class QueryService(
         return Result.Success(responseDto);
     }
 
-
     public async ValueTask<Result<GetInsurancePlanResponseDto>> GetInsurancePlanAsync(
         GetInsurancePlanRequestDto request,
         CancellationToken cancellationToken)
     {
         var handleResult = await policyApiClient.ExecuteAsync(
-            ct => policyApiClient.Client.GetInsurancePlanInfo(request.InsurancePlanId, ct),
+            (client, ct) => client.GetInsurancePlanInfo(request.InsurancePlanId, ct),
             cancellationToken);
         if (!handleResult.IsSuccessful)
         {
@@ -70,4 +72,29 @@ public class QueryService(
 
         return Result.Success(response);
     }
+
+    public async ValueTask<Result<GetUserEventsResponseDto>> GetUserEventsAsync(
+        GetUserEventsRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        var handleResult = await auditorApiClient.ExecuteAsync(
+            (client, ct) => client.GetEventsRelatedToSpecificUser(request.UserId, ct),
+            cancellationToken);
+        if (!handleResult.IsSuccessful)
+        {
+            return handleResult.ToGenericFailureResult<GetUserEventsResponseDto>();
+        }
+
+        var evetNoteDtos = handleResult.Value.EventNotes
+            .Select(eventNote => new EventNoteDto(
+                eventNote.Id,
+                eventNote.UserId,
+                eventNote.OccuredEvent,
+                eventNote.CreatedOn))
+            .ToList();
+        var response = new GetUserEventsResponseDto(evetNoteDtos);
+
+        return Result.Success(response);
+    }
+
 }

@@ -10,7 +10,7 @@ namespace BillingProcessor.Repository.ModelConfigurations;
 public class BillingOperationEntityTypeConfiguration
     : EntityTypeConfigurationBase<BillingOperation>
 {
-    public override void ConfigureInner(EntityTypeBuilder<BillingOperation> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<BillingOperation> builder)
     {
         // Table name.
         builder.ToTable("BillingOperations");

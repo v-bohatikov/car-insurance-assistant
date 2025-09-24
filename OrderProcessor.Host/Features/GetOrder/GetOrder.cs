@@ -12,7 +12,7 @@ public class GetOrder
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : OrdersEndpointGroup<Ulid, GetOrderResponse>(logger)
+        : OrdersApiEndpointGroup<Ulid, GetOrderResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -20,7 +20,7 @@ public class GetOrder
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<Ulid, GetOrderResponse> Handler => _endpointHandler;
+        public override IApiEndpointHandler<Ulid, GetOrderResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
@@ -35,7 +35,7 @@ public class GetOrder
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<Ulid, GetOrderRequestDto, GetOrderResponse, GetOrderResponseDto>(logger, mediator)
+            : ApiEndpointHandlerBase<Ulid, GetOrderRequestDto, GetOrderResponse, GetOrderResponseDto>(logger, mediator)
         {
             public override GetOrderRequestDto MapRequest(Ulid userId)
             {

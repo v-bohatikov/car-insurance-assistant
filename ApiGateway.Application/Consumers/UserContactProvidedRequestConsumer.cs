@@ -6,7 +6,7 @@ using SharedKernel.Results;
 
 namespace ApiGateway.Application.Consumers;
 
-public class UserContactProvidedRequestConsumer(IUserQueueMessageSender queueMessageSender) 
+public class UserContactProvidedRequestConsumer(IUserEventSender userEventSender) 
     : MediatorRequestHandler<UserContactProvidedRequestDto, Result<UserContactProvidedResponseDto>>
 {
     protected override async Task<Result<UserContactProvidedResponseDto>> Handle(
@@ -17,7 +17,7 @@ public class UserContactProvidedRequestConsumer(IUserQueueMessageSender queueMes
             request.UserTelegramId,
             request.PhoneNumber);
 
-        await queueMessageSender.SendAsync(userContactProvided, cancellationToken);
+        await userEventSender.SendAsync(userContactProvided, cancellationToken);
 
         return Result.Success(new UserContactProvidedResponseDto());
     }

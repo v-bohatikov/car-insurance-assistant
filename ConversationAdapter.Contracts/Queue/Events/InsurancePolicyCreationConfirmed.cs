@@ -1,6 +1,9 @@
-﻿namespace ConversationAdapter.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record InsurancePolicyCreationConfirmed(
     Ulid UserId,
     Ulid VehicleId,
-    Ulid InsurancePlanId);
+    Ulid InsurancePlanId)
+    : EventBase(UserId);

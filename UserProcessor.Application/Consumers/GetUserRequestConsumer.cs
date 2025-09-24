@@ -12,6 +12,6 @@ public class GetUserRequestConsumer(IUserQueryService userQueryService)
         GetUserRequestDto request,
         CancellationToken cancellationToken)
     {
-        return await userQueryService.GetUser(request);
+        return await userQueryService.GetUserByIdAsync(request, cancellationToken);
     }
 }

@@ -10,7 +10,7 @@ namespace PolicyProcessor.Repository.ModelConfigurations;
 public class InsurancePolicyEntityTypeConfiguration
     : EntityTypeConfigurationBase<InsurancePolicy>
 {
-    public override void ConfigureInner(EntityTypeBuilder<InsurancePolicy> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<InsurancePolicy> builder)
     {
         // Table name.
         builder.ToTable("InsurancePolicies");

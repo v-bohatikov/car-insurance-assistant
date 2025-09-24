@@ -1,6 +1,8 @@
 ﻿using Azure.Messaging.ServiceBus;
+using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Results;
 
 namespace Host.Infrastructure.Abstractions;
 
@@ -10,11 +12,11 @@ public abstract class ServiceBusEndpointBase<TQueueMessage, TInnerRequest>(
     IMediator mediator)
     : IServiceBusEndpoint
     where TQueueMessage : class
-    where TInnerRequest : class
+    where TInnerRequest : Request<Result>
 {
     public string ExpectedMessageTypeName => typeof(TQueueMessage).FullName!;
 
-    public async ValueTask Handle(
+    public async ValueTask<Result> Handle(
         ServiceBusReceivedMessage receivedMessage,
         CancellationToken cancellationToken)
     {
@@ -27,7 +29,7 @@ public abstract class ServiceBusEndpointBase<TQueueMessage, TInnerRequest>(
         logger.LogInformation(
             "Endpoint starts to handle a {MessageType} message form a queue", typeof(TQueueMessage));
 
-        await mediator.Send(innerRequest, cancellationToken);
+        return await mediator.SendRequest(innerRequest, cancellationToken);
     }
 
     public abstract TInnerRequest MapQueueMessage(TQueueMessage queueMessage);

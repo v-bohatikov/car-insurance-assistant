@@ -6,7 +6,7 @@ using Repository.Infrastructure;
 namespace DocumentProcessor.Repository;
 
 public class DocumentDbContext(DbContextOptions<DocumentDbContext> options)
-    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
+    : BaseSqlDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<Document> Documents => Set<Document>();
 }

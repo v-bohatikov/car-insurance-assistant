@@ -12,7 +12,7 @@ public class UserContactProvidedTemp
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : EndpointBase<Ulid, GetUserResponse>(logger)
+        : ApiEndpointBase<Ulid, GetUserResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -20,7 +20,7 @@ public class UserContactProvidedTemp
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<Ulid, GetUserResponse> Handler => _endpointHandler;
+        public override IApiEndpointHandler<Ulid, GetUserResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
@@ -35,7 +35,7 @@ public class UserContactProvidedTemp
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<Ulid, GetUserRequestDto, GetUserResponse, GetUserResponseDto>(logger, mediator)
+            : ApiEndpointHandlerBase<Ulid, GetUserRequestDto, GetUserResponse, GetUserResponseDto>(logger, mediator)
         {
             public override GetUserRequestDto MapRequest(Ulid userId)
             {

@@ -1,3 +1,3 @@
 ﻿namespace ApiGateway.Infrastructure.Contracts.UserContactProvided;
 
-public record UserContactProvidedResponseDto();
+public record UserContactProvidedResponseDto;

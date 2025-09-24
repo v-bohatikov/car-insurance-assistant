@@ -2,6 +2,7 @@
 using Host.Infrastructure.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Results;
 
 namespace Host.Infrastructure.HostedServices;
 
@@ -13,7 +14,8 @@ public class QueueMessageProcessor(
     IServiceBusProcessorFactory serviceBusProcessorFactory)
     : IHostedService
 {
-    private readonly ServiceBusProcessor _serviceBusProcessor = serviceBusProcessorFactory.CreateProcessor(serviceBusClient);
+    private readonly ServiceBusProcessor _serviceBusProcessor =
+        serviceBusProcessorFactory.CreateProcessor(serviceBusClient);
 
     private string QueueReference => _serviceBusProcessor.EntityPath;
 
@@ -23,7 +25,7 @@ public class QueueMessageProcessor(
         {
             // Configure message processing.
             _serviceBusProcessor.ProcessMessageAsync += ProcessMessageAsync;
-            _serviceBusProcessor.ProcessErrorAsync += ProcessErrorAsync;
+            _serviceBusProcessor.ProcessErrorAsync += ProcessExceptionAsync;
 
             // Start processor.
             await _serviceBusProcessor.StartProcessingAsync(cancellationToken);
@@ -58,16 +60,41 @@ public class QueueMessageProcessor(
         var serviceBusEndpoint = endpointProvider.GetEndpointForReceivedMessage(serviceBusReceivedMessage);
 
         // Use handle method of received endpoint.
-        await serviceBusEndpoint.Handle(serviceBusReceivedMessage, arg.CancellationToken);
+        var result = await serviceBusEndpoint.Handle(serviceBusReceivedMessage, arg.CancellationToken);
+        if (result.IsFailure)
+        {
+            ProcessError(result.Error!);
+            return;
+        }
+
+        // Complete message for the case when autocompletion is disabled.
+        // NOTE: Completion will happen only in case there were no errors during handling
+        // of the message.
+        // TODO: we need a way to retry processing messages only limited amount of times, otherwise
+        // it will continue to process the same message over and over in case there are some error
+        // in our message processing!!!
+        if (!_serviceBusProcessor.AutoCompleteMessages)
+        {
+            await arg.CompleteMessageAsync(serviceBusReceivedMessage, arg.CancellationToken);
+        }
     }
 
-    private Task ProcessErrorAsync(ProcessErrorEventArgs arg)
+    private Task ProcessExceptionAsync(ProcessErrorEventArgs arg)
     {
         logger.LogError(arg.Exception,
             "Failed to process message from {QueueName} queue. " +
-            "Error occured on {ErrorSource} step of message processing",
+            "Unexpected error occured on {ErrorSource} step of message processing",
             QueueReference, arg.ErrorSource);
 
         return Task.CompletedTask;
+    }
+
+    private void ProcessError(Error error)
+    {
+        logger.LogWarning(
+            "{ErrorType} error happened during processing of message from {QueueName} queue. " +
+            "Error details: {Error}",
+            error.ErrorType, QueueReference,
+            error);
     }
 }

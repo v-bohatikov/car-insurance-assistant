@@ -129,7 +129,7 @@ public static class AzureInfraExtensions
         var loggingDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.LoggingDbResourceName);
         var errorContainer = loggingDb
-            .AddContainer(ApplicationReferences.ErrorContainerResourceName, "/id");
+            .AddContainer(ApplicationReferences.ErrorContainerResourceName, "/UserId");
         var loggingResources = new AzureNoSqlResource(
             noSqlStorage,
             loggingDb,
@@ -138,7 +138,7 @@ public static class AzureInfraExtensions
         var auditorDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.AuditorDbResourceName);
         var eventContainer = auditorDb
-            .AddContainer(ApplicationReferences.EventsContainerResourceName, "/id");
+            .AddContainer(ApplicationReferences.EventsContainerResourceName, "/UserId");
         var auditorResources = new AzureNoSqlResource(
             noSqlStorage,
             auditorDb,
@@ -147,7 +147,7 @@ public static class AzureInfraExtensions
         var conversationDb = noSqlStorage
             .AddCosmosDatabase(ApplicationReferences.ConversationDbResourceName);
         var conversationContainer = conversationDb
-            .AddContainer(ApplicationReferences.ConversationContainerResourceName, "/id");
+            .AddContainer(ApplicationReferences.ConversationContainerResourceName, "/UserId");
         var conversationResources = new AzureNoSqlResource(
             noSqlStorage,
             conversationDb,

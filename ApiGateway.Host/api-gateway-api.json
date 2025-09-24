@@ -125,6 +125,66 @@
         }
       }
     },
+    "/api/v1/users/{userId}/events": {
+      "get": {
+        "tags": [
+          "ApiGateway.Host"
+        ],
+        "operationId": "Get user events",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Ulid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserEventsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/insurancePlans/{id}": {
       "get": {
         "tags": [
@@ -188,6 +248,44 @@
   },
   "components": {
     "schemas": {
+      "EventBase": {
+        "required": [
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Ulid"
+          }
+        }
+      },
+      "EventNote": {
+        "required": [
+          "id",
+          "userId",
+          "occuredEvent",
+          "createdOn"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "occuredEvent": {
+            "$ref": "#/components/schemas/EventBase"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "GetInsurancePlanResponse": {
         "required": [
           "insurancePlan"
@@ -196,6 +294,20 @@
         "properties": {
           "insurancePlan": {
             "$ref": "#/components/schemas/InsurancePlan"
+          }
+        }
+      },
+      "GetUserEventsResponse": {
+        "required": [
+          "eventNotes"
+        ],
+        "type": "object",
+        "properties": {
+          "eventNotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventNote"
+            }
           }
         }
       },

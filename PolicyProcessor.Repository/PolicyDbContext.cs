@@ -7,7 +7,7 @@ using Repository.Infrastructure;
 namespace PolicyProcessor.Repository;
 
 public class PolicyDbContext(DbContextOptions<PolicyDbContext> options)
-    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
+    : BaseSqlDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<InsurancePolicy> InsurancePolicies => Set<InsurancePolicy>();
 

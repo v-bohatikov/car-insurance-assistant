@@ -9,12 +9,17 @@ public class QueueMessageSenderBase(
     string queueReference)
     : IQueueMessageSender
 {
+    public string TargetQueueName => queueReference;
+
     public async ValueTask SendAsync<TMessage>(
         TMessage message,
         CancellationToken cancellationToken)
         where TMessage : class
     {
-        await serviceBusMessageSender.SendAsync(queueReference, message, cancellationToken);
+        await serviceBusMessageSender.SendAsync(
+            queueReference,
+            message,
+            cancellationToken);
     }
 }
 
@@ -23,25 +28,25 @@ public class UserQueueMessageSender(IServiceBusMessageSender serviceBusMessageSe
 { }
 
 public class AuditorQueueMessageSender(IServiceBusMessageSender serviceBusMessageSender)
-    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.UserQueueResourceName), IAuditorQueueMessageSender
+    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.AuditorQueueResourceName), IAuditorQueueMessageSender
 { }
 
 public class DocumentQueueMessageSender(IServiceBusMessageSender serviceBusMessageSender)
-    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.UserQueueResourceName), IDocumentQueueMessageSender
+    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.DocumentQueueResourceName), IDocumentQueueMessageSender
 { }
 
 public class PolicyQueueMessageSender(IServiceBusMessageSender serviceBusMessageSender)
-    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.UserQueueResourceName), IPolicyQueueMessageSender
+    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.PolicyQueueResourceName), IPolicyQueueMessageSender
 { }
 
 public class OrderQueueMessageSender(IServiceBusMessageSender serviceBusMessageSender)
-    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.UserQueueResourceName), IOrderQueueMessageSender
+    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.OrderQueueResourceName), IOrderQueueMessageSender
 { }
 
 public class BillingQueueMessageSender(IServiceBusMessageSender serviceBusMessageSender)
-    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.UserQueueResourceName), IBillingQueueMessageSender
+    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.BillingQueueResourceName), IBillingQueueMessageSender
 { }
 
 public class ConversationQueueMessageSender(IServiceBusMessageSender serviceBusMessageSender)
-    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.UserQueueResourceName), IConversationQueueMessageSender
+    : QueueMessageSenderBase(serviceBusMessageSender, ApplicationReferences.ConversationQueueResourceName), IConversationQueueMessageSender
 { }

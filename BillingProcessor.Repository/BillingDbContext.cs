@@ -6,7 +6,7 @@ using Repository.Infrastructure;
 namespace BillingProcessor.Repository;
 
 public class BillingDbContext(DbContextOptions<BillingDbContext> options)
-    : BaseDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
+    : BaseSqlDbContext(options, typeof(ModelConfigurationsIndicator).Assembly)
 {
     public DbSet<BillingOperation> BillingOperations => Set<BillingOperation>();
 }

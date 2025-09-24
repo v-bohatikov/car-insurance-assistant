@@ -10,7 +10,7 @@ namespace UserProcessor.Repository.ModelConfigurations;
 public class VehicleEntityTypeConfiguration
     : EntityTypeConfigurationBase<Vehicle>
 {
-    public override void ConfigureInner(EntityTypeBuilder<Vehicle> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<Vehicle> builder)
     {
         // Table name.
         builder.ToTable("Vehicles");

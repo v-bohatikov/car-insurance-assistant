@@ -10,7 +10,9 @@ public class UserQueryService(
     ILogger<UserQueryService> logger)
     : IUserQueryService
 {
-    public async ValueTask<Result<GetUserResponseDto>> GetUser(GetUserRequestDto request)
+    public async ValueTask<Result<GetUserResponseDto>> GetUserByIdAsync(
+        GetUserRequestDto request,
+        CancellationToken cancellationToken)
     {
         var error = Error.Failure(
             "Error.NotSupported",
@@ -18,7 +20,9 @@ public class UserQueryService(
         return Result.Failure<GetUserResponseDto>(error);
     }
 
-    public async ValueTask<Result<GetVehicleResponseDto>> GetVehicle(GetVehicleRequestDto request)
+    public async ValueTask<Result<GetVehicleResponseDto>> GetVehicleByIdAsync(
+        GetVehicleRequestDto request,
+        CancellationToken cancellationToken)
     {
         var error = Error.Failure(
             "Error.NotSupported",

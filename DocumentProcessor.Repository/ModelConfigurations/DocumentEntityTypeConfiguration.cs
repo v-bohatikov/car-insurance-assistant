@@ -10,7 +10,7 @@ namespace DocumentProcessor.Repository.ModelConfigurations;
 public class DocumentEntityTypeConfiguration
     : EntityTypeConfigurationBase<Document>
 {
-    public override void ConfigureInner(EntityTypeBuilder<Document> builder)
+    protected override void ConfigureInner(EntityTypeBuilder<Document> builder)
     {
         // Table name.
         builder.ToTable("Documents");

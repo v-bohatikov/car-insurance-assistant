@@ -12,6 +12,16 @@ public static class CollectionExtensions
             return true;
         }
 
-        return collection.Count != 0;
+        return collection.Count == 0;
+    }
+
+    public static bool IsNullOrEmpty<TItem>(this IReadOnlyCollection<TItem>? collection)
+    {
+        if (ReferenceEquals(collection, null))
+        {
+            return true;
+        }
+
+        return collection.Count == 0;
     }
 }

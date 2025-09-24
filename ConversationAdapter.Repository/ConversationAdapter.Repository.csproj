@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConversationAdapter.Domain\ConversationAdapter.Domain.csproj" />
     <ProjectReference Include="..\ConversationAdapter.Infrastructure\ConversationAdapter.Infrastructure.csproj" />
+    <ProjectReference Include="..\Repository.Infrastructure\Repository.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

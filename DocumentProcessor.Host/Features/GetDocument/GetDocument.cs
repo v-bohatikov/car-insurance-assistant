@@ -11,7 +11,7 @@ public class GetDocument
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : DocumentsEndpointGroup<Ulid, GetDocumentResponse>(logger)
+        : DocumentsApiEndpointGroup<Ulid, GetDocumentResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -19,7 +19,7 @@ public class GetDocument
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<Ulid, GetDocumentResponse> Handler => _endpointHandler;
+        public override IApiEndpointHandler<Ulid, GetDocumentResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
@@ -34,7 +34,7 @@ public class GetDocument
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<Ulid, GetDocumentRequestDto, GetDocumentResponse, GetDocumentResponseDto>(logger, mediator)
+            : ApiEndpointHandlerBase<Ulid, GetDocumentRequestDto, GetDocumentResponse, GetDocumentResponseDto>(logger, mediator)
         {
             public override GetDocumentRequestDto MapRequest(Ulid documentId)
             {

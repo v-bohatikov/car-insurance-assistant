@@ -12,7 +12,7 @@ public class GetInsurancePolicy
     public sealed class Endpoint(
         ILogger<Endpoint> logger,
         IMediator mediator)
-        : InsurancePoliciesEndpointGroup<Ulid, GetInsurancePolicyResponse>(logger)
+        : InsurancePoliciesApiEndpointGroup<Ulid, GetInsurancePolicyResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -20,7 +20,7 @@ public class GetInsurancePolicy
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<Ulid, GetInsurancePolicyResponse> Handler => _endpointHandler;
+        public override IApiEndpointHandler<Ulid, GetInsurancePolicyResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
@@ -35,7 +35,7 @@ public class GetInsurancePolicy
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<Ulid, GetInsurancePolicyRequestDto, GetInsurancePolicyResponse, GetInsurancePolicyResponseDto>(logger, mediator)
+            : ApiEndpointHandlerBase<Ulid, GetInsurancePolicyRequestDto, GetInsurancePolicyResponse, GetInsurancePolicyResponseDto>(logger, mediator)
         {
             public override GetInsurancePolicyRequestDto MapRequest(Ulid userId)
             {

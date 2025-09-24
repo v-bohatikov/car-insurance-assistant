@@ -1,6 +1,9 @@
-﻿namespace OrderProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace OrderProcessor.Contracts.Queue.Events;
 
 public record OrderDeclined(
     Ulid UserId,
     Ulid OrderId,
-    string Reasoning);
+    string Reasoning)
+    : EventBase(UserId);

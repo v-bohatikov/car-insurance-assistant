@@ -40,7 +40,7 @@ app.MapDefaultEndpoints();
 var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Configure service endpoints.
-app.MapEndpoints(versionedRouteBuilder);
+app.MapApiEndpoints(versionedRouteBuilder);
 
 // Start application.
 app.Run();

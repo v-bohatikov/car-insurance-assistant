@@ -1,3 +1,6 @@
-﻿namespace DocumentProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
 
-public record PassportFileProcessingFailed(Ulid UserId);
+namespace DocumentProcessor.Contracts.Queue.Events;
+
+public record PassportFileProcessingFailed(Ulid UserId)
+    : EventBase(UserId);

@@ -1,5 +1,8 @@
-﻿namespace PolicyProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace PolicyProcessor.Contracts.Queue.Events;
 
 public record InsurancePolicyExpired(
     Ulid UserId,
-    Ulid InsurancePolicyId);
+    Ulid InsurancePolicyId)
+    : EventBase(UserId);
