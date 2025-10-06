@@ -11,7 +11,7 @@ public class ProcessCustomerAction
     public sealed class Endpoint(
     ILogger<Endpoint> logger,
     IMediator mediator)
-    : CustomerActionEndpointGroup<CustomerActionRequest, CustomerActionResponse>(logger)
+    : CustomerActionApiEndpointGroup<CustomerActionRequest, CustomerActionResponse>(logger)
     {
         private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -19,7 +19,7 @@ public class ProcessCustomerAction
 
         public override int ApiVersion => 1;
 
-        public override IEndpointHandler<CustomerActionRequest, CustomerActionResponse> Handler => _endpointHandler;
+        public override IApiEndpointHandler<CustomerActionRequest, CustomerActionResponse> Handler => _endpointHandler;
 
         protected override RouteHandlerBuilder MapEndpoint(
             IEndpointRouteBuilder builder,
@@ -34,7 +34,7 @@ public class ProcessCustomerAction
         private sealed class EndpointHandler(
             ILogger logger,
             IMediator mediator)
-            : EndpointHandlerBase<
+            : ApiEndpointHandlerBase<
                 CustomerActionRequest, CustomerActionRequestDto,
                 CustomerActionResponse, CustomerActionResponseDto>(logger, mediator)
         {

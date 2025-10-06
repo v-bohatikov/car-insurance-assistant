@@ -12,7 +12,7 @@ namespace UserProcessor.Host.Features.GetVehicle
         public sealed class Endpoint(
             ILogger<Endpoint> logger,
             IMediator mediator)
-            : UsersEndpointGroup<GetVehicleRequest, GetVehicleResponse>(logger)
+            : UsersApiEndpointGroup<GetVehicleRequest, GetVehicleResponse>(logger)
         {
             private readonly EndpointHandler _endpointHandler = new(logger, mediator);
 
@@ -20,22 +20,22 @@ namespace UserProcessor.Host.Features.GetVehicle
 
             public override int ApiVersion => 1;
 
-            public override IEndpointHandler<GetVehicleRequest, GetVehicleResponse> Handler => _endpointHandler;
+            public override IApiEndpointHandler<GetVehicleRequest, GetVehicleResponse> Handler => _endpointHandler;
 
             protected override RouteHandlerBuilder MapEndpoint(
                 IEndpointRouteBuilder builder,
                 HandleEndpointRequestDelegate<GetVehicleRequest> requestHandler)
             {
                 return builder.MapGet(
-                    "{userId:long}/vehicles/{vehicleId:long}",
-                    ([FromRoute] long userId, [FromRoute] long vehicleId, CancellationToken cancellationToken) =>
+                    "{userId}/vehicles/{vehicleId}",
+                    ([FromRoute] Ulid userId, [FromRoute] Ulid vehicleId, CancellationToken cancellationToken) =>
                         requestHandler(new GetVehicleRequest(userId, vehicleId), cancellationToken));
             }
 
             private sealed class EndpointHandler(
                 ILogger logger,
                 IMediator mediator)
-                : EndpointHandlerBase<GetVehicleRequest, GetVehicleRequestDto, GetVehicleResponse, GetVehicleResponseDto>(logger, mediator)
+                : ApiEndpointHandlerBase<GetVehicleRequest, GetVehicleRequestDto, GetVehicleResponse, GetVehicleResponseDto>(logger, mediator)
             {
                 public override GetVehicleRequestDto MapRequest(GetVehicleRequest request)
                 {

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj" />
+    <ProjectReference Include="..\Auditor.Domain\Auditor.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

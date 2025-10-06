@@ -6,6 +6,8 @@ namespace UserProcessor.Domain.Entities.Users.Requests;
 
 public class CreateNewUserRequest : RequestBase<CreateNewUserRequest>
 {
+    public required long UserTelegramId { get; init; }
+
     public required string PhoneNumber { get; init; }
 
     protected override IValidator<CreateNewUserRequest> Validator =>
@@ -17,6 +19,8 @@ public class CreateNewUserRequest : RequestBase<CreateNewUserRequest>
         {
             RuleFor(request => request.PhoneNumber)
                 .MustBeValidPhoneNumber();
+
+            // TODO: is there a rule for validation of telegram id?
         }
     }
 }

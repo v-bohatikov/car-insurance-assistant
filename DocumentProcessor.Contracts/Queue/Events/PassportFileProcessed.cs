@@ -1,8 +1,10 @@
 ﻿using DocumentProcessor.Contracts.Models;
+using SharedKernel.BaseTypes;
 
 namespace DocumentProcessor.Contracts.Queue.Events;
 
 public record PassportFileProcessed(
-    long UserId,
-    Guid FileId,
-    PassportData PassportData);
+    Ulid UserId,
+    Ulid DocumentId,
+    PassportData PassportData)
+    : EventBase(UserId);

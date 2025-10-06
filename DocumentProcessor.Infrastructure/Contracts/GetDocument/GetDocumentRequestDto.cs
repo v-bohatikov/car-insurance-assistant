@@ -1,10 +1,7 @@
 ﻿using MassTransit.Mediator;
-using SharedKernel.Enums;
 using SharedKernel.Results;
 
 namespace DocumentProcessor.Infrastructure.Contracts.GetDocument;
 
-public record GetDocumentRequestDto(
-    DocumentType DocumentType,
-    Guid FileId)
+public record GetDocumentRequestDto(Ulid DocumentId)
     : Request<Result<GetDocumentResponseDto>>;

@@ -12,6 +12,6 @@ public class GetVehicleRequestConsumer(IUserQueryService userQueryService)
         GetVehicleRequestDto request,
         CancellationToken cancellationToken)
     {
-        return await userQueryService.GetVehicle(request);
+        return await userQueryService.GetVehicleByIdAsync(request, cancellationToken);
     }
 }

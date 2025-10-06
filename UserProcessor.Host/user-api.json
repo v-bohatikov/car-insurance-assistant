@@ -17,8 +17,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "$ref": "#/components/schemas/Ulid"
             }
           },
           {
@@ -26,8 +25,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "$ref": "#/components/schemas/Ulid"
             }
           }
         ],
@@ -87,8 +85,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "$ref": "#/components/schemas/Ulid"
             }
           }
         ],
@@ -187,6 +184,7 @@
           }
         }
       },
+      "Ulid": { },
       "User": {
         "required": [
           "id",
@@ -197,8 +195,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
+            "$ref": "#/components/schemas/Ulid"
           },
           "status": {
             "$ref": "#/components/schemas/UserStatus"
@@ -256,8 +253,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
+            "$ref": "#/components/schemas/Ulid"
           },
           "status": {
             "$ref": "#/components/schemas/VehicleStatus"

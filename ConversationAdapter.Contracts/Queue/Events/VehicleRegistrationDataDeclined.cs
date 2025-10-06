@@ -1,5 +1,8 @@
-﻿namespace ConversationAdapter.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record VehicleRegistrationDataDeclined(
-    long UserId,
-    Guid FileId);
+    Ulid UserId,
+    Ulid DocumentId)
+    : EventBase(UserId);

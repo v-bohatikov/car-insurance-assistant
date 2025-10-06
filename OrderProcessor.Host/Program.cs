@@ -8,18 +8,19 @@ using OrderProcessor.Repository.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register default services.
-builder.AddServiceDefaults();
+builder.AddWebServiceDefaults();
 
 // Add services to the container.
-//builder.AddOrderDbContext<OrderDbContext>();
-
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
+// TODO: add dedicated Service Bus message senders
 
 builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
+builder.AddOrderDbContext<OrderDbContext>();
+builder.Services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
+
 builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
-//builder.Services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
 
 // Build a web application.
 var app = builder.Build();
@@ -37,7 +38,7 @@ app.MapDefaultEndpoints();
 var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Configure service endpoints.
-app.MapEndpoints(versionedRouteBuilder);
+app.MapApiEndpoints(versionedRouteBuilder);
 
 // Start application.
 app.Run();

@@ -1,22 +1,23 @@
 ﻿using SharedKernel;
+using SharedKernel.Enums;
 
 namespace UserProcessor.Domain.Entities.Users;
 
 public sealed class UserPassport : Entity
 {
     private UserPassport(
-        long id,
-        long userId,
-        Guid fileId,
+        Ulid id,
+        Ulid userId,
+        Ulid documentId,
         string surname,
         string givenNames,
         string passportNumber,
-        string sex,
+        Sex sex,
         DateOnly dateOfBirth)
         : base(id)
     {
         UserId = userId;
-        FileId = fileId;
+        DocumentId = documentId;
         Surname = surname;
         GivenNames = givenNames;
         PassportNumber = passportNumber;
@@ -24,19 +25,19 @@ public sealed class UserPassport : Entity
         DateOfBirth = dateOfBirth;
     }
 
-    public long UserId { get; set; }
+    public Ulid UserId { get; }
 
-    public Guid FileId { get; set; }
+    public Ulid DocumentId { get; }
 
-    public string Surname { get; set; }
+    public string Surname { get; }
 
-    public string GivenNames { get; set; }
+    public string GivenNames { get; }
 
-    public string PassportNumber { get; set; }
+    public string PassportNumber { get; }
 
-    public string Sex { get; set; }
+    public Sex Sex { get; }
 
-    public DateOnly DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; }
 
     public string FullName => string.Format($"{Surname} {GivenNames}");
 }

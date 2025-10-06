@@ -1,6 +1,9 @@
-﻿namespace OrderProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace OrderProcessor.Contracts.Queue.Events;
 
 public record OrderFailed(
-    long UserId,
-    long OrderId,
-    string Reasoning);
+    Ulid UserId,
+    Ulid OrderId,
+    string Reasoning)
+    : EventBase(UserId);

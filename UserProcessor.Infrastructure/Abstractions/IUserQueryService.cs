@@ -6,7 +6,11 @@ namespace UserProcessor.Infrastructure.Abstractions;
 
 public interface IUserQueryService
 {
-    ValueTask<Result<GetUserResponseDto>> GetUser(GetUserRequestDto request);
+    ValueTask<Result<GetUserResponseDto>> GetUserByIdAsync(
+        GetUserRequestDto request,
+        CancellationToken cancellationToken);
 
-    ValueTask<Result<GetVehicleResponseDto>> GetVehicle(GetVehicleRequestDto request);
+    ValueTask<Result<GetVehicleResponseDto>> GetVehicleByIdAsync(
+        GetVehicleRequestDto request,
+        CancellationToken cancellationToken);
 }

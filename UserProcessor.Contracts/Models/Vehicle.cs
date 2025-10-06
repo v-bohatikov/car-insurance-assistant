@@ -3,7 +3,7 @@
 namespace UserProcessor.Contracts.Models;
 
 public record Vehicle(
-    long Id,
+    Ulid Id,
     VehicleStatus Status,
     string OwnerName,
     string VehicleName,

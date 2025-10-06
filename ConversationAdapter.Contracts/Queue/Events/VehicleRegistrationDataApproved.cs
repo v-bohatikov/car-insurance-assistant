@@ -1,8 +1,10 @@
 ﻿using ConversationAdapter.Contracts.Models;
+using SharedKernel.BaseTypes;
 
 namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record VehicleRegistrationDataApproved(
-    long UserId,
-    Guid FileId,
-    VehicleRegistrationData VehicleRegistrationData);
+    Ulid UserId,
+    Ulid DocumentId,
+    VehicleRegistrationData VehicleRegistrationData)
+    : EventBase(UserId);

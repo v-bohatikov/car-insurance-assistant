@@ -4,6 +4,6 @@ using SharedKernel.Results;
 namespace ApiGateway.Infrastructure.Contracts.UserContactProvided;
 
 public record UserContactProvidedRequestDto(
-    string UserTelegramId,
+    long UserTelegramId,
     string PhoneNumber)
     : Request<Result<UserContactProvidedResponseDto>>;

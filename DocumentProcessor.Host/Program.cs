@@ -1,23 +1,28 @@
 using DocumentProcessor.Application.Consumers;
 using DocumentProcessor.Application.Services;
 using DocumentProcessor.Infrastructure.Abstractions;
+using DocumentProcessor.Repository;
 using DocumentProcessor.Repository.Repositories;
 using Host.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register default services.
-builder.AddServiceDefaults();
+builder.AddWebServiceDefaults();
 
 // Add services to the container.
 builder.AddBlobClient();
+
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
+// TODO: add dedicated Service Bus message senders
 
 builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
-builder.Services.AddScoped<IDocumentQueryService, DocumentQueryService>();
+builder.AddDocumentDbContext<DocumentDbContext>();
 builder.Services.AddScoped<IDocumentQueryRepository, DocumentQueryRepository>();
+
+builder.Services.AddScoped<IDocumentQueryService, DocumentQueryService>();
 
 // Build a web application.
 var app = builder.Build();
@@ -35,7 +40,7 @@ app.MapDefaultEndpoints();
 var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Configure service endpoints.
-app.MapEndpoints(versionedRouteBuilder);
+app.MapApiEndpoints(versionedRouteBuilder);
 
 // Start application.
 app.Run();

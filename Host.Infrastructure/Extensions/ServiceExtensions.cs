@@ -1,3 +1,4 @@
+using Application.Infrastructure.Abstractions;
 using Asp.Versioning;
 using Host.Infrastructure.Abstractions;
 using Host.Infrastructure.HostedServices;
@@ -19,9 +20,8 @@ using OpenTelemetry.Trace;
 using Refit;
 using SharedKernel.Extensions;
 using System.Diagnostics;
-using System.Net;
 using System.Reflection;
-using Application.Infrastructure.Abstractions;
+using Newtonsoft.Json;
 
 namespace Host.Infrastructure.Extensions;
 
@@ -32,7 +32,27 @@ public static class ServiceExtensions
 {
     private const string Testing = "Testing";
 
-    public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddWorkerServiceDefaults(this IHostApplicationBuilder builder)
+    {
+        builder.ConfigureOpenTelemetry();
+
+        builder.AddDefaultHealthChecks();
+
+        builder.Services.AddServiceDiscovery();
+
+        builder.Services.ConfigureHttpClientDefaults(http =>
+        {
+            // Turn on resilience by default
+            http.AddStandardResilienceHandler();
+
+            // Turn on service discovery by default
+            http.AddServiceDiscovery();
+        });
+
+        return builder;
+    }
+
+    public static IHostApplicationBuilder AddWebServiceDefaults(this IHostApplicationBuilder builder)
     {
         builder.ConfigureOpenTelemetry();
 
@@ -45,7 +65,7 @@ public static class ServiceExtensions
 
         builder.Services.AddOpenApi();
 
-        builder.Services.AddEndpoints(Assembly.GetCallingAssembly());
+        builder.Services.AddApiEndpoints(Assembly.GetCallingAssembly());
         builder.Services.AddQueueEndpoints(Assembly.GetCallingAssembly());
 
         builder.Services.ConfigureHttpClientDefaults(http =>
@@ -158,13 +178,22 @@ public static class ServiceExtensions
         string applicationServiceReference)
         where TApiClient : class
     {
+        var jsonSerializerSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects
+        };
+        var refitSettings = new RefitSettings
+        {
+            ContentSerializer = new NewtonsoftJsonContentSerializer(jsonSerializerSettings)
+        };
+
         builder.Services
-            .AddRefitClient<TApiClient>()
+            .AddRefitClient<TApiClient>(refitSettings)
             .ConfigureHttpClient(cfg =>
                 cfg.BaseAddress = new Uri($"http://{applicationServiceReference}"));
 
         builder.Services
-            .AddTransient<IRefitClientDecorator<TApiClient>, RefitClientDecorator<TApiClient>>();
+            .AddTransient<IRefitClientAdapter<TApiClient>, RefitClientAdapter<TApiClient>>();
 
         return builder;
     }
@@ -201,7 +230,7 @@ public static class ServiceExtensions
         return builder;
     }
 
-    private static IServiceCollection AddEndpoints(
+    private static IServiceCollection AddApiEndpoints(
         this IServiceCollection services,
         Assembly assembly)
     {
@@ -209,9 +238,9 @@ public static class ServiceExtensions
         var serviceDescriptors = assembly.DefinedTypes
             .Where(type =>
                 type is { IsAbstract: false, IsInterface: false } &&
-                type.IsAssignableTo(typeof(IEndpoint)))
+                type.IsAssignableTo(typeof(IApiEndpoint)))
             .Select(type =>
-                ServiceDescriptor.Transient(typeof(IEndpoint), type))
+                ServiceDescriptor.Transient(typeof(IApiEndpoint), type))
             .ToArray();
 
         services.TryAddEnumerable(serviceDescriptors);
@@ -246,18 +275,18 @@ public static class ServiceExtensions
             .WithApiVersionSet(apiVersionSet);
     }
 
-    public static IApplicationBuilder MapEndpoints(
+    public static IApplicationBuilder MapApiEndpoints(
         this WebApplication app,
         RouteGroupBuilder? apiRouteBuilder = null)
     {
         // Collect registered endpoints.
         var endpoints = app.Services
-            .GetRequiredService<IEnumerable<IEndpoint>>()
+            .GetRequiredService<IEnumerable<IApiEndpoint>>()
             .ToHashSet();
 
         // Group endpoints.
         var groupedEndpoints = endpoints
-            .Where(e => e.GetType().IsAssignableTo(typeof(IEndpointGroup)))
+            .Where(e => e.GetType().IsAssignableTo(typeof(IApiEndpointGroup)))
             .ToHashSet();
 
         endpoints.ExceptWith(groupedEndpoints);
@@ -274,12 +303,12 @@ public static class ServiceExtensions
 
         // Map grouped endpoints.
         var endpointGroups = groupedEndpoints
-            .Cast<IEndpointGroup>()
+            .Cast<IApiEndpointGroup>()
             .GroupBy(e => e.GroupName, e => e);
         foreach (var endpointGroup in endpointGroups)
         {
             var group = endpointGroup.First();
-            var groupEndpoints = endpointGroup.Cast<IEndpoint>();
+            var groupEndpoints = endpointGroup.Cast<IApiEndpoint>();
             group.MapGroup(routeBuilder, groupEndpoints);
         }
 
@@ -313,8 +342,8 @@ public static class ServiceExtensions
     {
         // Register services for sending Service Bus messages.
 #if !INFRA
+        builder.Services.TryAddSingleton<IServiceBusMessageConverter, ServiceBusMessageConverter>();
         builder.Services.AddSingleton<IServiceBusMessageSender, ServiceBusMessageSender>();
-        builder.Services.AddSingleton<IServiceBusMessageConverter, ServiceBusMessageConverter>();
 #endif
 
         return builder;
@@ -326,10 +355,12 @@ public static class ServiceExtensions
     {
         // Register services for receiving Service Bus messages.
 #if !INFRA
-        builder.Services.AddHostedService<QueueMessageProcessor>();
+        builder.Services.TryAddSingleton<IServiceBusMessageConverter, ServiceBusMessageConverter>();
         builder.Services.AddSingleton<IServiceBusProcessorFactory>(_ =>
             new ServiceBusProcessorDefaultFactory(queueReference));
         builder.Services.AddSingleton<IServiceBusEndpointProvider, ServiceBusEndpointProvider>();
+
+        builder.Services.AddHostedService<QueueMessageProcessor>();
 #endif
 
         return builder;

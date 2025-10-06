@@ -1,9 +1,9 @@
 ﻿namespace UserProcessor.Infrastructure.Contracts.Models;
 
 public record UserPassportDto(
-    long Id,
-    long UserId,
-    Guid FileId,
+    Ulid Id,
+    Ulid UserId,
+    Ulid DocumentId,
     string Surname,
     string GivenNames,
     string PassportNumber,

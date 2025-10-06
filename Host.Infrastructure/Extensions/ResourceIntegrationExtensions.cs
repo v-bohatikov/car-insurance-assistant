@@ -1,6 +1,9 @@
 ﻿using Host.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository.Infrastructure.Abstractions;
+using Repository.Infrastructure.Interceptors;
 
 namespace Host.Infrastructure.Extensions;
 
@@ -53,13 +56,32 @@ public static class ResourceIntegrationExtensions
             ApplicationReferences.OrderDbResourceName);
     }
 
+    public static IHostApplicationBuilder AddDocumentDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
+    {
+        return builder.AddDbContext<TDbContext>(
+            ApplicationReferences.DocumentDbResourceName);
+    }
+
+    public static IHostApplicationBuilder AddBillingDbContext<TDbContext>(
+        this IHostApplicationBuilder builder)
+        where TDbContext : DbContext
+    {
+        return builder.AddDbContext<TDbContext>(
+            ApplicationReferences.BillingDbResourceName);
+    }
+
     private static IHostApplicationBuilder AddDbContext<TDbContext>(
         this IHostApplicationBuilder builder,
         string dbResourceReference)
         where TDbContext : DbContext
     {
 #if !INFRA
-        builder.AddSqlServerDbContext<TDbContext>(dbResourceReference);
+        builder.AddSqlServerDbContext<TDbContext>(
+            dbResourceReference,
+            configureDbContextOptions: options => 
+                options.AddInterceptors(new AuditingSaveChangesInterceptor()));
 #endif
 
         return builder;
@@ -71,7 +93,8 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
         return builder.AddNoSqlDbContext<TDbContext>(
-            ApplicationReferences.LoggingDbResourceName);
+            ApplicationReferences.LoggingDbResourceName,
+            ApplicationReferences.ErrorContainerResourceName);
     }
 
     public static IHostApplicationBuilder AddAuditorDb<TDbContext>(
@@ -79,7 +102,8 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
         return builder.AddNoSqlDbContext<TDbContext>(
-            ApplicationReferences.AuditorDbResourceName);
+            ApplicationReferences.AuditorDbResourceName,
+            ApplicationReferences.EventsContainerResourceName);
     }
 
     public static IHostApplicationBuilder AddConversationDb<TDbContext>(
@@ -87,18 +111,28 @@ public static class ResourceIntegrationExtensions
         where TDbContext : DbContext
     {
         return builder.AddNoSqlDbContext<TDbContext>(
-            ApplicationReferences.ConversationDbResourceName);
+            ApplicationReferences.ConversationDbResourceName,
+            ApplicationReferences.ConversationContainerResourceName);
     }
 
     private static IHostApplicationBuilder AddNoSqlDbContext<TDbContext>(
         this IHostApplicationBuilder builder,
-        string dbResourceReference)
+        string dbResourceReference,
+        string defaultContainerReference)
         where TDbContext : DbContext
     {
 #if !INFRA
+        builder.Services.AddTransient<IDefaultContainerProvider>(_ =>
+            DefaultContainerProvider.Create(defaultContainerReference));
+
+        // NOTE: Because we are using the container reference to configure the reference
+        // to NoSql database for our projects we need to use the same reference here,
+        // so the connection can be resolved later.
         builder.AddCosmosDbContext<TDbContext>(
-            ApplicationReferences.NoSqlStorageResourceName,
-            dbResourceReference);
+            defaultContainerReference,
+            dbResourceReference,
+            configureDbContextOptions: options =>
+                options.AddInterceptors(new AuditingSaveChangesInterceptor()));
 #endif
 
         return builder;

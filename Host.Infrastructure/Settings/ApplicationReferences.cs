@@ -48,6 +48,8 @@ public static class ApplicationReferences
 
     public static readonly string DocumentDbResourceName = "document-db";
 
+    public static readonly string BillingDbResourceName = "billing-db";
+
     // Messaging queues.
     public static readonly string ServiceBusResourceName = "azure-service-bus";
 

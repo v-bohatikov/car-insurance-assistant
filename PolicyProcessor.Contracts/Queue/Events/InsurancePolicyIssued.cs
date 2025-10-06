@@ -1,5 +1,8 @@
-﻿namespace PolicyProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace PolicyProcessor.Contracts.Queue.Events;
 
 public record InsurancePolicyIssued(
-    long UserId,
-    long PolicyId);
+    Ulid UserId,
+    Ulid PolicyId)
+    : EventBase(UserId);

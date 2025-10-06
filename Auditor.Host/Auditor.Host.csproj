@@ -29,7 +29,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Auditor.Application\Auditor.Application.csproj" />
+	  <ProjectReference Include="..\Auditor.Contracts\Auditor.Contracts.csproj" />
+	  <ProjectReference Include="..\Auditor.Repository\Auditor.Repository.csproj" />
 	  <ProjectReference Include="..\Host.Infrastructure\Host.Infrastructure.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include=".refitter" />
+	</ItemGroup>
+
+	<Target Name="Refitter" AfterTargets="Build" Condition="'$(Configuration)' == 'Infra'">
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
+		<Exec WorkingDirectory="$(ProjectDir)" Command="refitter --settings-file .refitter --skip-validation --no-banner" />
+	</Target>
 
 </Project>

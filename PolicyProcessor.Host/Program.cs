@@ -8,18 +8,19 @@ using PolicyProcessor.Repository.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register default services.
-builder.AddServiceDefaults();
+builder.AddWebServiceDefaults();
 
 // Add services to the container.
-//builder.AddPolicyDbContext<PolicyDbContext>();
-
 builder.AddServiceBusClient();
 builder.ConfigureServiceBusProducer();
+// TODO: add dedicated Service Bus message senders
 
 builder.AddMediatorConsumersFromNamespaceContaining<MediatorConsumersIndicator>();
 
+builder.AddPolicyDbContext<PolicyDbContext>();
+builder.Services.AddScoped<IPolicyQueryRepository, PolicyQueryRepository>();
+
 builder.Services.AddScoped<IPolicyQueryService, PolicyQueryService>();
-//builder.Services.AddScoped<IPolicyQueryRepository, PolicyQueryRepository>();
 
 // Build a web application.
 var app = builder.Build();
@@ -37,7 +38,7 @@ app.MapDefaultEndpoints();
 var versionedRouteBuilder = app.ConfigureApiVersionGroup();
 
 // Configure service endpoints.
-app.MapEndpoints(versionedRouteBuilder);
+app.MapApiEndpoints(versionedRouteBuilder);
 
 // Start application.
 app.Run();

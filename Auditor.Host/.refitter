@@ -1,0 +1,14 @@
+{
+  "openApiPath": "auditor-api.json",
+  "namespace": "Auditor.Contracts.ApiClient",
+  "outputFolder": "../Auditor.Contracts/ApiClient",
+  "outputFileName": "AuditorApiClient.cs",
+  "naming": {
+    "useOpenApiTitle": false,
+    "interfaceName": "AuditorApiClient"
+  },
+  "generateContracts": false,
+  "useCancellationTokens": true,
+  "returnIApiResponse": true,
+  "additionalNamespaces": [ "Auditor.Contracts.Api" ]
+}

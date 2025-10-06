@@ -9,7 +9,7 @@ public class RegisterNewVehicleRequest : RequestBase<RegisterNewVehicleRequest>
 {
     public required User User { get; init; }
 
-    public required Guid FileId { get; init; }
+    public required Ulid DocumentId { get; init; }
 
     public required string OwnerName { get; init; }
 
@@ -33,8 +33,8 @@ public class RegisterNewVehicleRequest : RequestBase<RegisterNewVehicleRequest>
                 .Equal(UserStatus.Confirmed)
                 .WithMessage("Unable to register vehicle for unconfirmed user");
 
-            RuleFor(request => request.FileId)
-                .NotEqual(Guid.Empty)
+            RuleFor(request => request.DocumentId)
+                .NotEqual(Ulid.Empty)
                 .WithMessage("Invalid file identifier");
 
             RuleFor(request => request.OwnerName)

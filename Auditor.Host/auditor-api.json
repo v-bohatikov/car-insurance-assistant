@@ -4,6 +4,154 @@
     "title": "Auditor.Host | v1",
     "version": "1.0.0"
   },
-  "paths": { },
-  "components": { }
+  "paths": {
+    "/api/v1/events/{userId}": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "operationId": "Get events related to specific user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Ulid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserEventsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EventBase": {
+        "required": [
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Ulid"
+          }
+        }
+      },
+      "EventNote": {
+        "required": [
+          "id",
+          "userId",
+          "occuredEvent",
+          "createdOn"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Ulid"
+          },
+          "occuredEvent": {
+            "$ref": "#/components/schemas/EventBase"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetUserEventsResponse": {
+        "required": [
+          "eventNotes"
+        ],
+        "type": "object",
+        "properties": {
+          "eventNotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventNote"
+            }
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Ulid": { }
+    }
+  },
+  "tags": [
+    {
+      "name": "events"
+    }
+  ]
 }

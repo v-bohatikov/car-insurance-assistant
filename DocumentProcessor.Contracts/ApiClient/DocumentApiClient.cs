@@ -44,9 +44,9 @@ namespace DocumentProcessor.Contracts.ApiClient
         /// </item>
         /// </list>
         /// </returns>
-        [Headers("Accept: application/json, application/problem+json", "Content-Type: application/json")]
-        [Get("/api/v1/documents/get")]
-        Task<IApiResponse<GetDocumentResponse>> GetDocument([Body] GetDocumentRequest body, CancellationToken cancellationToken = default);
+        [Headers("Accept: application/json, application/problem+json")]
+        [Get("/api/v1/documents/{id}")]
+        Task<IApiResponse<GetDocumentResponse>> GetDocument(object id, CancellationToken cancellationToken = default);
 
 
     }

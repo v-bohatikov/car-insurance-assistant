@@ -1,5 +1,8 @@
-﻿namespace ConversationAdapter.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record UserContactProvided(
-    string UserTelegramId,
-    string PhoneNumber);
+    long UserTelegramId,
+    string PhoneNumber)
+    : EventBase(NoUserUlid);

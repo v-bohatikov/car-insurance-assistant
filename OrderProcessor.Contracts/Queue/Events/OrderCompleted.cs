@@ -1,5 +1,8 @@
-﻿namespace OrderProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace OrderProcessor.Contracts.Queue.Events;
 
 public record OrderCompleted(
-    long UserId,
-    long OrderId);
+    Ulid UserId,
+    Ulid OrderId)
+    : EventBase(UserId);

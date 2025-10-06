@@ -3,7 +3,7 @@
 namespace UserProcessor.Contracts.Models;
 
 public record User(
-    long Id,
+    Ulid Id,
     UserStatus Status,
     string PhoneNumber,
     UserPassport? Passport);

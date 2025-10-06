@@ -1,11 +1,15 @@
 ﻿namespace SharedKernel;
 
-public class Entity
+public abstract class Entity
 {
-    protected Entity(long id)
+    protected Entity(Ulid id)
     {
         Id = id;
     }
 
-    public long Id { get; set; }
+    public Ulid Id { get; init; }
+
+    public DateTime CreatedOn { get; set; }
+
+    public DateTime? ChangedOn { get; set; }
 }

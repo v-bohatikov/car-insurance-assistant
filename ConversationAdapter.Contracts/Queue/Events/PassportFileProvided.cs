@@ -1,5 +1,8 @@
-﻿namespace ConversationAdapter.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace ConversationAdapter.Contracts.Queue.Events;
 
 public record PassportFileProvided(
-    long UserId,
-    string UploadedFilePath);
+    Ulid UserId,
+    string UploadedFilePath)
+    : EventBase(UserId);

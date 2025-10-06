@@ -4,8 +4,8 @@ using SharedKernel.Enums;
 namespace PolicyProcessor.Infrastructure.Contracts.GetInsurancePolicy;
 
 public record GetInsurancePolicyResponseDto(
-    long Id,
+    Ulid Id,
     InsurancePolicyStatus Status,
-    long UserId,
-    long VehicleId,
+    Ulid UserId,
+    Ulid VehicleId,
     InsurancePlanDto InsurancePlan);

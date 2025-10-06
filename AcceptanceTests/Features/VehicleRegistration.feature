@@ -5,7 +5,7 @@ Registration of user's vehicle via vehicle registration certificate
 @user @vehicle @document @auditor
 Scenario: Registration of vehicle after vehicle registration certificate is being provided
 	Given user is confirmed
-	And vehicle is registered on this user 
+	And vehicle registration is being issued to the user
 	When vehicle registration is being provided
 	Then vehicle should be created
 	And correct registration data should be set for the registered vehicle

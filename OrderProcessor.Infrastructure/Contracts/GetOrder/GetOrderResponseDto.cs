@@ -3,9 +3,9 @@
 namespace OrderProcessor.Infrastructure.Contracts.GetOrder;
 
 public record GetOrderResponseDto(
-    long Id,
+    Ulid Id,
     OrderStatus Status,
-    long UserId,
-    long VehicleId,
-    long InsurancePlanId,
+    Ulid UserId,
+    Ulid VehicleId,
+    Ulid InsurancePlanId,
     string? FailureReasoning);

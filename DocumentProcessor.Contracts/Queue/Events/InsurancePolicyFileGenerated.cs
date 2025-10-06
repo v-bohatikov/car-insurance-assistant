@@ -1,6 +1,9 @@
-﻿namespace DocumentProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
+
+namespace DocumentProcessor.Contracts.Queue.Events;
 
 public record InsurancePolicyFileGenerated(
-    long UserId,
-    long InsurancePolicyId,
-    Guid InsurancePolicyFileId);
+    Ulid UserId,
+    Ulid InsurancePolicyId,
+    Ulid InsurancePolicyDocumentId)
+    : EventBase(UserId);

@@ -2,30 +2,22 @@
 
 namespace PolicyProcessor.Domain.Entities.InsurancePlans;
 
-public sealed class InsurancePlan : Entity
+public sealed class InsurancePlan(
+    Ulid id,
+    string name,
+    decimal price,
+    string priceReasoning,
+    int lifetimeInDays,
+    Ulid policyTemplateDocumentId)
+    : Entity(id)
 {
-    private InsurancePlan(
-        long id,
-        string name,
-        decimal price,
-        string priceReasoning,
-        int lifetimeInDays,
-        Guid policyTemplateFileId) : base(id)
-    {
-        Name = name;
-        Price = price;
-        PriceReasoning = priceReasoning;
-        LifetimeInDays = lifetimeInDays;
-        PolicyTemplateFileId = policyTemplateFileId;
-    }
+    public string Name { get; } = name;
 
-    public string Name { get; set; }
+    public decimal Price { get; } = price;
 
-    public decimal Price { get; set; }
+    public string PriceReasoning { get; } = priceReasoning;
 
-    public string PriceReasoning { get; set; }
+    public int LifetimeInDays { get; } = lifetimeInDays;
 
-    public int LifetimeInDays { get; set; }
-
-    public Guid PolicyTemplateFileId { get; set; }
+    public Ulid PolicyTemplateDocumentId { get; } = policyTemplateDocumentId;
 }

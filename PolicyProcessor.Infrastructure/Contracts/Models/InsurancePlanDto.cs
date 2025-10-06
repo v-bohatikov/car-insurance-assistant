@@ -1,9 +1,9 @@
 ﻿namespace PolicyProcessor.Infrastructure.Contracts.Models;
 
 public record InsurancePlanDto(
-    long Id,
+    Ulid Id,
     string Name,
     decimal Price,
     string PriceReasoning,
     int LifetimeInDays,
-    Guid PolicyTemplateFileId);
+    Ulid PolicyTemplateDocumentId);

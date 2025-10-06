@@ -46,7 +46,7 @@ namespace UserProcessor.Contracts.ApiClient
         /// </returns>
         [Headers("Accept: application/json, application/problem+json")]
         [Get("/api/v1/users/{userId}/vehicles/{vehicleId}")]
-        Task<IApiResponse<GetVehicleResponse>> GetUsersVehicleInfo(long userId, long vehicleId, CancellationToken cancellationToken = default);
+        Task<IApiResponse<GetVehicleResponse>> GetUsersVehicleInfo(Ulid userId, Ulid vehicleId, CancellationToken cancellationToken = default);
 
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
@@ -75,7 +75,7 @@ namespace UserProcessor.Contracts.ApiClient
         /// </returns>
         [Headers("Accept: application/json, application/problem+json")]
         [Get("/api/v1/users/{id}")]
-        Task<IApiResponse<GetUserResponse>> GetUserInfo(long id, CancellationToken cancellationToken = default);
+        Task<IApiResponse<GetUserResponse>> GetUserInfo(Ulid id, CancellationToken cancellationToken = default);
 
 
     }

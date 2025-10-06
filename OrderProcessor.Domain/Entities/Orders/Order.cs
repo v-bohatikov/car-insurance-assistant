@@ -6,28 +6,26 @@ namespace OrderProcessor.Domain.Entities.Orders;
 public sealed class Order : Entity
 {
     private Order(
-        long id,
+        Ulid id,
         OrderStatus status,
-        long userId,
-        long vehicleId,
-        long insurancePlanId,
-        string? failureReasoning)
+        Ulid userId,
+        Ulid vehicleId,
+        Ulid insurancePlanId)
         : base(id)
     {
         Status = status;
         UserId = userId;
         VehicleId = vehicleId;
         InsurancePlanId = insurancePlanId;
-        FailureReasoning = failureReasoning;
     }
 
-    public OrderStatus Status { get; set; }
+    public OrderStatus Status { get; private set; }
     
-    public long UserId { get; set; }
+    public Ulid UserId { get; }
     
-    public long VehicleId { get; set; }
+    public Ulid VehicleId { get; }
     
-    public long InsurancePlanId { get; set; }
+    public Ulid InsurancePlanId { get; }
     
-    public string? FailureReasoning { get; set; }
+    public string? FailureReasoning { get; private set; }
 }

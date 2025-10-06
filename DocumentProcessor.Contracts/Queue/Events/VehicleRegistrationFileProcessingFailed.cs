@@ -1,3 +1,6 @@
-﻿namespace DocumentProcessor.Contracts.Queue.Events;
+﻿using SharedKernel.BaseTypes;
 
-public record VehicleRegistrationFileProcessingFailed(long UserId);
+namespace DocumentProcessor.Contracts.Queue.Events;
+
+public record VehicleRegistrationFileProcessingFailed(Ulid UserId)
+    : EventBase(UserId);

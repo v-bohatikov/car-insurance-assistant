@@ -1,5 +1,9 @@
-﻿namespace UserProcessor.Infrastructure.Contracts.UserContactProvided;
+﻿using MassTransit.Mediator;
+using SharedKernel.Results;
+
+namespace UserProcessor.Infrastructure.Contracts.UserContactProvided;
 
 public record UserContactProvidedDto(
-    string UserTelegramId,
-    string PhoneNumber);
+    long UserTelegramId,
+    string PhoneNumber)
+    : Request<Result>;
